@@ -1,13 +1,14 @@
 Package: AMCTestmaker
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Generate LaTeX code for Auto-Multiple-Choice (AMC)
 Version: 0.1.0
 Author: Nils Myszkowski
 Maintainer: Nils Myszkowski <nmyszkowski@pace.edu>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Description: Generate code for use with the optical mark recognition free software Auto Multiple Choice (AMC). More specifically, this package provides vectorized functions that use as input the question and answer texts, and output the LaTeX code for AMC.
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Suggests: testthat
 RoxygenNote: 6.0.1
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr

@@ -153,7 +153,7 @@ AMCcreatequestions <- function(question, correctanswers, incorrectanswers, eleme
   if(writefile==T){
     write(texfile, filepath, append = append)
   } else {
-    return(texfile)
+    return(unname(texfile))
   }
 
 }
