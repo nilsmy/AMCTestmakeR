@@ -10,6 +10,7 @@
 #' @param append A logical value indicating if the code should be appended (append=TRUE) to an existing .tex file. Defaults to FALSE, thus overwriting the file.
 #' @param filepath A character value containing the file path for the .tex file to be created (defaults to "questions.tex").
 #' @param multicols A numeric (or numeric vector) indicating the desired number of columns for the presentation of the correct and incorrect answers (note that the LaTeX environment multicols must be called in the main ".tex" document for more than 1 columns). Defaults to 1, which does not require the LaTeX multicols environnment.
+#' @param messages A logical to indicate whether instructions should be output (defaults to TRUE).
 #'
 #' @return A character value or vector containing AMC LaTeX code for questions and answers.
 #' @export
@@ -46,7 +47,7 @@
 #'   incorrectanswers = list(incorrect1,incorrect2,incorrect3),
 #'   codeprefix = "MATH")
 #'
-AMCcreatequestions <- function(question, correctanswers, incorrectanswers, element = "general", code = paste(codeprefix,c(1:length(question)), sep=""), codeprefix = "Q", writefile = F, filepath = "questions.tex", append = F, multicols=1) {
+AMCcreatequestions <- function(question, correctanswers, incorrectanswers, element = "general", code = paste(codeprefix,c(1:length(question)), sep=""), codeprefix = "Q", writefile = F, filepath = "questions.tex", append = F, multicols=1, messages = T) {
 
   #ELEMENT
 
@@ -151,6 +152,10 @@ AMCcreatequestions <- function(question, correctanswers, incorrectanswers, eleme
 
   #If writefile is TRUE, write to latex document with name "filepath"
   if(writefile==T){
+    if (messages == T) {
+      message("File written to \"", paste(filepath), "\".")
+      message("Don't forget to point to the written file in the main document using  \"\\input{", paste(filepath), "}\", and insert the question elements using \"\\insertgroup{element}\" in the main .tex file. Use (\"\\shufflegroup{element}\") before it to shuffle the question order.")
+    }
     write(texfile, filepath, append = append)
   } else {
     return(unname(texfile))

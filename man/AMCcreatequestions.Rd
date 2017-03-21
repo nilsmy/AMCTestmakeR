@@ -7,7 +7,7 @@
 AMCcreatequestions(question, correctanswers, incorrectanswers,
   element = "general", code = paste(codeprefix, c(1:length(question)), sep =
   ""), codeprefix = "Q", writefile = F, filepath = "questions.tex",
-  append = F, multicols = 1)
+  append = F, multicols = 1, messages = T)
 }
 \arguments{
 \item{question}{A character value or vector containing the questions.}
@@ -29,6 +29,8 @@ AMCcreatequestions(question, correctanswers, incorrectanswers,
 \item{append}{A logical value indicating if the code should be appended (append=TRUE) to an existing .tex file. Defaults to FALSE, thus overwriting the file.}
 
 \item{multicols}{A numeric (or numeric vector) indicating the desired number of columns for the presentation of the correct and incorrect answers (note that the LaTeX environment multicols must be called in the main ".tex" document for more than 1 columns). Defaults to 1, which does not require the LaTeX multicols environnment.}
+
+\item{messages}{A logical to indicate whether instructions should be output (defaults to TRUE).}
 }
 \value{
 A character value or vector containing AMC LaTeX code for questions and answers.
