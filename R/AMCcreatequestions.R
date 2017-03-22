@@ -47,7 +47,7 @@
 #'   incorrectanswers = list(incorrect1,incorrect2,incorrect3),
 #'   codeprefix = "MATH")
 #'
-AMCcreatequestions <- function(question, correctanswers, incorrectanswers, element = "general", code = paste(codeprefix,c(1:length(question)), sep=""), codeprefix = "Q", writefile = F, filepath = "questions.tex", append = F, multicols=1, messages = T) {
+AMCcreatequestions <- function(question, correctanswers, incorrectanswers, element = "general", code = paste(codeprefix,c(1:length(question)), sep=""), codeprefix = "Q", writefile = F, filepath = "questions.tex", append = F, multicols=1, messages = T, listelements = T) {
 
   #ELEMENT
 
@@ -62,6 +62,9 @@ AMCcreatequestions <- function(question, correctanswers, incorrectanswers, eleme
   #Return to vector
   vectorofelement <- unlist(listofelement)
 
+  #Get list of unique elements (used later)
+  #uniqueelements <- unique(vectorofelement)
+
   #CODE
 
   # Create function that wraps "code" in LaTeX-AMC code
@@ -74,6 +77,7 @@ AMCcreatequestions <- function(question, correctanswers, incorrectanswers, eleme
 
   #Return to vector
   vectorofcode <- unlist(listofcode)
+
 
 
   #QUESTION
@@ -153,8 +157,15 @@ AMCcreatequestions <- function(question, correctanswers, incorrectanswers, eleme
   #If writefile is TRUE, write to latex document with name "filepath"
   if(writefile==T){
     if (messages == T) {
-      message("File written to \"", paste(filepath), "\".")
-      message("Don't forget to point to the written file in the main document using  \"\\input{", paste(filepath), "}\", and insert the question elements using \"\\insertgroup{element}\" in the main .tex file. Use (\"\\shufflegroup{element}\") before it to shuffle the question order.")
+      message("File written to \"", paste(basename(filepath)), "\".")
+      message(length(texfile), " questions created.")
+      message("\n===| Instructions |===")
+      message("-Make sure that the created file is the main AMC project folder. \n-Point to the written file in the main .tex file (\"groups.tex\"), using \"\\input{", paste(basename(filepath)), "}\". \n-Insert the question elements using \"\\insertgroup{element}\" in the main .tex file. \n-Use (\"\\shufflegroup{element}\") before it if you want to shuffle the questions order.")
+    }
+    if (listelements == T) {
+      message("\n===| Elements |===")
+      message("To insert the elements (question groups), use:")
+      message()
     }
     write(texfile, filepath, append = append)
   } else {

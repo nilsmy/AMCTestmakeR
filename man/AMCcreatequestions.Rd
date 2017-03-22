@@ -7,7 +7,7 @@
 AMCcreatequestions(question, correctanswers, incorrectanswers,
   element = "general", code = paste(codeprefix, c(1:length(question)), sep =
   ""), codeprefix = "Q", writefile = F, filepath = "questions.tex",
-  append = F, multicols = 1, messages = T)
+  append = F, multicols = 1, messages = T, listelements = T)
 }
 \arguments{
 \item{question}{A character value or vector containing the questions.}
