@@ -1,4 +1,4 @@
-Package: AMCTestmaker
+Package: AMCTestmakeR
 Type: Package
 Title: Generate LaTeX code for Auto-Multiple-Choice (AMC)
 Version: 0.1.0

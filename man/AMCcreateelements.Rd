@@ -4,7 +4,7 @@
 \alias{AMCcreateelements}
 \title{Title}
 \usage{
-AMCcreateelements(element = "general", shuffle = T)
+AMCcreateelements(element = "general", shuffle = T, sections = F)
 }
 \arguments{
 \item{shuffle}{}
