@@ -1,3 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^questions\.tex$
+^listofelements\.tex$
+^groups\.tex$

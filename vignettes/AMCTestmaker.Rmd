@@ -14,13 +14,13 @@ vignette: >
 
 It's main purpose is to facilitate working with R and AMC in parallel, but it can also be used to transform a spreadsheet into an AMC questionnaire easily.
 
-So far, the features are limited to generating AMC-LaTeX code questions for Multiple Choice Questionnaires. Hopefully, it's how most people use Auto Multiple Choice.
+So far, the features are limited to generating AMC-LaTeX code questions for Multiple Choice Questionnaires (single and multiple answer). Hopefully, it's how most people use Auto Multiple Choice.
 
 # Install and load the library
 
 Install the library with `install.packages("AMCTestmakeR")`, and load it with:
 
-```{r}
+```{r comment=NA}
 library(AMCTestmakeR)
 ```
 
@@ -28,7 +28,7 @@ library(AMCTestmakeR)
 
 Let's say that we have a simple question to add: *How much is $1+1$?* (the correct answer is $2$, the incorrect ones are $3$ and $11$).
 
-```{r}
+```{r comment=NA}
 AMCcreatequestions(question = "How much is $1+1$?",
                    correctanswers = 2,
                    incorrectanswers = list(3, 11))
@@ -120,18 +120,18 @@ Then, where you want to place the different `elements`, in your main .tex, add `
 If you have many elements in your document, and therefore many `\insertgroup{}` (and `\shufflegroup{}`) to insert, you may want to use the function `AMCcreateelements()` function. It will show as a console message (which you can, this time, easily copy-and-paste into your main .tex document) the commands to insert (and shuffle, if desired, through the `shuffle` argument) the elements:
 
 ```{r}
-AMCcreateelements(element = c("ADD", "MULT", "DIV"), shuffle = T)
+#AMCcreateelements(element = c("ADD", "MULT", "DIV"), shuffle = T)
 ```
 
 Note that, if the same element is input multiple times (which often happens if you pass to this function the same vector of elements as the one used in `AMCcreatequestions()`), it is not a problem, since only unique values are output:
 
 ```{r}
-AMCcreateelements(element = c("MATH", "MATH", "MATH", "STAT"), shuffle = F)
+#AMCcreateelements(element = c("MATH", "MATH", "MATH", "STAT"), shuffle = F)
 ```
 
 # Future features
 
-[Auto Multiple Choice](http://home.gna.org/auto-qcm/index.en). is a great freeware that is able to do a lot more that what `AMCTestmakeR` helps for, so I will try to add the most helpful features here soon. In any case, I strongly encourage to read the documentation of [Auto Multiple Choice](http://home.gna.org/auto-qcm/index.en) to get a sense of its many possibilities.
+[Auto Multiple Choice](http://home.gna.org/auto-qcm/index.en). is a great freeware that is able to do a lot more that what `AMCTestmakeR` helps for, so I will try to add the most helpful features here soon. In any case, I strongly encourage to read the documentation of how to use LaTeX in Auto Multiple Choice here [here](http://home.gna.org/auto-qcm/auto-multiple-choice.en/latex.shtml) to get a sense of its many possibilities.
 
 
 

@@ -2,12 +2,15 @@
 % Please edit documentation in R/AMCcreatequestions.R
 \name{AMCcreatequestions}
 \alias{AMCcreatequestions}
-\title{Generates AMC LaTeX question codes}
+\title{Generate AMC LaTeX question codes}
 \usage{
 AMCcreatequestions(question, correctanswers, incorrectanswers,
   element = "general", code = paste(codeprefix, c(1:length(question)), sep =
-  ""), codeprefix = "Q", writefile = F, filepath = "questions.tex",
-  append = F, multicols = 1, messages = T, listelements = T)
+  ""), codeprefix = "Q", output = "message", filepath = "questions.tex",
+  questiontype = "single", append = F, multicols = 2, messages = T,
+  listelements = T, scoringcorrect = 1, scoringincorrect = 0,
+  scoringnoresponse = 0, scoringincoherent = scoringincorrect,
+  scoringbottom = scoringincorrect)
 }
 \arguments{
 \item{question}{A character value or vector containing the questions.}
@@ -22,24 +25,26 @@ AMCcreatequestions(question, correctanswers, incorrectanswers,
 
 \item{codeprefix}{A character value to be used to generate automatically question codes, when not provided with the "code" argument.}
 
-\item{writefile}{A logical value indicating whether a .tex file should be created.}
-
-\item{filepath}{A character value containing the file path for the .tex file to be created (defaults to "questions.tex").}
+\item{filepath}{A character value with the file path for the .tex file to be created (defaults to "questions.tex").}
 
 \item{append}{A logical value indicating if the code should be appended (append=TRUE) to an existing .tex file. Defaults to FALSE, thus overwriting the file.}
 
 \item{multicols}{A numeric (or numeric vector) indicating the desired number of columns for the presentation of the correct and incorrect answers (note that the LaTeX environment multicols must be called in the main ".tex" document for more than 1 columns). Defaults to 1, which does not require the LaTeX multicols environnment.}
 
 \item{messages}{A logical to indicate whether instructions should be output (defaults to TRUE).}
+
+\item{listelements}{A logical to indicate whether instructions should be output (use the AMCcreateelements() function for more options).}
+
+\item{writefile}{A logical value indicating whether a .tex file should be created.}
 }
 \value{
 A character value or vector containing AMC LaTeX code for questions and answers.
 }
 \description{
-Generates AMC LaTeX question codes
+Generate AMC LaTeX question codes
 }
 \examples{
-#Creating a single question:
+#Creating a single question
 
 AMCcreatequestions("How much is $1+1$?",2,list("3", "11"))
 

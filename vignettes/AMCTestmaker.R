@@ -1,7 +1,7 @@
-## ------------------------------------------------------------------------
+## ----comment=NA----------------------------------------------------------
 library(AMCTestmakeR)
 
-## ------------------------------------------------------------------------
+## ----comment=NA----------------------------------------------------------
 AMCcreatequestions(question = "How much is $1+1$?",
                    correctanswers = 2,
                    incorrectanswers = list(3, 11))
@@ -37,4 +37,10 @@ AMCcreatequestions(codeprefix = "MATH",
    question = question,
    correctanswers = correct,
    incorrectanswers = list(incorrect1,incorrect2,incorrect3))
+
+## ------------------------------------------------------------------------
+#AMCcreateelements(element = c("ADD", "MULT", "DIV"), shuffle = T)
+
+## ------------------------------------------------------------------------
+#AMCcreateelements(element = c("MATH", "MATH", "MATH", "STAT"), shuffle = F)
 
