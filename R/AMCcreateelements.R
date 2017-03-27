@@ -2,7 +2,7 @@
 #'
 #' @param element A character value or vector of question groups ("elements") to generate input code for. Default is "general".
 #' @param shuffle A logical value or vector to indicate whether to shuffle questions inside a question group.
-#' @param sections A character value or vector to indicate whether to create a new LaTeX section for each element (defaults to FALSE).
+#' @param sections A character value or vector to indicate whether to create a new LaTeX section for each element (defaults to TRUE).
 #' @param output A character value to indicate how to output the LaTeX commands. Use "message" (default) to get a console message that can be directly copy-and-pasted to the LaTeX mais file. Use "list" to get a list object. Use "file" to output to a .tex file (the path can be changed with the "filepath" command).
 #' Defaults to "message
 #' @param filepath A character value with the file path for the .tex file to be created (defaults to "elements.tex").
@@ -26,12 +26,12 @@
 #' #To shuffle only last element
 #' AMCcreateelements(c(1:4), shuffle = c(F,F,F,T), output = "list")
 #'
-#' #To add sections at each element
-#' AMCcreateelements(c(1:4), sections = T, output = "list")
+#' #To remove sections at each element
+#' AMCcreateelements(c(1:4), sections = F, output = "list")
 #'
 #' #To add sections for only last element
 #' AMCcreateelements(c(1:4), sections = c(F,F,F,T), output = "list")
-AMCcreateelements <- function(element = "general", shuffle = TRUE, sections = FALSE, output = "message", filepath = "elements.tex", append = FALSE) {
+AMCcreateelements <- function(element = "general", shuffle = TRUE, sections = TRUE, output = "message", filepath = "elements.tex", append = FALSE, messages = T) {
 
 
   #Remove duplicate elements
@@ -59,9 +59,6 @@ AMCcreateelements <- function(element = "general", shuffle = TRUE, sections = FA
   # Apply that function to the list of elements
   listofelement <- mapply(x = element, shuffle = shuffle, sections = sections, FUN = codeelement, SIMPLIFY = T)
 
-  #Create list for output as list
-  uniquelist <- as.list(listofelement)
-
   #Return to vector
   vectorofelement <- unlist(listofelement)
 
@@ -79,6 +76,7 @@ AMCcreateelements <- function(element = "general", shuffle = TRUE, sections = FA
   } else if(output == "list"){
     return(uniqueelements)
   } else if (output == "file"){
+    if (messages == TRUE){
     message("File written to \"", paste(basename(filepath)), "\".\n",
             "%%%%%%%%%%%%%%%%%%%%%%\n",
             "%%%| Instructions |%%%\n",
@@ -86,7 +84,7 @@ AMCcreateelements <- function(element = "general", shuffle = TRUE, sections = FA
             "%-Make sure that the created file is the main AMC project folder.",
             "\n-Point to the written file in the main .tex file (usually \"groups.tex\"), using \"\\input{",
             paste(basename(filepath)),"}\". \n",
-            "-%Note : Ultimately, the questions should be defined first before compiling (use the AMCcreatequestions() function for this).")
+            "-%Note : Ultimately, the questions should be defined first before compiling (use the AMCcreatequestions() function for this).")}
     write(uniqueelements, filepath, append = append)
   }
 
