@@ -4,15 +4,16 @@
 \alias{AMCcreateelements}
 \title{Generate AMC LaTeX question group ("element") codes}
 \usage{
-AMCcreateelements(element = "general", shuffle = TRUE, sections = FALSE,
-  output = "message", filepath = "elements.tex", append = FALSE)
+AMCcreateelements(element = "general", shuffle = TRUE, sections = TRUE,
+  output = "message", filepath = "elements.tex", append = FALSE,
+  messages = T)
 }
 \arguments{
 \item{element}{A character value or vector of question groups ("elements") to generate input code for. Default is "general".}
 
 \item{shuffle}{A logical value or vector to indicate whether to shuffle questions inside a question group.}
 
-\item{sections}{A character value or vector to indicate whether to create a new LaTeX section for each element (defaults to FALSE).}
+\item{sections}{A character value or vector to indicate whether to create a new LaTeX section for each element (defaults to TRUE).}
 
 \item{output}{A character value to indicate how to output the LaTeX commands. Use "message" (default) to get a console message that can be directly copy-and-pasted to the LaTeX mais file. Use "list" to get a list object. Use "file" to output to a .tex file (the path can be changed with the "filepath" command).
 Defaults to "message}
@@ -43,8 +44,8 @@ AMCcreateelements(c(1:4), output = "list", shuffle = F)
 #To shuffle only last element
 AMCcreateelements(c(1:4), shuffle = c(F,F,F,T), output = "list")
 
-#To add sections at each element
-AMCcreateelements(c(1:4), sections = T, output = "list")
+#To remove sections at each element
+AMCcreateelements(c(1:4), sections = F, output = "list")
 
 #To add sections for only last element
 AMCcreateelements(c(1:4), sections = c(F,F,F,T), output = "list")

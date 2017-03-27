@@ -39,6 +39,9 @@ AMCcreatetest <- function(..., title = "Test", filepath = "groups.tex", messages
     articlelibrary <- "extarticle"
   } else {articlelibrary <- "article"}
 
+  if(fontsize < 9) {
+    articlelibrary <- "extarticle"
+  } else {articlelibrary <- "article"}
 
 
   # Create file paths
@@ -107,11 +110,11 @@ AMCcreatetest <- function(..., title = "Test", filepath = "groups.tex", messages
                        "%\\includegraphics[height=2cm,width=4cm,keepaspectratio]{logo.png}             	\n",
                        "\n",
                        "%Title	\n",
-                       "\\large\\bf", title ,"\\vspace*{1mm}	\n",
+                       "\\large\\bf ", title ," \\vspace*{1mm}	\n",
                        "\\end{minipage}\n",
                        "\\namefield{\\fbox{\\begin{minipage}{.5\\linewidth}	\n",
                        "%Identifier:\n",
-                       paste(identifier,"	\n", sep =""),
+                       paste(identifier," :\n", sep =""),
                        "\\vspace*{.5cm}	\n",
                        "%\\dotfill	\n",
                        "\\vspace*{1mm}	\n",

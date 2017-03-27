@@ -35,7 +35,7 @@ AMCcreatequestions(question, correctanswers, incorrectanswers,
 
 \item{listelements}{A logical to indicate whether instructions should be output (use the AMCcreateelements() function for more options).}
 
-\item{writefile}{A logical value indicating whether a .tex file should be created.}
+\item{scoringbottom}{}
 }
 \value{
 A character value or vector containing AMC LaTeX code for questions and answers.

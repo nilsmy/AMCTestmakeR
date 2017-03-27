@@ -2,13 +2,34 @@
 % Please edit documentation in R/AMCcreatetest.R
 \name{AMCcreatetest}
 \alias{AMCcreatetest}
-\title{Title}
+\title{Create a full Auto-Multiple-Choice test with a file for questions,}
 \usage{
-AMCcreatetest(title = "Test")
+AMCcreatetest(..., title = "Test", filepath = "groups.tex", messages = T,
+  output = "file", fontsize = 10, instructions = T, paper = "letter",
+  identifier = "Name")
 }
 \arguments{
-\item{title}{}
+\item{...}{Arguments passed to AMCcreatequestions (see documentation).}
+
+\item{title}{A character value indicating a title for the test (default is "Test").}
+
+\item{filepath}{A character value indicating the path for the main .tex file output (most often, in AMC, it is "groups.tex", which is the default of the function). Note that the other created files ("questions.tex" and "elements.tex" will we written in the folder of this file).}
+
+\item{messages}{A logical value to indicate whether to output messages and reports (default is TRUE).}
+
+\item{output}{A character value indicating what the function should return. "file" (default) writes files, "questions" return questions as a message.}
+
+\item{fontsize}{A numeric value to indicate the font size of the output document. Default is 10. Note: Above 12 pt, the LaTeX package "extarticle" is automatically used in lieu of "article".}
+
+\item{instructions}{A logical value to add a block of preliminary instructions to the students (for example, how to fill the questionnaire). Defaults to TRUE.}
+
+\item{paper}{A character value indicating what type of paper to use. Default is "letter", but "a4" can also be used.}
+
+\item{identifier}{A character value indicating what to ask for to pair the exam sheets. The default is "Name", but other values like "Student ID Number" may be more appropriate.}
+}
+\value{
+A .tex document
 }
 \description{
-Title
+Create a full Auto-Multiple-Choice test with a file for questions,
 }
