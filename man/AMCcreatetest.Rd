@@ -11,7 +11,7 @@ AMCcreatetest(..., title = "Test", filepath = "groups.tex", messages = T,
   twosided = T, box = T)
 }
 \arguments{
-\item{...}{Arguments passed to \code{\link{AMCcreatequestions()}} (see documentation).}
+\item{...}{Arguments passed to \code{AMCcreatequestions()} (see documentation).}
 
 \item{title}{A character value indicating a title for the test (default is "Test").}
 

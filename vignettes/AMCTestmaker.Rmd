@@ -24,25 +24,31 @@ Install the library with `install.packages("AMCTestmakeR")`, and load it with:
 library(AMCTestmakeR)
 ```
 
-# Generating code for one question
+# Basic Use : Generating questions
 
-Let's say that we have a simple question to add: *How much is $1+1$?* (the correct answer is $2$, the incorrect ones are $3$ and $11$).
+## Generating code for one question
+
+Let's say that we have a simple question to add:
+- How much is $1+1$?
+- The correct answer is $2$ (if you didn't get this one, you're probably at the wrong place)
+- The incorrect ones are $3$ and $11$
 
 ```{r comment=NA}
-AMCcreatequestions(question = "How much is $1+1$?",
-                   correctanswers = 2,
-                   incorrectanswers = list(3, 11))
+AMCcreatequestions(
+  question = "How much is $1+1$?",
+  correctanswers = 2,
+  incorrectanswers = list(3, 11))
 ```
 Or, more simply `AMCcreatequestions("How much is $1+1$?",2,list(3, 11))`.
 
-# Writing to a .tex file
+## Writing questions to a .tex file
 
 R escapes different characters than LaTeX, so doing a copy-and-paste of the console output will require than you tweak things a bit.
 
 Instead of doing that, I recommend to use the optional argument `writefile = TRUE` to write the generated code into a file. The default creates a `questions.tex` file in the working directory, but you can indicate another path with `filepath`, and append to an existing file -- rather than overwriting the existing file -- with `append = TRUE`).
 
 
-# Generating code for multiple questions
+## Generating code for multiple questions
 
 If you have an entire questionnaire to generate, the `AMCcreatequestions` can use vectors for many of its arguments.
 
@@ -66,11 +72,12 @@ AMCcreatequestions(question = question,
    incorrectanswers = list(incorrect1,incorrect2,incorrect3))
 ```
 
-Like before, copy-paste is not optimal, as R escapes different characters than LaTeX. Using `writefile = TRUE` is more convenient to take care of this and translate R text into LaTeX (see above for details).
+Like before, copy-paste is not optimal, as R escapes different characters than LaTeX. Using `writefile = TRUE` is more convenient to take care of this and translate R text into LaTeX (see above for details). Also, consider using the function `AMCcreatetest()` to handle the full test creation (described later as *Suggested Workflow 1*).
 
-# Other options
 
-## Changing the element
+## Additional options
+
+### Changing the element
 
 The element in AMC corresponds to a group of questions. They can for example correspond to different learning outcomes or chapters of a book. AMC is able to randomize questions within elements.
 
@@ -85,7 +92,7 @@ AMCcreatequestions(element = c("ADD", "MULT", "DIV"),
 
 The default element is `general`.
 
-## Changing the question code
+### Changing the question codes
 
 In AMC, each question should have a unique code.
 
@@ -107,11 +114,11 @@ AMCcreatequestions(codeprefix = "MATH",
    incorrectanswers = list(incorrect1,incorrect2,incorrect3))
 ```
 
-# Suggested workflow once the questions are ready
+# Once the questions are ready...
 
-When your questions are ready and the `AMCcreatequestions()` gives a satisfactory result. I suggest to directly use `AMCcreatetest()` to create the other .tex files and to have a fully working test easily.
+When your questions are ready and the `AMCcreatequestions()` gives a satisfactory result. I suggest to directly use `AMCcreatetest()` to create the other .tex files and to have a fully working test easily (*Workflow 1*).
 
-## Workflow 1: Creating the test files from scratch `AMCcreatetest()`
+## Workflow 1: Creating the test files from scratch with `AMCcreatetest()`
 
 `AMCTestmakeR` can create a test from scratch with the function `AMCcreatetest()`. It creates 3 .tex files (groups.tex, questions.tex, elements.tex) that can be directly used in the AMC project folder.
 
@@ -149,13 +156,15 @@ When working on the questions, I suggest to work using `AMCcreatequestions()` wi
 
 ## Workflow 2: Doing things manually with your own template and `AMCcreateelements()`
 
+If you want to customize more, you can do things step by step. If doing that, I highly recommend starting by reading the [AMC documentation](http://home.gna.org/auto-qcm/auto-multiple-choice.en/latex.shtml).
+
 When using `AMCcreatequestions()` to create a questionnaire in AMC, I suggest to create, with `writefile = TRUE`, the questions in a separate questions file (e.g. `questions.tex`) in your AMC project folder.
 
 From there, in your main .tex document (usually, that's named `groups.tex` by AMC), add `\input{questions.tex}` at the beginning (but still after your `\begin{document}`).
 
 Then, where you want to place the different `elements`, in your main .tex, add `\insertgroup{element}` for each of them. Before the `\insertgroup{}` command, you can use `\shufflegroup{element}` to shuffle the questions within the element.
 
-## Facilitating `\insertgroup{}`
+### The `AMCcreateelements()` function
 
 If you have many elements in your document, and therefore many `\insertgroup{}` (and `\shufflegroup{}`) to insert, you may want to use the function `AMCcreateelements()` function. It will show as a console message (which you can, this time, easily copy-and-paste into your main .tex document) the commands to insert (and shuffle, if desired, through the `shuffle` argument) the elements:
 
@@ -173,7 +182,7 @@ AMCcreateelements(element = c("MATH", "MATH", "MATH", "STAT"), shuffle = F, sect
 
 # Future features
 
-[Auto Multiple Choice](http://home.gna.org/auto-qcm/index.en). is a great freeware that is able to do a lot more that what `AMCTestmakeR` helps for, so I will try to add the most helpful features here soon. In any case, I strongly encourage to read the documentation of how to use LaTeX in Auto Multiple Choice here [here](http://home.gna.org/auto-qcm/auto-multiple-choice.en/latex.shtml) to get a sense of its many possibilities.
+[Auto Multiple Choice](http://home.gna.org/auto-qcm/index.en) is a great freeware that is able to do a lot more that what `AMCTestmakeR` helps for, so I will try to add the most helpful features here soon. This software feels the In any case, I strongly encourage to read the documentation of how to use LaTeX in Auto Multiple Choice [here](http://home.gna.org/auto-qcm/auto-multiple-choice.en/latex.shtml) to get a sense of its many possibilities.
 
 
 

@@ -1,7 +1,7 @@
 
 #' Create a full \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice} test with a main .tex file (\code{groups.tex}), a file for questions (\code{questions.tex}), a file for elements (\code{elements.tex}.
 #'
-#' @param ... Arguments passed to \code{\link{AMCcreatequestions()}} (see documentation).
+#' @param ... Arguments passed to \code{AMCcreatequestions()} (see documentation).
 #' @param filepath A character value indicating the path for the main .tex file output (most often, in AMC, it is \code{groups.tex}, which is the default of the function). Note that the other created files (\code{questions.tex} and \code{elements.tex} will we written in the folder of this file).
 #' @param messages A logical value to indicate whether to output messages and reports (default is TRUE).
 #' @param title A character value indicating a title for the test (default is "Test").
@@ -239,7 +239,7 @@ AMCcreatetest <- function(..., title = "Test", filepath = "groups.tex", messages
 
 collapsedlist <- paste(listoriginaltex, sep = "", collapse = "")
 
-if(output == "file"){
+
   # Create list of questions and elements through AMCcreatequestions
   AMCcreatequestions(output = "file", listelements = "file", filepath = filepathquestions, messages = F, append = F, ...)
   # Write the groups.tex
@@ -253,7 +253,7 @@ message("The following files were successfully written to ",
         "\n- questions.tex",
         "\n- elements.tex"
         )
-}
+
 }
 
 

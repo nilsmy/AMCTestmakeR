@@ -6,7 +6,7 @@
 \usage{
 AMCcreateelements(element = "general", shuffle = TRUE, sections = TRUE,
   output = "message", filepath = "elements.tex", append = FALSE,
-  messages = T)
+  messages = TRUE)
 }
 \arguments{
 \item{element}{A character value or vector of question groups ("elements") to generate input code for. Default is "general".}
@@ -41,14 +41,13 @@ AMCcreateelements(c(1:4), output = "list")
 AMCcreateelements(rep(1:3, 5), output = "list")
 
 #To cancel shuffling
-AMCcreateelements(c(1:4), output = "list", shuffle = F)
-
-#To shuffle only last element
-AMCcreateelements(c(1:4), shuffle = c(F,F,F,T), output = "list")
+AMCcreateelements(c(1:4), output = "list", shuffle = FALSE)
 
 #To remove sections at each element
-AMCcreateelements(c(1:4), sections = F, output = "list")
+AMCcreateelements(c(1:4), sections = FALSE, output = "list")
 
 #To add sections for only last element
-AMCcreateelements(c(1:4), sections = c(F,F,F,T), output = "list")
+AMCcreateelements(c(1:4),
+sections = c(FALSE,FALSE,FALSE,TRUE),
+output = "list")
 }

@@ -210,9 +210,8 @@ AMCcreatequestions <- function(question, correctanswers, incorrectanswers, eleme
       if (messages == T) {
       message("%%%%%%%%%%%%%%%%%%%%%%")
       message("\n%-Note: The list of elements was written at ", elementfilepath)
-  }
-    } else {
-      message("\n%-Make sure the question elements are inserted with \"\\insertgroup{element}\" after the questions (use 'listofelements = \"append\" or use AMCcreateelement() function for more options).")
+      message("\n%-Make sure the question elements are inserted with \"\\insertgroup{element}\" after the questions. Use AMCcreateelement() function for more options).")
+      }
     }
 
 
