@@ -107,9 +107,49 @@ AMCcreatequestions(codeprefix = "MATH",
    incorrectanswers = list(incorrect1,incorrect2,incorrect3))
 ```
 
-# Suggested workflow
+# Suggested workflow once the questions are ready
 
-When using these functions to create a questionnaire in AMC, I suggest to create, with `writefile = TRUE`, the questions in a separate questions file (e.g. `questions.tex`) in your AMC project folder.
+When your questions are ready and the `AMCcreatequestions()` gives a satisfactory result. I suggest to directly use `AMCcreatetest()` to create the other .tex files and to have a fully working test easily.
+
+## Workflow 1: Creating the test files from scratch `AMCcreatetest()`
+
+`AMCTestmakeR` can create a test from scratch with the function `AMCcreatetest()`. It creates 3 .tex files (groups.tex, questions.tex, elements.tex) that can be directly used in the AMC project folder.
+
+The first arguments of this function are passed to the `AMCcreatequestions()` function (see above for how to use it). The rest of the arguments are used to set test options (like `fontsize`, `separateanswersheet`, `title`, `identifier`, etc.). See the function documentation for a full list of options. If you don't pass any option (except for the questions of course), you should have a useable -- albeit not customized -- test.
+
+
+```{r eval=F}
+AMCcreatetest("How much is $1+2$?",2,list("3", "11"))
+```
+
+
+### More options
+
+Separate answer sheets, font size, title, instructions, etc.
+
+```{r eval=F}
+AMCcreatetest(
+# Part passed to AMCcreatequestions() (see documentation)
+"How much is $1+2$?",2,list("3", "11"),
+# Part used for test options
+title = "This is the title", #Custom title
+paper = "a4", #change the paper for a4
+fontsize = 11, #change fontsize
+identifier = "ID Number", #change identifier
+twosided = F, #print in one sided
+instructions = "Don't respond here.", #show an instructions block to students (on questions part)
+separateanswersheet = T, #use a separate answer sheet
+answersheettitle = "Respond Here", #Change answer sheet title
+answersheetinstructions = "Fill the boxes"#Answer sheet instructions
+)
+```
+
+When working on the questions, I suggest to work using `AMCcreatequestions()` with the default output as notes (to check the result without opening a separate .tex file). Once your questions are ready, I suggest to switch to `AMCcreatequestions()`, using the same beginning arguments, and changing the rest.
+
+
+## Workflow 2: Doing things manually with your own template and `AMCcreateelements()`
+
+When using `AMCcreatequestions()` to create a questionnaire in AMC, I suggest to create, with `writefile = TRUE`, the questions in a separate questions file (e.g. `questions.tex`) in your AMC project folder.
 
 From there, in your main .tex document (usually, that's named `groups.tex` by AMC), add `\input{questions.tex}` at the beginning (but still after your `\begin{document}`).
 
@@ -120,14 +160,16 @@ Then, where you want to place the different `elements`, in your main .tex, add `
 If you have many elements in your document, and therefore many `\insertgroup{}` (and `\shufflegroup{}`) to insert, you may want to use the function `AMCcreateelements()` function. It will show as a console message (which you can, this time, easily copy-and-paste into your main .tex document) the commands to insert (and shuffle, if desired, through the `shuffle` argument) the elements:
 
 ```{r}
-#AMCcreateelements(element = c("ADD", "MULT", "DIV"), shuffle = T)
+AMCcreateelements(element = c("ADD", "MULT", "DIV"), shuffle = T, sections = T)
 ```
 
 Note that, if the same element is input multiple times (which often happens if you pass to this function the same vector of elements as the one used in `AMCcreatequestions()`), it is not a problem, since only unique values are output:
 
 ```{r}
-#AMCcreateelements(element = c("MATH", "MATH", "MATH", "STAT"), shuffle = F)
+AMCcreateelements(element = c("MATH", "MATH", "MATH", "STAT"), shuffle = F, sections = F)
 ```
+
+
 
 # Future features
 

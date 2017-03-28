@@ -2,7 +2,7 @@
 % Please edit documentation in R/AMCcreatequestions.R
 \name{AMCcreatequestions}
 \alias{AMCcreatequestions}
-\title{Generate AMC LaTeX question codes}
+\title{Generate AMC LaTeX question codes in the console, in a LaTeX file, or as a vector.}
 \usage{
 AMCcreatequestions(question, correctanswers, incorrectanswers,
   element = "general", code = paste(codeprefix, c(1:length(question)), sep =
@@ -25,7 +25,11 @@ AMCcreatequestions(question, correctanswers, incorrectanswers,
 
 \item{codeprefix}{A character value to be used to generate automatically question codes, when not provided with the "code" argument.}
 
+\item{output}{A character value to indicate what type of output is desired. "message" (default) outputs the questions as a message (suitable for direct copy-and-paste from console into LaTeX file). "file" outputs a questions .tex file (which can then be pointed to in the main LaTeX document). "list" and "vector" output a character vector of questions (suitable for further manipulation in R).}
+
 \item{filepath}{A character value with the file path for the .tex file to be created (defaults to "questions.tex").}
+
+\item{questiontype}{A character value or vector to indicate the type of all questions (character value) or of each (character vector) question. Use "single" for single-choice, and "multiple" for multiple-answer. So far open questions are not supported.}
 
 \item{append}{A logical value indicating if the code should be appended (append=TRUE) to an existing .tex file. Defaults to FALSE, thus overwriting the file.}
 
@@ -35,13 +39,21 @@ AMCcreatequestions(question, correctanswers, incorrectanswers,
 
 \item{listelements}{A logical to indicate whether instructions should be output (use the AMCcreateelements() function for more options).}
 
-\item{scoringbottom}{}
+\item{scoringcorrect}{A numeric value or vector to indicate the scoring for the correct answer(s). Defaults to 1.}
+
+\item{scoringincorrect}{A numeric value or vector to indicate the scoring for an incorrect answer(s). Defaults to 0.}
+
+\item{scoringnoresponse}{A numeric value or vector to indicate the scoring for non-responding. Defaults to 0.}
+
+\item{scoringincoherent}{A numeric value or vector to indicate the scoring for incoherent answer(s) (e.g. two boxes checked for a single-answer questionnaire). Defaults to 0.}
+
+\item{scoringbottom}{A numeric value or vector to indicate the minimum score for the question(s). Especially useful when attributing negative points to incorrect answers in a multiple-answer questionnaire, to ensure students do not lose too many points on one question. Defaults to 0.}
 }
 \value{
-A character value or vector containing AMC LaTeX code for questions and answers.
+A character value or vector (output = "list" or "vector"), a copy-and-pastable message (output = "message") or a LaTeX .tex file (output = "file") containing AMC LaTeX code for questions and answers.
 }
 \description{
-Generate AMC LaTeX question codes
+Generate AMC LaTeX question codes in the console, in a LaTeX file, or as a vector.
 }
 \examples{
 #Creating a single question

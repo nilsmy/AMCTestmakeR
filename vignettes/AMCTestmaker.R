@@ -38,6 +38,25 @@ AMCcreatequestions(codeprefix = "MATH",
    correctanswers = correct,
    incorrectanswers = list(incorrect1,incorrect2,incorrect3))
 
+## ----eval=F--------------------------------------------------------------
+#  AMCcreatetest("How much is $1+2$?",2,list("3", "11"))
+
+## ----eval=F--------------------------------------------------------------
+#  AMCcreatetest(
+#  # Part passed to AMCcreatequestions() (see documentation)
+#  "How much is $1+2$?",2,list("3", "11"),
+#  # Part used for test options
+#  title = "This is the title", #Custom title
+#  paper = "a4", #change the paper for a4
+#  fontsize = 11, #change fontsize
+#  identifier = "ID Number", #change identifier
+#  twosided = F, #print in one sided
+#  instructions = F, #show an instructions block to students (on questions part)
+#  separateanswersheet = T, #use a separate answer sheet
+#  answersheettitle = "Respond Here", #Change answer sheet title
+#  answersheetinstructions = "Fill the boxes"#Answer sheet instructions
+#  )
+
 ## ------------------------------------------------------------------------
 #AMCcreateelements(element = c("ADD", "MULT", "DIV"), shuffle = T)
 

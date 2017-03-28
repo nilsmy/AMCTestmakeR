@@ -1,11 +1,10 @@
 
-#' Create a full \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice} test with a file for questions,
+#' Create a full \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice} test with a main .tex file (\code{groups.tex}), a file for questions (\code{questions.tex}), a file for elements (\code{elements.tex}.
 #'
 #' @param ... Arguments passed to \code{\link{AMCcreatequestions()}} (see documentation).
-#' @param filepath A character value indicating the path for the main .tex file output (most often, in AMC, it is "groups.tex", which is the default of the function). Note that the other created files ("questions.tex" and "elements.tex" will we written in the folder of this file).
+#' @param filepath A character value indicating the path for the main .tex file output (most often, in AMC, it is \code{groups.tex}, which is the default of the function). Note that the other created files (\code{questions.tex} and \code{elements.tex} will we written in the folder of this file).
 #' @param messages A logical value to indicate whether to output messages and reports (default is TRUE).
 #' @param title A character value indicating a title for the test (default is "Test").
-#' @param output A character value indicating what the function should return. "file" (default) writes files, "questions" return questions as a message.
 #' @param fontsize A numeric value to indicate the font size of the output document. Default is 10. Note: Above 12 pt, the LaTeX package "extarticle" is automatically used in lieu of "article".
 #' @param instructions A logical value to add a block of preliminary instructions to the students (for example, how to fill the questionnaire). Defaults to TRUE.
 #' @param paper A character value indicating what type of paper to use. Default is "letter", but "a4" can also be used.
@@ -16,10 +15,28 @@
 #' @param twosided A logical value to indicate whether the exam will be printed two sided. This is notably important when printing on a separate answer sheet, to have the answer sheet printed on a separate page. Defaults to TRUE.
 #' @param box A logical value to indicate whether to box the questions and answers, to ensure that they are always presented on the same page. Defaults to TRUE.
 #'
-#' @return Writes 3 tex documents (groups.tex, questions.tex and elements.tex) for direct use in \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice}.
+#' @return Writes 3 tex documents (\code{groups.tex}, \code{questions.tex} and \code{elements.tex})) for direct use in \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice}.
 #' @export
 #'
 #' @examples
+#' # Create all LaTeX files
+#'
+#' \dontrun{
+#'  AMCcreatetest(
+#'  # Part passed to AMCcreatequestions() (see documentation)
+#'  "How much is $1+2$?",2,list("3", "11"),
+#'  # Part used for test options
+#'  title = "This is the title", #Custom title
+#'  paper = "a4", #change the paper for a4
+#'  fontsize = 11, #change fontsize
+#'  identifier = "ID Number", #change identifier
+#'  twosided = F, #print in one sided
+#'  instructions = T, #show an instructions block to students
+#'  separateanswersheet = T, #use a separate answer sheet
+#'  answersheettitle = "Respond Here", #Change answer sheet title
+#'  answersheetinstructions = "Fill the boxes" #Answer sheet instructions
+#'   )}
+#'
 AMCcreatetest <- function(..., title = "Test", filepath = "groups.tex", messages = T, output = "file", fontsize = 10, instructions = T, paper = "letter", identifier = "Name", separateanswersheet = F, answersheettitle = "Answer sheet", answersheetinstructions = T, twosided = T, box = T) {
 
   #Name file path
@@ -50,15 +67,24 @@ AMCcreatetest <- function(..., title = "Test", filepath = "groups.tex", messages
 
 
   #Create header block
-  headerblock <- c("\\namefield{\\fbox{\n",
+  headerblocknonseparate <- c("\\namefield{\\fbox{\n",
                    "  \\begin{minipage}{.5\\linewidth}\n",
                    "  %Identifier:\n",
                    paste(identifier," :\n\n", sep =""),
                    "  \\vspace*{.5cm}	\n",
                    "  %\\dotfill	\n",
                    "  \\vspace*{1mm}	\n",
-                   "  \\end{minipage}\n}}	\n",
-  "\n")
+                   "  \\end{minipage}\n}}	\n")
+
+  #Create header block
+  headerblockseparate <- c("\\namefield{\\fbox{\n",
+                              "  \\begin{minipage}{.5\\linewidth}\n",
+                              "  %Identifier:\n",
+                              paste(identifier," :\n\n", sep =""),
+                              "  \\vspace*{.5cm}	\n",
+                              "  %\\dotfill	\n",
+                              "  \\vspace*{1mm}	\n",
+                              "  \\end{minipage}\n}}	\n")
 
 
 
@@ -82,11 +108,15 @@ AMCcreatetest <- function(..., title = "Test", filepath = "groups.tex", messages
       "%\\item For short answer questions, write your answers in the answer box provided. Leave the grey part blank.\n",
       "\\end{itemize}\n\n",
       "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n")
+  } else {
+    if (instructions == F) {
+      instructionblock <- ""
+    } else {
+      instructionblock <- instructions
+    }
   }
 
-  if (instructions == F) {
-    instructionblock <- ""
-  }
+
 
 
   if(separateanswersheet == F) {
@@ -106,23 +136,25 @@ AMCcreatetest <- function(..., title = "Test", filepath = "groups.tex", messages
       }
 
     #Auto add answer sheet instructions
-      if (answersheetinstructions == T) {
-        answersheetinstructions <- c("\\bf\\em Answers must be given exclusively on this sheet:\n",
+      if (answersheetinstructions == TRUE) {
+        answersheetinstructionstext <- c("\\bf\\em Answers must be given exclusively on this sheet:\n",
                                      "Answers given on the other sheets will be ignored.\n")
-      }
-    #Remove answer sheet instructions
-      if (answersheetinstructions == F) {
-        answersheetinstructions <- c("\n")
-      }
+      } else {
+        if (answersheetinstructions == FALSE) {
+          answersheetinstructionstext <- ""
+        } else {
+          answersheetinstructionstext <- answersheetinstructions
+        }
+      }  #Remove answer sheet instructions
+
 
     #Define Answersheet header
     answersheettext <- c("\n \\AMCformBegin \n",
                          "%%% Answer sheet header %%%\n",
                          "{\\large\\bf ", answersheettitle,":}\n",
-                         "\\hfill ", headerblock,
+                         "\\hfill ", headerblockseparate,
                          "\\begin{center}\n",
-                         "\\bf\\em Answers must be given exclusively on this sheet:\n",
-                         "Answers given on the other sheets will be ignored.\n",
+                         answersheetinstructionstext,
                          "\\end{center}\n",
                          "%%% End of answer sheet header %%%\n",
                          "\\AMCform"
@@ -146,7 +178,7 @@ AMCcreatetest <- function(..., title = "Test", filepath = "groups.tex", messages
                        "\\usepackage[utf8x]{inputenc}	\n",
                        "\\usepackage[T1]{fontenc}	\n",
                        "\\usepackage{amsmath}	\n",
-                       "\\usepackage[","completemulti",separateanswer1,"]{automultiplechoice}	\n",
+                       "\\usepackage[",useboxpackage,"completemulti",separateanswer1,"]{automultiplechoice}	\n",
                        "\n",
                        "\\renewcommand{\\rmdefault}{\\sfdefault}	\n",
                        "\n",
@@ -182,11 +214,12 @@ AMCcreatetest <- function(..., title = "Test", filepath = "groups.tex", messages
                        "%Title	\n",
                        "\\large\\bf ", title ," \\vspace*{1mm}	\n",
                        "\\end{minipage}\n",
-                       ifelse(test = separateanswersheet == T, yes = "\n", no = headerblock),
+                       headerblocknonseparate,
                        "\n",
                        instructionblock,
                        "\n",
-                       "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
+                       "%%%%%%%%%%%%%%%%
+                       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
                        "%Takes the questions from the questions.tex file\n",
                        "\\input{questions.tex}",
                        "\n",
@@ -222,6 +255,11 @@ message("The following files were successfully written to ",
         )
 }
 }
+
+
+
+
+
 
 
 

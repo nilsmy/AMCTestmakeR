@@ -1,4 +1,4 @@
-#' Generate AMC LaTeX question codes
+#' Generate AMC LaTeX question codes in the console, in a LaTeX file, or as a vector.
 #'
 #' @param question A character value or vector containing the questions.
 #' @param correctanswers A character (value, vector) containing the correct answers. A vector (or list) of character vectors can also be passed, in the case of multiple correct answers.
@@ -11,15 +11,15 @@
 #' @param multicols A numeric (or numeric vector) indicating the desired number of columns for the presentation of the correct and incorrect answers (note that the LaTeX environment multicols must be called in the main ".tex" document for more than 1 columns). Defaults to 1, which does not require the LaTeX multicols environnment.
 #' @param messages A logical to indicate whether instructions should be output (defaults to TRUE).
 #' @param listelements A logical to indicate whether instructions should be output (use the AMCcreateelements() function for more options).
-#' @param output
-#' @param questiontype
-#' @param scoringcorrect
-#' @param scoringincorrect
-#' @param scoringnoresponse
-#' @param scoringincoherent
-#' @param scoringbottom
+#' @param output A character value to indicate what type of output is desired. "message" (default) outputs the questions as a message (suitable for direct copy-and-paste from console into LaTeX file). "file" outputs a questions .tex file (which can then be pointed to in the main LaTeX document). "list" and "vector" output a character vector of questions (suitable for further manipulation in R).
+#' @param questiontype A character value or vector to indicate the type of all questions (character value) or of each (character vector) question. Use "single" for single-choice, and "multiple" for multiple-answer. So far open questions are not supported.
+#' @param scoringcorrect A numeric value or vector to indicate the scoring for the correct answer(s). Defaults to 1.
+#' @param scoringincorrect A numeric value or vector to indicate the scoring for an incorrect answer(s). Defaults to 0.
+#' @param scoringnoresponse A numeric value or vector to indicate the scoring for non-responding. Defaults to 0.
+#' @param scoringincoherent A numeric value or vector to indicate the scoring for incoherent answer(s) (e.g. two boxes checked for a single-answer questionnaire). Defaults to 0.
+#' @param scoringbottom A numeric value or vector to indicate the minimum score for the question(s). Especially useful when attributing negative points to incorrect answers in a multiple-answer questionnaire, to ensure students do not lose too many points on one question. Defaults to 0.
 #'
-#' @return A character value or vector containing AMC LaTeX code for questions and answers.
+#' @return A character value or vector (output = "list" or "vector"), a copy-and-pastable message (output = "message") or a LaTeX .tex file (output = "file") containing AMC LaTeX code for questions and answers.
 #' @export
 #'
 #' @examples
@@ -225,6 +225,11 @@ AMCcreatequestions <- function(question, correctanswers, incorrectanswers, eleme
     }
 
   if (output == "list") {
+    #return(unname(texfile))
+    return(vectorofquestion)
+  }
+
+  if (output == "vector") {
     #return(unname(texfile))
     return(vectorofquestion)
   }

@@ -21,6 +21,8 @@ Defaults to "message}
 \item{filepath}{A character value with the file path for the .tex file to be created (defaults to "elements.tex").}
 
 \item{append}{A logical value indicating if the code should be appended (append=TRUE) to an existing .tex file. Defaults to FALSE, thus overwriting the file.}
+
+\item{messages}{A logical to indicate whether instructions should be output (defaults to TRUE).}
 }
 \value{
 Commands to add the question groups in AMC-LaTeX code.

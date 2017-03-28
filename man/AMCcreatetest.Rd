@@ -2,7 +2,7 @@
 % Please edit documentation in R/AMCcreatetest.R
 \name{AMCcreatetest}
 \alias{AMCcreatetest}
-\title{Create a full \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice} test with a file for questions,}
+\title{Create a full \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice} test with a main .tex file (\code{groups.tex}), a file for questions (\code{questions.tex}), a file for elements (\code{elements.tex}.}
 \usage{
 AMCcreatetest(..., title = "Test", filepath = "groups.tex", messages = T,
   output = "file", fontsize = 10, instructions = T, paper = "letter",
@@ -15,11 +15,9 @@ AMCcreatetest(..., title = "Test", filepath = "groups.tex", messages = T,
 
 \item{title}{A character value indicating a title for the test (default is "Test").}
 
-\item{filepath}{A character value indicating the path for the main .tex file output (most often, in AMC, it is "groups.tex", which is the default of the function). Note that the other created files ("questions.tex" and "elements.tex" will we written in the folder of this file).}
+\item{filepath}{A character value indicating the path for the main .tex file output (most often, in AMC, it is \code{groups.tex}, which is the default of the function). Note that the other created files (\code{questions.tex} and \code{elements.tex} will we written in the folder of this file).}
 
 \item{messages}{A logical value to indicate whether to output messages and reports (default is TRUE).}
-
-\item{output}{A character value indicating what the function should return. "file" (default) writes files, "questions" return questions as a message.}
 
 \item{fontsize}{A numeric value to indicate the font size of the output document. Default is 10. Note: Above 12 pt, the LaTeX package "extarticle" is automatically used in lieu of "article".}
 
@@ -40,8 +38,28 @@ AMCcreatetest(..., title = "Test", filepath = "groups.tex", messages = T,
 \item{box}{A logical value to indicate whether to box the questions and answers, to ensure that they are always presented on the same page. Defaults to TRUE.}
 }
 \value{
-Writes 3 tex documents (groups.tex, questions.tex and elements.tex) for direct use in \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice}.
+Writes 3 tex documents (\code{groups.tex}, \code{questions.tex} and \code{elements.tex})) for direct use in \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice}.
 }
 \description{
-Create a full \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice} test with a file for questions,
+Create a full \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice} test with a main .tex file (\code{groups.tex}), a file for questions (\code{questions.tex}), a file for elements (\code{elements.tex}.
+}
+\examples{
+# Create all LaTeX files
+
+\dontrun{
+ AMCcreatetest(
+ # Part passed to AMCcreatequestions() (see documentation)
+ "How much is $1+2$?",2,list("3", "11"),
+ # Part used for test options
+ title = "This is the title", #Custom title
+ paper = "a4", #change the paper for a4
+ fontsize = 11, #change fontsize
+ identifier = "ID Number", #change identifier
+ twosided = F, #print in one sided
+ instructions = T, #show an instructions block to students
+ separateanswersheet = T, #use a separate answer sheet
+ answersheettitle = "Respond Here", #Change answer sheet title
+ answersheetinstructions = "Fill the boxes" #Answer sheet instructions
+  )}
+
 }

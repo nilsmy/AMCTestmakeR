@@ -1,10 +1,10 @@
-\documentclass[letterpaper,10pt]{article}	
+\documentclass[a4paper,11pt]{article}	
 
 \usepackage{multicol}	
 \usepackage[utf8x]{inputenc}	
 \usepackage[T1]{fontenc}	
 \usepackage{amsmath}	
-\usepackage[box,completemulti]{automultiplechoice}	
+\usepackage[box,completemulti,separateanswersheet]{automultiplechoice}	
 
 \renewcommand{\rmdefault}{\sfdefault}	
 
@@ -38,12 +38,12 @@
 %\includegraphics[height=2cm,width=4cm,keepaspectratio]{logo.png}             	
 
 %Title	
-\large\bf Test \vspace*{1mm}	
+\large\bf This is the title \vspace*{1mm}	
 \end{minipage}
 \namefield{\fbox{
   \begin{minipage}{.5\linewidth}
   %Identifier:
-Name :
+ID Number :
 
   \vspace*{.5cm}	
   %\dotfill	
@@ -51,27 +51,7 @@ Name :
   \end{minipage}
 }}	
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% INSTRUCTIONS TO STUDENTS, UNCOMMENT AS NEEDED %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section*{Instructions}	
-
-\begin{itemize}	
-%\item Points are \underline{not} deduced for incorrect answers.%, and most questions are independent from one another, so try to answer all the questions, even if you hesitate.
-%\item The total exam is graded over XX points.
-%\item There is \underline{always} one and \underline{only} one correct answer.
-%\item All the questions are presented in randomized order and are independent from each other.
-\item \underline{Fill} -- don't cross -- with a dark color pencil the box corresponding to what you think is the correct answer, leaving the others blank. Use an eraser to correct any mistake.
-%\item If you think you made a mistake, circle your \emph{entire} final answer (make your final answer as clear as you can): The exam will be both graded by computer and checked by your instructors to ensure accuracy.
-\item Do not write or draw around or in the black circles and bar codes on the corners and top of each page.
-%\item For short answer questions, write your answers in the answer box provided. Leave the grey part blank.
-\end{itemize}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
+Don't respond here.
 %%%%%%%%%%%%%%%%
                        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Takes the questions from the questions.tex file
 \input{questions.tex}
@@ -80,6 +60,23 @@ Name :
 \clearpage 
 
 
+ \AMCformBegin 
+%%% Answer sheet header %%%
+{\large\bf Respond Here:}
+\hfill \namefield{\fbox{
+  \begin{minipage}{.5\linewidth}
+  %Identifier:
+ID Number :
+
+  \vspace*{.5cm}	
+  %\dotfill	
+  \vspace*{1mm}	
+  \end{minipage}
+}}	
+\begin{center}
+Fill the boxes\end{center}
+%%% End of answer sheet header %%%
+\AMCform
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
