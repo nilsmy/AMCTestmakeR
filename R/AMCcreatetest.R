@@ -1,0 +1,270 @@
+
+#' Create a full \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice} test with a main .tex file (\code{groups.tex}), a file for questions (\code{questions.tex}), a file for elements (\code{elements.tex}.
+#'
+#' @param ... Arguments passed to \code{AMCcreatequestions()} (see documentation).
+#' @param filepath A character value indicating the path for the main .tex file output (most often, in AMC, it is \code{groups.tex}, which is the default of the function). Note that the other created files (\code{questions.tex} and \code{elements.tex} will we written in the folder of this file).
+#' @param messages A logical value to indicate whether to output messages and reports (default is TRUE).
+#' @param title A character value indicating a title for the test (default is "Test").
+#' @param fontsize A numeric value to indicate the font size of the output document. Default is 10. Note: Above 12 pt, the LaTeX package "extarticle" is automatically used in lieu of "article".
+#' @param instructions A logical value to add a block of preliminary instructions to the students (for example, how to fill the questionnaire). Defaults to TRUE.
+#' @param paper A character value indicating what type of paper to use. Default is "letter", but "a4" can also be used.
+#' @param identifier A character value indicating what to ask for to pair the exam sheets. The default is "Name", but other values like "Student ID Number" may be more appropriate.
+#' @param separateanswersheet A logical value to indicate whether to use a separate answer sheet. Defaults to FALSE.
+#' @param answersheettitle A character value to indicate the title of the separate answer sheet. Defaults to "Answer sheet".
+#' @param answersheetinstructions A logical or character value to add default (TRUE), remove (FALSE) or customize (character value) instructions given on the separate answer sheet. Default is TRUE, which indicates that the students shall answer on the answer sheet.
+#' @param twosided A logical value to indicate whether the exam will be printed two sided. This is notably important when printing on a separate answer sheet, to have the answer sheet printed on a separate page. Defaults to TRUE.
+#' @param box A logical value to indicate whether to box the questions and answers, to ensure that they are always presented on the same page. Defaults to TRUE.
+#'
+#' @return Writes 3 tex documents (\code{groups.tex}, \code{questions.tex} and \code{elements.tex})) for direct use in \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice}.
+#' @export
+#'
+#' @examples
+#' # Create all LaTeX files
+#'
+#' \dontrun{
+#'  AMCcreatetest(
+#'  # Part passed to AMCcreatequestions() (see documentation)
+#'  "How much is $1+2$?",2,list("3", "11"),
+#'  # Part used for test options
+#'  title = "This is the title", #Custom title
+#'  paper = "a4", #change the paper for a4
+#'  fontsize = 11, #change fontsize
+#'  identifier = "ID Number", #change identifier
+#'  twosided = F, #print in one sided
+#'  instructions = T, #show an instructions block to students
+#'  separateanswersheet = T, #use a separate answer sheet
+#'  answersheettitle = "Respond Here", #Change answer sheet title
+#'  answersheetinstructions = "Fill the boxes" #Answer sheet instructions
+#'   )}
+#'
+AMCcreatetest <- function(..., title = "Test", filepath = "groups.tex", messages = T, fontsize = 10, instructions = T, paper = "letter", identifier = "Name", separateanswersheet = F, answersheettitle = "Answer sheet", answersheetinstructions = T, twosided = T, box = T) {
+
+  #Name file path
+  filepathname <- paste(dirname(filepath), sep="")
+
+  if(filepathname == "."){
+    filepathname <- getwd()
+  }
+
+  # shorten argument for letter paper
+  if(paper == "letter") {
+    paper <- "letterpaper"
+  }
+
+  # Shorten argument for a4
+  if(paper == "a4") {
+    paper <- "a4paper"
+  }
+
+  # Use extarticle as library for fontsize > 12 ::: next: check <10 ?
+  if(fontsize > 12) {
+    articlelibrary <- "extarticle"
+  } else {articlelibrary <- "article"}
+
+  # Create file paths
+  filepathgroups <- filepath
+  filepathquestions <- paste(dirname(filepath), "/questions.tex", sep="")
+
+
+  #Create header block
+  headerblocknonseparate <- c("\\namefield{\\fbox{\n",
+                   "  \\begin{minipage}{.5\\linewidth}\n",
+                   "  %Identifier:\n",
+                   paste(identifier," :\n\n", sep =""),
+                   "  \\vspace*{.5cm}	\n",
+                   "  %\\dotfill	\n",
+                   "  \\vspace*{1mm}	\n",
+                   "  \\end{minipage}\n}}	\n")
+
+  #Create header block
+  headerblockseparate <- c("\\namefield{\\fbox{\n",
+                              "  \\begin{minipage}{.5\\linewidth}\n",
+                              "  %Identifier:\n",
+                              paste(identifier," :\n\n", sep =""),
+                              "  \\vspace*{.5cm}	\n",
+                              "  %\\dotfill	\n",
+                              "  \\vspace*{1mm}	\n",
+                              "  \\end{minipage}\n}}	\n")
+
+
+
+  # If instructions == T, add a priliminary block
+
+  if(instructions == T){
+      instructionblock <- c("\n",
+      "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n",
+      "%%% INSTRUCTIONS TO STUDENTS, UNCOMMENT AS NEEDED %%%\n",
+      "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n",
+      "\\section*{Instructions}	\n",
+      "\n",
+      "\\begin{itemize}	\n",
+      "%\\item Points are \\underline{not} deduced for incorrect answers.%, and most questions are independent from one another, so try to answer all the questions, even if you hesitate.\n",
+      "%\\item The total exam is graded over XX points.\n",
+      "%\\item There is \\underline{always} one and \\underline{only} one correct answer.\n",
+      "%\\item All the questions are presented in randomized order and are independent from each other.\n",
+      "\\item \\underline{Fill} -- don't cross -- with a dark color pencil the box corresponding to what you think is the correct answer, leaving the others blank. Use an eraser to correct any mistake.\n",
+      "%\\item If you think you made a mistake, circle your \\emph{entire} final answer (make your final answer as clear as you can): The exam will be both graded by computer and checked by your instructors to ensure accuracy.\n",
+      "\\item Do not write or draw around or in the black circles and bar codes on the corners and top of each page.\n",
+      "%\\item For short answer questions, write your answers in the answer box provided. Leave the grey part blank.\n",
+      "\\end{itemize}\n\n",
+      "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n")
+  } else {
+    if (instructions == F) {
+      instructionblock <- ""
+    } else {
+      instructionblock <- instructions
+    }
+  }
+
+
+
+
+  if(separateanswersheet == F) {
+    #Separate answers
+    separateanswer1 <- ""
+    clearpagetext <- "\\clearpage"
+    answersheettext <- ""
+  }
+
+  if(separateanswersheet == T) {
+    #Separate answers
+    separateanswer1 <- ",separateanswersheet"
+      if (twosided == T) {
+        clearpagetext <- "\\AMCcleardoublepage" ## Good if recto-verso
+      } else {
+        clearpagetext <- "\\clearpage" ## Good if recto-verso
+      }
+
+    #Auto add answer sheet instructions
+      if (answersheetinstructions == TRUE) {
+        answersheetinstructionstext <- c("\\bf\\em Answers must be given exclusively on this sheet:\n",
+                                     "Answers given on the other sheets will be ignored.\n")
+      } else {
+        if (answersheetinstructions == FALSE) {
+          answersheetinstructionstext <- ""
+        } else {
+          answersheetinstructionstext <- answersheetinstructions
+        }
+      }  #Remove answer sheet instructions
+
+
+    #Define Answersheet header
+    answersheettext <- c("\n \\AMCformBegin \n",
+                         "%%% Answer sheet header %%%\n",
+                         "{\\large\\bf ", answersheettitle,":}\n",
+                         "\\hfill ", headerblockseparate,
+                         "\\begin{center}\n",
+                         answersheetinstructionstext,
+                         "\\end{center}\n",
+                         "%%% End of answer sheet header %%%\n",
+                         "\\AMCform"
+                         )
+
+  }
+
+
+
+
+  # OPTION BOX
+  if (box == T) {
+    useboxpackage <- "box,"
+  } else {
+    useboxpackage <- ""
+  }
+
+  listoriginaltex <- c(paste("\\documentclass[",paper,",",fontsize,"pt]{",articlelibrary,"}	\n", sep =""),
+                       "\n",
+                       "\\usepackage{multicol}	\n",
+                       "\\usepackage[utf8x]{inputenc}	\n",
+                       "\\usepackage[T1]{fontenc}	\n",
+                       "\\usepackage{amsmath}	\n",
+                       "\\usepackage[",useboxpackage,"completemulti",separateanswer1,"]{automultiplechoice}	\n",
+                       "\n",
+                       "\\renewcommand{\\rmdefault}{\\sfdefault}	\n",
+                       "\n",
+                       "%\\geometry{hmargin=2.5cm,headheight=1.5cm,headsep=.2cm,footskip=0.8cm,top=2.5cm,bottom=2.5cm}\n",
+                       "\n",
+                       "\\usepackage{titlesec}	\n",
+                       "\n",
+                       "%Format section titles with horizontal lines	\n",
+                       "\\titleformat{\\section}	\n",
+                       "{\\hrule\\center\\normalfont\\normalsize\\bfseries}{\\thesection.}{1em}{}[{\\vspace{1mm}\\hrule}]	\n",
+                       "\n",
+                       "\\renewcommand{\\thesection}{\\Alph{section}} 	\n",
+                       "\\renewcommand{\\thesubsection}{\\thesection.\\Roman{subsection}}	\n",
+                       "\n",
+                       "\\AMCrandomseed{1527384}	\n",
+                       "\n",
+                       "\n",
+                       "\\begin{document}	\n",
+                       "\n",
+                       "%Vertical space between answers	\n",
+                       "%\\AMCinterBrep=.2ex	\n",
+                       "\n",
+                       "\\baremeDefautS{mz=1}	\n",
+                       "\n",
+                       "\\onecopy{10}{	\n",
+                       "\n",
+                       "\\vspace*{.5cm}	\n",
+                       "\\begin{minipage}{.4\\linewidth}	\n",
+                       "\\centering	\n",
+                       "%Uncomment to insert logo image	\n",
+                       "%\\includegraphics[height=2cm,width=4cm,keepaspectratio]{logo.png}             	\n",
+                       "\n",
+                       "%Title	\n",
+                       "\\large\\bf ", title ," \\vspace*{1mm}	\n",
+                       "\\end{minipage}\n",
+                       headerblocknonseparate,
+                       "\n",
+                       instructionblock,
+                       "\n",
+                       "%%%%%%%%%%%%%%%%
+                       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
+                       "%Takes the questions from the questions.tex file\n",
+                       "\\input{questions.tex}",
+                       "\n",
+                       "%Takes the elements list from the elements.tex file\n",
+                       "\\input{elements.tex}",
+                       "\n",
+                       clearpagetext," \n",
+                       "\n",
+                       answersheettext,
+                       "\n",
+                       "}\n",
+                       "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n",
+                       "%%%%%%% This document was generated using the R package AMC-TestmakeR %%%%%%%\n\n",
+                       "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n\n",
+                       "\\end{document}	\n")
+
+
+collapsedlist <- paste(listoriginaltex, sep = "", collapse = "")
+
+
+  # Create list of questions and elements through AMCcreatequestions
+  AMCcreatequestions(output = "file", listelements = "file", filepath = filepathquestions, messages = F, append = F, ...)
+  # Write the groups.tex
+  write(collapsedlist, filepathgroups, append = F)
+# Report message
+if (messages == T){
+message("The following files were successfully written to ",
+        filepathname,
+        ":\n- ",
+        basename(filepath),
+        "\n- questions.tex",
+        "\n- elements.tex"
+        )
+
+}
+
+
+
+
+
+
+
+
+}
+
+
+
+

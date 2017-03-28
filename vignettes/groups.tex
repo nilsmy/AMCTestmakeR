@@ -1,0 +1,89 @@
+\documentclass[a4paper,11pt]{article}	
+
+\usepackage{multicol}	
+\usepackage[utf8x]{inputenc}	
+\usepackage[T1]{fontenc}	
+\usepackage{amsmath}	
+\usepackage[box,completemulti,separateanswersheet]{automultiplechoice}	
+
+\renewcommand{\rmdefault}{\sfdefault}	
+
+%\geometry{hmargin=2.5cm,headheight=1.5cm,headsep=.2cm,footskip=0.8cm,top=2.5cm,bottom=2.5cm}
+
+\usepackage{titlesec}	
+
+%Format section titles with horizontal lines	
+\titleformat{\section}	
+{\hrule\center\normalfont\normalsize\bfseries}{\thesection.}{1em}{}[{\vspace{1mm}\hrule}]	
+
+\renewcommand{\thesection}{\Alph{section}} 	
+\renewcommand{\thesubsection}{\thesection.\Roman{subsection}}	
+
+\AMCrandomseed{1527384}	
+
+
+\begin{document}	
+
+%Vertical space between answers	
+%\AMCinterBrep=.2ex	
+
+\baremeDefautS{mz=1}	
+
+\onecopy{10}{	
+
+\vspace*{.5cm}	
+\begin{minipage}{.4\linewidth}	
+\centering	
+%Uncomment to insert logo image	
+%\includegraphics[height=2cm,width=4cm,keepaspectratio]{logo.png}             	
+
+%Title	
+\large\bf This is the title \vspace*{1mm}	
+\end{minipage}
+\namefield{\fbox{
+  \begin{minipage}{.5\linewidth}
+  %Identifier:
+ID Number :
+
+  \vspace*{.5cm}	
+  %\dotfill	
+  \vspace*{1mm}	
+  \end{minipage}
+}}	
+
+Don't respond here.
+%%%%%%%%%%%%%%%%
+                       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Takes the questions from the questions.tex file
+\input{questions.tex}
+%Takes the elements list from the elements.tex file
+\input{elements.tex}
+\clearpage 
+
+
+ \AMCformBegin 
+%%% Answer sheet header %%%
+{\large\bf Respond Here:}
+\hfill \namefield{\fbox{
+  \begin{minipage}{.5\linewidth}
+  %Identifier:
+ID Number :
+
+  \vspace*{.5cm}	
+  %\dotfill	
+  \vspace*{1mm}	
+  \end{minipage}
+}}	
+\begin{center}
+Fill the boxes\end{center}
+%%% End of answer sheet header %%%
+\AMCform
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%% This document was generated using the R package AMC-TestmakeR %%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\end{document}	
+

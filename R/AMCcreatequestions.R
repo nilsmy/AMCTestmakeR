@@ -1,23 +1,62 @@
-#' AMCcreatequestions
+#' Generate AMC LaTeX question codes in the console, in a LaTeX file, or as a vector.
 #'
-#' @param element A character value or vector to define the category of the entire set of questions (character value) or of each question (character vector). Defaults to "general.
-#' @param code A character value or vector to identify each question (note that AMC requires each ode to be unique in a questionnaire).
 #' @param question A character value or vector containing the questions.
 #' @param correctanswers A character (value, vector) containing the correct answers. A vector (or list) of character vectors can also be passed, in the case of multiple correct answers.
 #' @param incorrectanswers A character (value, vector) containing the wrong answers. A vector (or list) of character vectors can also be passed, in the case of multiple wrong answers.
-#' @param writefile A logical value indicating whether a .tex file should be created.
-#' @param filepath A character value containing the file path for the .tex file to be created (defaults to "questions.tex").
-#' @param multicols A numeric (or numeric vector) indicating the desired number of columns for the presentation of the correct and incorrect answers (note that the package multicols must be used in the final ".tex" document). Defaults to 1, which does not require the LaTeX multicols package.
+#' @param element A character value or vector to define the category of the entire set of questions (character value) or of each question (character vector). Defaults to "general.
+#' @param code A character value or vector to identify each question (note that AMC requires each code to be unique in a questionnaire). Defaults to "Q1", "Q2", "Q3", etc. (the prefix "Q" can be changed with the "codeprefix" argument).
+#' @param codeprefix A character value to be used to generate automatically question codes, when not provided with the "code" argument.
+#' @param append A logical value indicating if the code should be appended (append=TRUE) to an existing .tex file. Defaults to FALSE, thus overwriting the file.
+#' @param filepath A character value with the file path for the .tex file to be created (defaults to "questions.tex").
+#' @param multicols A numeric (or numeric vector) indicating the desired number of columns for the presentation of the correct and incorrect answers (note that the LaTeX environment multicols must be called in the main ".tex" document for more than 1 columns). Defaults to 1, which does not require the LaTeX multicols environnment.
+#' @param messages A logical to indicate whether instructions should be output (defaults to TRUE).
+#' @param listelements A logical to indicate whether instructions should be output (use the AMCcreateelements() function for more options).
+#' @param output A character value to indicate what type of output is desired. "message" (default) outputs the questions as a message (suitable for direct copy-and-paste from console into LaTeX file). "file" outputs a questions .tex file (which can then be pointed to in the main LaTeX document). "list" and "vector" output a character vector of questions (suitable for further manipulation in R).
+#' @param questiontype A character value or vector to indicate the type of all questions (character value) or of each (character vector) question. Use "single" for single-choice, and "multiple" for multiple-answer. So far open questions are not supported.
+#' @param scoringcorrect A numeric value or vector to indicate the scoring for the correct answer(s). Defaults to 1.
+#' @param scoringincorrect A numeric value or vector to indicate the scoring for an incorrect answer(s). Defaults to 0.
+#' @param scoringnoresponse A numeric value or vector to indicate the scoring for non-responding. Defaults to 0.
+#' @param scoringincoherent A numeric value or vector to indicate the scoring for incoherent answer(s) (e.g. two boxes checked for a single-answer questionnaire). Defaults to 0.
+#' @param scoringbottom A numeric value or vector to indicate the minimum score for the question(s). Especially useful when attributing negative points to incorrect answers in a multiple-answer questionnaire, to ensure students do not lose too many points on one question. Defaults to 0.
 #'
-#' @return
+#' @return A character value or vector (output = "list" or "vector"), a copy-and-pastable message (output = "message") or a LaTeX .tex file (output = "file") containing AMC LaTeX code for questions and answers.
 #' @export
 #'
 #' @examples
-#' #Creating a simple question:
+#' #Creating a single question
 #'
-#' AMCcreatequestions("general",code,question,goodanswer1,list(wronganswer1, wronganswer2, wronganswer3, wronganswer4), multicols = multicols)
+#' AMCcreatequestions("How much is $1+1$?",2,list("3", "11"))
 #'
-AMCcreatequestions <- function(element = "general", code, question, correctanswers, incorrectanswers, writefile = F, filepath = "questions.tex", multicols=1) {
+#' #Presenting answers in multiple columns (LaTeX environment 'multicols' is used)
+#'
+#' AMCcreatequestions("How much is $1+1$?",2,list("3","11"),multicols = 2)
+#'
+#' #Creating an entire questionnaire from a dataset of questions
+#' ## Defining the questions (don't forget to escape R special characters)
+#' question <- c("How much is $1+1$ ?", "How much is $1 \\times 1$ ?",
+#'   "How much is $\\frac{1}{2}$ ?")
+#'   correct <- c(2,1,0.5)
+#'   incorrect1 <- c(3,4,10)
+#'   incorrect2 <- c(1,3,100)
+#'   incorrect3 <- c(4,8,NA) #Empty values (NA and "") are skipped
+#'
+#' ## Generating the AMC LaTeX code
+#' AMCcreatequestions(
+#'   question = question,
+#'   correctanswers = correct,
+#'   incorrectanswers = list(incorrect1,incorrect2,incorrect3))
+#'
+#' #Changing the code prefix from "Q" to "MATH"
+#'
+#' AMCcreatequestions(
+#'   question = question,
+#'   correctanswers = correct,
+#'   incorrectanswers = list(incorrect1,incorrect2,incorrect3),
+#'   codeprefix = "MATH")
+#'
+AMCcreatequestions <- function(question, correctanswers, incorrectanswers, element = "general", code = paste(codeprefix,c(1:length(question)), sep=""), codeprefix = "Q", output = "message", filepath = "questions.tex", questiontype = "single", append = F, multicols=2, messages = T, listelements = T, scoringcorrect = 1, scoringincorrect = 0, scoringnoresponse = 0, scoringincoherent = scoringincorrect, scoringbottom = scoringincorrect) {
+
+
 
   #ELEMENT
 
@@ -32,29 +71,44 @@ AMCcreatequestions <- function(element = "general", code, question, correctanswe
   #Return to vector
   vectorofelement <- unlist(listofelement)
 
+  #Get list of unique elements (used later)
+  #uniqueelements <- unique(vectorofelement)
+
   #CODE
 
   # Create function that wraps "code" in LaTeX-AMC code
-  codecode <- function(x) {
-    ifelse(x==""| is.na(x), "Default", paste("{\\begin{question}{", x, "}\n", sep = ""))
+  codecode <- function(x, questiontype, scoringcorrect, scoringincorrect, scoringnoresponse, scoringincoherent, scoringbottom) {
+    if (questiontype == "single") {
+      questiontypetext <- "question"
+    }
+    if (questiontype == "multiple") {
+      questiontypetext <- "questionmult"
+    }
+    ifelse(x==""| is.na(x), "Default", paste("{\\begin{",questiontypetext,"}{", x,
+                                             "}\\scoring{b=",scoringcorrect,",",
+                                             "m=",scoringincorrect, ",",
+                                             "v=",scoringnoresponse, ",",
+                                             "e=",scoringincoherent, ",",
+                                             "b=", scoringbottom,
+                                             "}\n", sep = ""))
   }
 
   # Apply that function to the list of codes
-  listofcode <- lapply(X = code, FUN = codecode)
+  listofcode <- mapply(x = code, questiontype= questiontype, scoringcorrect = scoringcorrect, scoringincorrect=scoringincorrect, scoringnoresponse=scoringnoresponse, scoringincoherent=scoringincoherent, scoringbottom=scoringbottom, FUN = codecode)
 
   #Return to vector
   vectorofcode <- unlist(listofcode)
+
 
 
   #QUESTION
 
   # Create function that wraps "question" in LaTeX-AMC code
   codequestion <- function(x, multicols) {
-    if(multicols > 1){
-      ifelse(x==""| is.na(x), "Default", paste(x, "\n \\begin{multicols}{",multicols,"}\\AMCBoxedAnswers\\begin{choices}\n", sep = ""))
+    if(multicols > 1.1){
+      paste(x, "\n \\begin{multicols}{",multicols,"}\\AMCBoxedAnswers\\begin{choices}\n", sep = "")
     } else{
-      ifelse(x==""| is.na(x), "Default", paste(x, "\n \\AMCBoxedAnswers\\begin{choices}\n", sep = ""))
-    }
+      paste(x, "\n \\AMCBoxedAnswers\\begin{choices}\n", sep = "") }
   }
 
   # Apply that function to the list of questions
@@ -77,6 +131,9 @@ AMCcreatequestions <- function(element = "general", code, question, correctanswe
     ifelse(x==""| is.na(x), "", paste("\\wrongchoice{", x, "}\n", sep = ""))
   }
 
+
+
+
   # Apply that function to the list of wrong answers
   arrayofcodedincorrectanswers <- sapply(FUN = codewronganswer, X = incorrectanswers, simplify = "array")
 
@@ -91,16 +148,22 @@ AMCcreatequestions <- function(element = "general", code, question, correctanswe
   #
 
   # Create function that creates the closing code
-  closequestion <- function(x) {
-    if(x > 1){
-      "\\end{choices}\\end{question}\n}\n \n"
+  closequestion <- function(x, questiontype) {
+    if (questiontype == "single") {
+      questiontypetext <- "question"
+    }
+    if (questiontype == "multiple") {
+      questiontypetext <- "questionmult"
+    }
+    if(x < 2){
+      paste("\\end{choices}\\end{",questiontypetext,"}\n}\n \n", sep="")
       } else{
-      "\\end{choices}\\end{multicols}\\end{question}\n}\n \n"}
+      paste("\\end{choices}\\end{multicols}\\end{",questiontypetext,"}\n}\n \n", sep="")}
   }
 
 
   # Apply that function to the list of questions
-  vectorofclosingcode <- lapply(X = multicols, FUN = closequestion)
+  vectorofclosingcode <- mapply(x = multicols, questiontype = questiontype, FUN = closequestion)
 
   #Return to vector
   vectorofquestion <- unlist(listofquestion)
@@ -110,16 +173,66 @@ AMCcreatequestions <- function(element = "general", code, question, correctanswe
 
 
   # Bind the code into a dataset
-  bindedcode <- cbind(vectorofelement, vectorofcode, vectorofquestion,arrayofcodedcorrectanswers,arrayofcodedincorrectanswers, vectorofclosingcode)
+  if(length(question)==1){
+  bindedcode <- cbind(vectorofelement, vectorofcode, vectorofquestion,paste(arrayofcodedcorrectanswers, collapse = " "),paste(arrayofcodedincorrectanswers, collapse = " "), vectorofclosingcode)
+  } else {
+  bindedcode <- cbind(vectorofelement, vectorofcode, vectorofquestion,arrayofcodedcorrectanswers,arrayofcodedincorrectanswers, vectorofclosingcode) }
 
   # Create list of questions
   texfile <- apply(bindedcode, 1, paste, collapse=" ")
 
-  #If writefile is TRUE, write to latex document with name "filepath"
-  if(writefile==T){
-    write(texfile, filepath)
-  } else {
-    return(texfile)
+  if (output == "message") {
+    message("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n",
+            "%%%%%%%%%| List of questions |%%%%%%%%%%\n",
+            "%%% (copy & paste in main .tex file) %%%\n",
+            "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n",
+            paste(texfile))
   }
 
-}
+
+  #If writefile is TRUE, write to latex document with name "filepath"
+  if(output=="file"){
+    write(texfile, filepath, append = append)
+    if (messages == T) {
+      message("File successfully written to \"", paste(basename(filepath)), "\".\n",
+              length(texfile), " questions created.\n\n",
+              "%%%%%%%%%%%%%%%%%%%%%%\n",
+              "%%%| Instructions |%%%\n",
+              "%%%%%%%%%%%%%%%%%%%%%%\n",
+              "%-Place the created .tex file in the AMC project folder. \n-In the main .tex file (usually, \"groups.tex\") point to the created file using \"\\input{", paste(basename(filepath)), "}\".")
+    }
+  }
+        #Append list of elements to questions file
+    if (listelements == "file") {
+      #create path for list of elements
+      elementfilepath <- paste(dirname(filepath),"/elements.tex", sep ="")
+      AMCTestmakeR::AMCcreateelements(element = element, output = "file", filepath = elementfilepath, append = F, messages = messages)
+      if (messages == T) {
+      message("%%%%%%%%%%%%%%%%%%%%%%")
+      message("\n%-Note: The list of elements was written at ", elementfilepath)
+      message("\n%-Make sure the question elements are inserted with \"\\insertgroup{element}\" after the questions. Use AMCcreateelement() function for more options).")
+      }
+    }
+
+
+    #Show list of elements in message
+    if (listelements == T) {
+      AMCTestmakeR::AMCcreateelements(element = element)
+      if (messages == T) {
+        #message("\n%-Note: Use the function AMCcreateelements() for more options.\n")
+        }
+    }
+
+  if (output == "list") {
+    #return(unname(texfile))
+    return(vectorofquestion)
+  }
+
+  if (output == "vector") {
+    #return(unname(texfile))
+    return(vectorofquestion)
+  }
+
+  }
+
+

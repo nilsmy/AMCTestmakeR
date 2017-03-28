@@ -1,2 +1,10 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^questions\.tex$
+^listofelements\.tex$
+^groups\.tex$
+^ScriptforAMCtry\.R$
+^elements\.tex$
+^cran-comments\.md$
+^revdep$
+^\.travis\.yml$
