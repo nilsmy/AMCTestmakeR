@@ -1,6 +1,6 @@
 Package: AMCTestmakeR
 Type: Package
-Title: Generate LaTeX code for Auto-Multiple-Choice (AMC)
+Title: Generate LaTeX Code for Auto-Multiple-Choice (AMC)
 Version: 0.1.0
 Author: Nils Myszkowski
 Maintainer: Nils Myszkowski <nmyszkowski@pace.edu>
