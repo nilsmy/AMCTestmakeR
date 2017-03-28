@@ -373,7 +373,7 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
 <span class="dt">fontsize =</span> <span class="dv">11</span>, <span class="co">#change fontsize</span>
 <span class="dt">identifier =</span> <span class="st">&quot;ID Number&quot;</span>, <span class="co">#change identifier</span>
 <span class="dt">twosided =</span> F, <span class="co">#print in one sided</span>
-<span class="dt">instructions =</span> F, <span class="co">#show an instructions block to students (on questions part)</span>
+<span class="dt">instructions =</span> <span class="st">&quot;Don't respond here.&quot;</span>, <span class="co">#show an instructions block to students (on questions part)</span>
 <span class="dt">separateanswersheet =</span> T, <span class="co">#use a separate answer sheet</span>
 <span class="dt">answersheettitle =</span> <span class="st">&quot;Respond Here&quot;</span>, <span class="co">#Change answer sheet title</span>
 <span class="dt">answersheetinstructions =</span> <span class="st">&quot;Fill the boxes&quot;</span><span class="co">#Answer sheet instructions</span>
@@ -390,9 +390,28 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
 <div id="facilitating-insertgroup" class="section level2">
 <h2>Facilitating <code>\insertgroup{}</code></h2>
 <p>If you have many elements in your document, and therefore many <code>\insertgroup{}</code> (and <code>\shufflegroup{}</code>) to insert, you may want to use the function <code>AMCcreateelements()</code> function. It will show as a console message (which you can, this time, easily copy-and-paste into your main .tex document) the commands to insert (and shuffle, if desired, through the <code>shuffle</code> argument) the elements:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#AMCcreateelements(element = c(&quot;ADD&quot;, &quot;MULT&quot;, &quot;DIV&quot;), shuffle = T)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AMCcreateelements</span>(<span class="dt">element =</span> <span class="kw">c</span>(<span class="st">&quot;ADD&quot;</span>, <span class="st">&quot;MULT&quot;</span>, <span class="st">&quot;DIV&quot;</span>), <span class="dt">shuffle =</span> T, <span class="dt">sections =</span> T)</code></pre></div>
+<pre><code>## %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+## %%%%%%%%%| List of elements |%%%%%%%%%
+## %%% (copy &amp; paste after questions) %%%
+## %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+## \section{ADD}
+## \shufflegroup{ADD}
+## \insertgroup{ADD}
+## \section{MULT}
+## \shufflegroup{MULT}
+## \insertgroup{MULT}
+## \section{DIV}
+## \shufflegroup{DIV}
+## \insertgroup{DIV}</code></pre>
 <p>Note that, if the same element is input multiple times (which often happens if you pass to this function the same vector of elements as the one used in <code>AMCcreatequestions()</code>), it is not a problem, since only unique values are output:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#AMCcreateelements(element = c(&quot;MATH&quot;, &quot;MATH&quot;, &quot;MATH&quot;, &quot;STAT&quot;), shuffle = F)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AMCcreateelements</span>(<span class="dt">element =</span> <span class="kw">c</span>(<span class="st">&quot;MATH&quot;</span>, <span class="st">&quot;MATH&quot;</span>, <span class="st">&quot;MATH&quot;</span>, <span class="st">&quot;STAT&quot;</span>), <span class="dt">shuffle =</span> F, <span class="dt">sections =</span> F)</code></pre></div>
+<pre><code>## %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+## %%%%%%%%%| List of elements |%%%%%%%%%
+## %%% (copy &amp; paste after questions) %%%
+## %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+## \insertgroup{MATH}
+## \insertgroup{STAT}</code></pre>
 </div>
 </div>
 <div id="future-features" class="section level1">

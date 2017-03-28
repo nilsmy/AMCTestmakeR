@@ -5,7 +5,7 @@
 \title{Create a full \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice} test with a main .tex file (\code{groups.tex}), a file for questions (\code{questions.tex}), a file for elements (\code{elements.tex}.}
 \usage{
 AMCcreatetest(..., title = "Test", filepath = "groups.tex", messages = T,
-  output = "file", fontsize = 10, instructions = T, paper = "letter",
+  fontsize = 10, instructions = T, paper = "letter",
   identifier = "Name", separateanswersheet = F,
   answersheettitle = "Answer sheet", answersheetinstructions = T,
   twosided = T, box = T)

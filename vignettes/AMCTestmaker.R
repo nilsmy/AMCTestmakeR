@@ -51,15 +51,15 @@ AMCcreatequestions(codeprefix = "MATH",
 #  fontsize = 11, #change fontsize
 #  identifier = "ID Number", #change identifier
 #  twosided = F, #print in one sided
-#  instructions = F, #show an instructions block to students (on questions part)
+#  instructions = "Don't respond here.", #show an instructions block to students (on questions part)
 #  separateanswersheet = T, #use a separate answer sheet
 #  answersheettitle = "Respond Here", #Change answer sheet title
 #  answersheetinstructions = "Fill the boxes"#Answer sheet instructions
 #  )
 
 ## ------------------------------------------------------------------------
-#AMCcreateelements(element = c("ADD", "MULT", "DIV"), shuffle = T)
+AMCcreateelements(element = c("ADD", "MULT", "DIV"), shuffle = T, sections = T)
 
 ## ------------------------------------------------------------------------
-#AMCcreateelements(element = c("MATH", "MATH", "MATH", "STAT"), shuffle = F)
+AMCcreateelements(element = c("MATH", "MATH", "MATH", "STAT"), shuffle = F, sections = F)
 

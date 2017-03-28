@@ -37,7 +37,7 @@
 #'  answersheetinstructions = "Fill the boxes" #Answer sheet instructions
 #'   )}
 #'
-AMCcreatetest <- function(..., title = "Test", filepath = "groups.tex", messages = T, output = "file", fontsize = 10, instructions = T, paper = "letter", identifier = "Name", separateanswersheet = F, answersheettitle = "Answer sheet", answersheetinstructions = T, twosided = T, box = T) {
+AMCcreatetest <- function(..., title = "Test", filepath = "groups.tex", messages = T, fontsize = 10, instructions = T, paper = "letter", identifier = "Name", separateanswersheet = F, answersheettitle = "Answer sheet", answersheetinstructions = T, twosided = T, box = T) {
 
   #Name file path
   filepathname <- paste(dirname(filepath), sep="")
