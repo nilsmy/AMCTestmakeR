@@ -2,14 +2,16 @@
 % Please edit documentation in R/AMCcreatetest.R
 \name{AMCcreatetest}
 \alias{AMCcreatetest}
-\title{Create a full Auto-Multiple-Choice test with a file for questions,}
+\title{Create a full \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice} test with a file for questions,}
 \usage{
 AMCcreatetest(..., title = "Test", filepath = "groups.tex", messages = T,
   output = "file", fontsize = 10, instructions = T, paper = "letter",
-  identifier = "Name")
+  identifier = "Name", separateanswersheet = F,
+  answersheettitle = "Answer sheet", answersheetinstructions = T,
+  twosided = T, box = T)
 }
 \arguments{
-\item{...}{Arguments passed to AMCcreatequestions (see documentation).}
+\item{...}{Arguments passed to \code{\link{AMCcreatequestions()}} (see documentation).}
 
 \item{title}{A character value indicating a title for the test (default is "Test").}
 
@@ -26,10 +28,20 @@ AMCcreatetest(..., title = "Test", filepath = "groups.tex", messages = T,
 \item{paper}{A character value indicating what type of paper to use. Default is "letter", but "a4" can also be used.}
 
 \item{identifier}{A character value indicating what to ask for to pair the exam sheets. The default is "Name", but other values like "Student ID Number" may be more appropriate.}
+
+\item{separateanswersheet}{A logical value to indicate whether to use a separate answer sheet. Defaults to FALSE.}
+
+\item{answersheettitle}{A character value to indicate the title of the separate answer sheet. Defaults to "Answer sheet".}
+
+\item{answersheetinstructions}{A logical or character value to add default (TRUE), remove (FALSE) or customize (character value) instructions given on the separate answer sheet. Default is TRUE, which indicates that the students shall answer on the answer sheet.}
+
+\item{twosided}{A logical value to indicate whether the exam will be printed two sided. This is notably important when printing on a separate answer sheet, to have the answer sheet printed on a separate page. Defaults to TRUE.}
+
+\item{box}{A logical value to indicate whether to box the questions and answers, to ensure that they are always presented on the same page. Defaults to TRUE.}
 }
 \value{
-A .tex document
+Writes 3 tex documents (groups.tex, questions.tex and elements.tex) for direct use in \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice}.
 }
 \description{
-Create a full Auto-Multiple-Choice test with a file for questions,
+Create a full \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice} test with a file for questions,
 }
