@@ -1,10 +1,10 @@
-\documentclass[letterpaper,10pt]{article}	
+\documentclass[a4paper,11pt]{article}	
 
 \usepackage{multicol}	
 \usepackage[utf8x]{inputenc}	
 \usepackage[T1]{fontenc}	
 \usepackage{amsmath}	
-\usepackage[box,completemulti]{automultiplechoice}	
+\usepackage[box,completemulti,separateanswersheet]{automultiplechoice}	
 
 \renewcommand{\rmdefault}{\sfdefault}	
 
@@ -38,12 +38,12 @@
 %\includegraphics[height=2cm,width=4cm,keepaspectratio]{logo.png}             	
 
 %Title	
-\large\bf Test \vspace*{1mm}	
+\large\bf Exam \vspace*{1mm}	
 \end{minipage}
 \namefield{\fbox{
   \begin{minipage}{.5\linewidth}
   %Identifier:
-Name :
+ID Number :
 
   \vspace*{.5cm}	
   %\dotfill	
@@ -80,6 +80,23 @@ Name :
 \clearpage 
 
 
+ \AMCformBegin 
+%%% Answer sheet header %%%
+{\large\bf Respond Here:}
+\hfill \namefield{\fbox{
+  \begin{minipage}{.5\linewidth}
+  %Identifier:
+ID Number :
+
+  \vspace*{.5cm}	
+  %\dotfill	
+  \vspace*{1mm}	
+  \end{minipage}
+}}	
+\begin{center}
+Fill the boxes\end{center}
+%%% End of answer sheet header %%%
+\AMCform
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

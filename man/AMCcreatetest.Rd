@@ -4,14 +4,47 @@
 \alias{AMCcreatetest}
 \title{Create a full \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice} test with a main .tex file (\code{groups.tex}), a file for questions (\code{questions.tex}), a file for elements (\code{elements.tex}.}
 \usage{
-AMCcreatetest(..., title = "Test", filepath = "groups.tex", messages = T,
-  fontsize = 10, instructions = T, paper = "letter",
+AMCcreatetest(question, correctanswers, incorrectanswers, element = "general",
+  code = paste(codeprefix, c(1:length(question)), sep = ""),
+  codeprefix = "Q", questiontype = "single", multicols = 2,
+  scoringcorrect = 1, scoringincorrect = 0, scoringnoresponse = 0,
+  scoringincoherent = scoringincorrect, scoringbottom = scoringincorrect,
+  shuffle = T, sections = T, title = "Test", filepath = "groups.tex",
+  messages = T, fontsize = 10, instructions = T, paper = "letter",
   identifier = "Name", separateanswersheet = F,
   answersheettitle = "Answer sheet", answersheetinstructions = T,
   twosided = T, box = T)
 }
 \arguments{
-\item{...}{Arguments passed to \code{AMCcreatequestions()} (see documentation).}
+\item{question}{A character value or vector containing the questions.}
+
+\item{correctanswers}{A character (value, vector) containing the correct answer. A vector (or list) of character vectors can also be passed, in the case of multiple correct answers.}
+
+\item{incorrectanswers}{A character (value, vector) containing the wrong answer. A vector (or list) of character vectors can also be passed, in the case of multiple wrong answers.}
+
+\item{element}{A character value or vector to define the category of the entire set of questions (character value) or of each question (character vector). Defaults to "general.}
+
+\item{code}{A character value or vector to identify each question (note that AMC requires each code to be unique in a questionnaire). Defaults to "Q1", "Q2", "Q3", etc. (the prefix "Q" can be changed with the "codeprefix" argument).}
+
+\item{codeprefix}{A character value to be used to generate automatically question codes, when not provided with the "code" argument.}
+
+\item{questiontype}{A character value or vector to indicate the type of all questions (character value) or of each (character vector) question. Use "single" for single-choice, and "multiple" for multiple-answer. So far open questions are not supported.}
+
+\item{multicols}{A numeric (or numeric vector) indicating the desired number of columns for the presentation of the correct and incorrect answers (note that the LaTeX environment multicols must be called in the main ".tex" document for more than 1 columns). Defaults to 1, which does not require the LaTeX multicols environnment.}
+
+\item{scoringcorrect}{A numeric value or vector to indicate the scoring for the correct answer(s). Defaults to 1.}
+
+\item{scoringincorrect}{A numeric value or vector to indicate the scoring for an incorrect answer(s). Defaults to 0.}
+
+\item{scoringnoresponse}{A numeric value or vector to indicate the scoring for non-responding. Defaults to 0.}
+
+\item{scoringincoherent}{A numeric value or vector to indicate the scoring for incoherent answer(s) (e.g. two boxes checked for a single-answer questionnaire). Defaults to 0.}
+
+\item{scoringbottom}{A numeric value or vector to indicate the minimum score for the question(s). Especially useful when attributing negative points to incorrect answers in a multiple-answer questionnaire, to ensure students do not lose too many points on one question. Defaults to 0.}
+
+\item{shuffle}{A logical value or vector to indicate whether to shuffle questions inside a question group.}
+
+\item{sections}{A character value or vector to indicate whether to create a new LaTeX section for each element (defaults to TRUE).}
 
 \item{title}{A character value indicating a title for the test (default is "Test").}
 
@@ -48,10 +81,15 @@ Create a full \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice}
 
 \dontrun{
  AMCcreatetest(
- # Part passed to AMCcreatequestions() (see documentation)
- "How much is $1+2$?",2,list("3", "11"),
+ # Arguments passed to AMCcreatequestions()
+ question = "How much is $1+1$?",
+ correctanswers = 2,
+ incorrectanswer = list("3", "11", "4"),
+ # Arguments passed to AMCcreateelements()
+ shuffle = T,
+ sections = T,
  # Part used for test options
- title = "This is the title", #Custom title
+ title = "Exam", #Custom title
  paper = "a4", #change the paper for a4
  fontsize = 11, #change fontsize
  identifier = "ID Number", #change identifier

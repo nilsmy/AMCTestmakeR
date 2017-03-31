@@ -1,7 +1,21 @@
 
 #' Create a full \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice} test with a main .tex file (\code{groups.tex}), a file for questions (\code{questions.tex}), a file for elements (\code{elements.tex}.
 #'
-#' @param ... Arguments passed to \code{AMCcreatequestions()} (see documentation).
+#' @param question A character value or vector containing the questions.
+#' @param correctanswers A character (value, vector) containing the correct answer. A vector (or list) of character vectors can also be passed, in the case of multiple correct answers.
+#' @param incorrectanswers A character (value, vector) containing the wrong answer. A vector (or list) of character vectors can also be passed, in the case of multiple wrong answers.
+#' @param element A character value or vector to define the category of the entire set of questions (character value) or of each question (character vector). Defaults to "general.
+#' @param code A character value or vector to identify each question (note that AMC requires each code to be unique in a questionnaire). Defaults to "Q1", "Q2", "Q3", etc. (the prefix "Q" can be changed with the "codeprefix" argument).
+#' @param codeprefix A character value to be used to generate automatically question codes, when not provided with the "code" argument.
+#' @param multicols A numeric (or numeric vector) indicating the desired number of columns for the presentation of the correct and incorrect answers (note that the LaTeX environment multicols must be called in the main ".tex" document for more than 1 columns). Defaults to 1, which does not require the LaTeX multicols environnment.
+#' @param questiontype A character value or vector to indicate the type of all questions (character value) or of each (character vector) question. Use "single" for single-choice, and "multiple" for multiple-answer. So far open questions are not supported.
+#' @param scoringcorrect A numeric value or vector to indicate the scoring for the correct answer(s). Defaults to 1.
+#' @param scoringincorrect A numeric value or vector to indicate the scoring for an incorrect answer(s). Defaults to 0.
+#' @param scoringnoresponse A numeric value or vector to indicate the scoring for non-responding. Defaults to 0.
+#' @param scoringincoherent A numeric value or vector to indicate the scoring for incoherent answer(s) (e.g. two boxes checked for a single-answer questionnaire). Defaults to 0.
+#' @param scoringbottom A numeric value or vector to indicate the minimum score for the question(s). Especially useful when attributing negative points to incorrect answers in a multiple-answer questionnaire, to ensure students do not lose too many points on one question. Defaults to 0.
+#' @param shuffle A logical value or vector to indicate whether to shuffle questions inside a question group.
+#' @param sections A character value or vector to indicate whether to create a new LaTeX section for each element (defaults to TRUE).
 #' @param filepath A character value indicating the path for the main .tex file output (most often, in AMC, it is \code{groups.tex}, which is the default of the function). Note that the other created files (\code{questions.tex} and \code{elements.tex} will we written in the folder of this file).
 #' @param messages A logical value to indicate whether to output messages and reports (default is TRUE).
 #' @param title A character value indicating a title for the test (default is "Test").
@@ -23,10 +37,15 @@
 #'
 #' \dontrun{
 #'  AMCcreatetest(
-#'  # Part passed to AMCcreatequestions() (see documentation)
-#'  "How much is $1+2$?",2,list("3", "11"),
+#'  # Arguments passed to AMCcreatequestions()
+#'  question = "How much is $1+1$?",
+#'  correctanswers = 2,
+#'  incorrectanswer = list("3", "11", "4"),
+#'  # Arguments passed to AMCcreateelements()
+#'  shuffle = T,
+#'  sections = T,
 #'  # Part used for test options
-#'  title = "This is the title", #Custom title
+#'  title = "Exam", #Custom title
 #'  paper = "a4", #change the paper for a4
 #'  fontsize = 11, #change fontsize
 #'  identifier = "ID Number", #change identifier
@@ -37,7 +56,33 @@
 #'  answersheetinstructions = "Fill the boxes" #Answer sheet instructions
 #'   )}
 #'
-AMCcreatetest <- function(..., title = "Test", filepath = "groups.tex", messages = T, fontsize = 10, instructions = T, paper = "letter", identifier = "Name", separateanswersheet = F, answersheettitle = "Answer sheet", answersheetinstructions = T, twosided = T, box = T) {
+AMCcreatetest <- function(question,
+                          correctanswers,
+                          incorrectanswers,
+                          element = "general",
+                          code = paste(codeprefix,c(1:length(question)), sep=""),
+                          codeprefix = "Q",
+                          questiontype = "single",
+                          multicols=2,
+                          scoringcorrect = 1,
+                          scoringincorrect = 0,
+                          scoringnoresponse = 0,
+                          scoringincoherent = scoringincorrect,
+                          scoringbottom = scoringincorrect,
+                          shuffle = T,
+                          sections = T,
+                          title = "Test",
+                          filepath = "groups.tex",
+                          messages = T,
+                          fontsize = 10,
+                          instructions = T,
+                          paper = "letter",
+                          identifier = "Name",
+                          separateanswersheet = F,
+                          answersheettitle = "Answer sheet",
+                          answersheetinstructions = T,
+                          twosided = T,
+                          box = T) {
 
   #Name file path
   filepathname <- paste(dirname(filepath), sep="")
@@ -64,6 +109,7 @@ AMCcreatetest <- function(..., title = "Test", filepath = "groups.tex", messages
   # Create file paths
   filepathgroups <- filepath
   filepathquestions <- paste(dirname(filepath), "/questions.tex", sep="")
+  filepathelements <- paste(dirname(filepath), "/elements.tex", sep="")
 
 
   #Create header block
@@ -240,10 +286,40 @@ AMCcreatetest <- function(..., title = "Test", filepath = "groups.tex", messages
 collapsedlist <- paste(listoriginaltex, sep = "", collapse = "")
 
 
-  # Create list of questions and elements through AMCcreatequestions
-  AMCcreatequestions(output = "file", listelements = "file", filepath = filepathquestions, messages = F, append = F, ...)
   # Write the groups.tex
   write(collapsedlist, filepathgroups, append = F)
+
+  # Create list of questions through AMCcreatequestions
+  AMCcreatequestions(question = question,
+                     correctanswers = correctanswers,
+                     incorrectanswers = incorrectanswers,
+                     element = element,
+                     code = code,
+                     codeprefix = codeprefix,
+                     output = "file",
+                     filepath = filepathquestions,
+                     questiontype = questiontype,
+                     append = F,
+                     multicols = multicols,
+                     messages = F,
+                     listelements = F,
+                     scoringcorrect = scoringcorrect,
+                     scoringincorrect = scoringincorrect,
+                     scoringnoresponse = scoringnoresponse,
+                     scoringincoherent = scoringincoherent,
+                     scoringbottom = scoringbottom)
+
+  # Create list of elements through AMCcreatelements
+  #(verbose but more options)
+  AMCcreateelements(element = element,
+                    shuffle = shuffle,
+                    sections = sections,
+                    output = "file",
+                    append = F,
+                    messages = F,
+                    filepath = filepathelements)
+
+
 # Report message
 if (messages == T){
 message("The following files were successfully written to ",
@@ -251,7 +327,8 @@ message("The following files were successfully written to ",
         ":\n- ",
         basename(filepath),
         "\n- questions.tex",
-        "\n- elements.tex"
+        "\n- elements.tex",
+        "\n\nPut these 3 files in your AMC project folder and use AMC to compile them."
         )
 
 }
