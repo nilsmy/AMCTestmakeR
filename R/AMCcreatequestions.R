@@ -155,7 +155,7 @@ AMCcreatequestions <- function(question, correctanswers, incorrectanswers, eleme
     if (questiontype == "multiple") {
       questiontypetext <- "questionmult"
     }
-    if(x < 2){
+    if (x < 2) {
       paste("\\end{choices}\\end{",questiontypetext,"}\n}\n \n", sep="")
       } else{
       paste("\\end{choices}\\end{multicols}\\end{",questiontypetext,"}\n}\n \n", sep="")}

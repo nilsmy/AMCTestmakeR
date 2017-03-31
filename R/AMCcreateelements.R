@@ -42,13 +42,13 @@ AMCcreateelements <- function(element = "general", shuffle = TRUE, sections = TR
   codeelement <- function(x, shuffle, sections) {
     if (shuffle == T) {
       if (sections == T) {
-        paste("\\section{",x,"}\n","\\shufflegroup{", x, "}\n", "\\insertgroup{", x, "}\n", sep = "")
+        paste("\\section*{", x, "}\n","\\shufflegroup{", x, "}\n", "\\insertgroup{", x, "}\n", sep = "")
     } else {
         paste("\\shufflegroup{", x, "}\n", "\\insertgroup{", x, "}\n", sep = "")
       }
     } else {
       if (sections == T) {
-       ifelse(x==""| is.na(x), "Default", paste("\\section{",x,"}\n","\\insertgroup{", x, "}\n", sep = ""))
+       ifelse(x==""| is.na(x), "Default", paste("\\section*{",x,"}\n","\\insertgroup{", x, "}\n", sep = ""))
     } else {
        ifelse(x==""| is.na(x), "Default", paste("\\insertgroup{", x, "}\n", sep = ""))
       }
@@ -83,7 +83,7 @@ AMCcreateelements <- function(element = "general", shuffle = TRUE, sections = TR
             "%%%%%%%%%%%%%%%%%%%%%%\n",
             "%-Make sure that the created file is the main AMC project folder.",
             "\n-Point to the written file in the main .tex file (usually \"groups.tex\"), using \"\\input{",
-            paste(basename(filepath)),"}\". \n",
+            paste(basename(filepath)), "}\". \n",
             "-%Note : Ultimately, the questions should be defined first before compiling (use the AMCcreatequestions() function for this).")}
     write(uniqueelements, filepath, append = append)
   }

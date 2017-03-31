@@ -138,10 +138,10 @@ AMCcreatetest <- function(question,
 
   if(instructions == T){
       instructionblock <- c("\n",
-      "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n",
-      "%%% INSTRUCTIONS TO STUDENTS %%%\n",
-      "%%%   UNCOMMENT AS NEEDED    %%%\n",
-      "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n",
+      "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n",
+      "%% INSTRUCTIONS TO STUDENTS %%\n",
+      "%%   UNCOMMENT AS NEEDED    %%\n",
+      "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n",
       "\\section*{Instructions}	\n",
       "\n",
       "\\begin{itemize}	\n",
@@ -154,13 +154,37 @@ AMCcreatetest <- function(question,
       "\\item Do not write or draw around or in the black circles and bar codes on the corners and top of each page.\n",
       "%\\item For short answer questions, write your answers in the answer box provided. Leave the grey part blank.\n",
       "\\end{itemize}\n\n",
+      "\\hrule \\vspace{3mm}",
       "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n")
   } else {
-    if (instructions == F) {
-      instructionblock <- ""
+    if (instructions == "all") {
+      instructionblock <- c("\n",
+                            "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n",
+                            "%% INSTRUCTIONS TO STUDENTS %%\n",
+                            "%%   UNCOMMENT AS NEEDED    %%\n",
+                            "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n",
+                            "\\section*{Instructions}	\n",
+                            "\n",
+                            "\\begin{itemize}	\n",
+                            "\\item Points are \\underline{not} deduced for incorrect answers.%, and most questions are independent from one another, so try to answer all the questions, even if you hesitate.\n",
+                            "%\\item The total exam is graded over XX points.\n",
+                            "\\item There is \\underline{always} one and \\underline{only} one correct answer.\n",
+                            "\\item All the questions are presented in randomized order and are independent from each other.\n",
+                            "\\item \\underline{Fill} -- don't cross -- with a dark color pencil the box corresponding to what you think is the correct answer, leaving the others blank. Use an eraser to correct any mistake.\n",
+                            "\\item If you think you made a mistake, circle your \\emph{entire} final answer (make your final answer as clear as you can): The exam will be both graded by computer and checked by your instructors to ensure accuracy.\n",
+                            "\\item Do not write or draw around or in the black circles and bar codes on the corners and top of each page.\n",
+                            "\\item For short answer questions, write your answers in the answer box provided. Leave the grey part blank.\n",
+                            "\\end{itemize}\n\n",
+                            "\\hrule \\vspace{3mm}",
+                            "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n")
     } else {
-      instructionblock <- instructions
+        if (instructions == F) {
+           instructionblock <- ""
+      } else {
+        instructionblock <- instructions
+      }
     }
+
   }
 
 
@@ -225,7 +249,8 @@ AMCcreatetest <- function(question,
                        "\\usepackage[utf8x]{inputenc}	\n",
                        "\\usepackage[T1]{fontenc}	\n",
                        "\\usepackage{amsmath}	\n",
-                       "\\usepackage[",useboxpackage,"completemulti",separateanswer1,"]{automultiplechoice}	\n",
+                       "\\usepackage[",useboxpackage,
+                       "completemulti",separateanswer1,"]{automultiplechoice}	\n",
                        "\n",
                        "\\renewcommand{\\rmdefault}{\\sfdefault}	\n",
                        "\n",
@@ -333,12 +358,5 @@ message("The following files were successfully written to ",
 
 
 
-
-
-
-
 }
-
-
-
 
