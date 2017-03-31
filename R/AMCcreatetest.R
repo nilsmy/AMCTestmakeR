@@ -138,9 +138,10 @@ AMCcreatetest <- function(question,
 
   if(instructions == T){
       instructionblock <- c("\n",
-      "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n",
-      "%%% INSTRUCTIONS TO STUDENTS, UNCOMMENT AS NEEDED %%%\n",
-      "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n",
+      "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n",
+      "%%% INSTRUCTIONS TO STUDENTS %%%\n",
+      "%%%   UNCOMMENT AS NEEDED    %%%\n",
+      "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n",
       "\\section*{Instructions}	\n",
       "\n",
       "\\begin{itemize}	\n",
@@ -153,7 +154,7 @@ AMCcreatetest <- function(question,
       "\\item Do not write or draw around or in the black circles and bar codes on the corners and top of each page.\n",
       "%\\item For short answer questions, write your answers in the answer box provided. Leave the grey part blank.\n",
       "\\end{itemize}\n\n",
-      "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n")
+      "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n")
   } else {
     if (instructions == F) {
       instructionblock <- ""
@@ -241,6 +242,8 @@ AMCcreatetest <- function(question,
                        "\n",
                        "\\AMCrandomseed{1527384}	\n",
                        "\n",
+                       "%Takes the questions from the questions.tex file\n",
+                       "\\input{questions.tex}",
                        "\n",
                        "\\begin{document}	\n",
                        "\n",
@@ -264,10 +267,6 @@ AMCcreatetest <- function(question,
                        "\n",
                        instructionblock,
                        "\n",
-                       "%%%%%%%%%%%%%%%%
-                       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
-                       "%Takes the questions from the questions.tex file\n",
-                       "\\input{questions.tex}",
                        "\n",
                        "%Takes the elements list from the elements.tex file\n",
                        "\\input{elements.tex}",
@@ -277,9 +276,7 @@ AMCcreatetest <- function(question,
                        answersheettext,
                        "\n",
                        "}\n",
-                       "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n",
-                       "%%%%%%% This document was generated using the R package AMC-TestmakeR %%%%%%%\n\n",
-                       "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n\n",
+                       "% This test was created with AMCTestmakeR for R.\n\n\n",
                        "\\end{document}	\n")
 
 
