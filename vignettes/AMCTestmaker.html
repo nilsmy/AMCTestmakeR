@@ -12,7 +12,7 @@
 
 <meta name="author" content="Nils Myszkowski" />
 
-<meta name="date" content="2017-03-28" />
+<meta name="date" content="2017-03-31" />
 
 <title>Using AMCTestmakeR</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Using <code>AMCTestmakeR</code></h1>
 <h4 class="author"><em>Nils Myszkowski</em></h4>
-<h4 class="date"><em>2017-03-28</em></h4>
+<h4 class="date"><em>2017-03-31</em></h4>
 
 
 
@@ -82,12 +82,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Install the library with <code>install.packages(&quot;AMCTestmakeR&quot;)</code>, and load it with:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(AMCTestmakeR)</code></pre></div>
 </div>
-<div id="generating-code-for-one-question" class="section level1">
-<h1>Generating code for one question</h1>
-<p>Let’s say that we have a simple question to add: <em>How much is <span class="math inline">\(1+1\)</span>?</em> (the correct answer is <span class="math inline">\(2\)</span>, the incorrect ones are <span class="math inline">\(3\)</span> and <span class="math inline">\(11\)</span>).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AMCcreatequestions</span>(<span class="dt">question =</span> <span class="st">&quot;How much is $1+1$?&quot;</span>,
-                   <span class="dt">correctanswers =</span> <span class="dv">2</span>,
-                   <span class="dt">incorrectanswers =</span> <span class="kw">list</span>(<span class="dv">3</span>, <span class="dv">11</span>))</code></pre></div>
+<div id="basic-use-generating-questions" class="section level1">
+<h1>Basic Use : Generating questions</h1>
+<div id="generating-code-for-one-question" class="section level2">
+<h2>Generating code for one question</h2>
+<p>Let’s say that we have a simple question to add: - How much is <span class="math inline">\(1+1\)</span>? - The correct answer is <span class="math inline">\(2\)</span> (if you didn’t get this one, you’re probably at the wrong place) - The incorrect ones are <span class="math inline">\(3\)</span> and <span class="math inline">\(11\)</span></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AMCcreatequestions</span>(
+  <span class="dt">question =</span> <span class="st">&quot;How much is $1+1$?&quot;</span>,
+  <span class="dt">correctanswers =</span> <span class="dv">2</span>,
+  <span class="dt">incorrectanswers =</span> <span class="kw">list</span>(<span class="dv">3</span>, <span class="dv">11</span>))</code></pre></div>
 <pre><code>%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%| List of questions |%%%%%%%%%%
 %%% (copy &amp; paste in main .tex file) %%%
@@ -103,8 +106,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
  \end{choices}\end{multicols}\end{question}
 }
  </code></pre>
-<pre><code>
-%-Make sure the question elements are inserted with &quot;\insertgroup{element}&quot; after the questions (use 'listofelements = &quot;append&quot; or use AMCcreateelement() function for more options).</code></pre>
 <pre><code>%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%| List of elements |%%%%%%%%%
 %%% (copy &amp; paste after questions) %%%
@@ -114,13 +115,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 \insertgroup{general}</code></pre>
 <p>Or, more simply <code>AMCcreatequestions(&quot;How much is $1+1$?&quot;,2,list(3, 11))</code>.</p>
 </div>
-<div id="writing-to-a-.tex-file" class="section level1">
-<h1>Writing to a .tex file</h1>
+<div id="writing-questions-to-a-.tex-file" class="section level2">
+<h2>Writing questions to a .tex file</h2>
 <p>R escapes different characters than LaTeX, so doing a copy-and-paste of the console output will require than you tweak things a bit.</p>
 <p>Instead of doing that, I recommend to use the optional argument <code>writefile = TRUE</code> to write the generated code into a file. The default creates a <code>questions.tex</code> file in the working directory, but you can indicate another path with <code>filepath</code>, and append to an existing file – rather than overwriting the existing file – with <code>append = TRUE</code>).</p>
 </div>
-<div id="generating-code-for-multiple-questions" class="section level1">
-<h1>Generating code for multiple questions</h1>
+<div id="generating-code-for-multiple-questions" class="section level2">
+<h2>Generating code for multiple questions</h2>
 <p>If you have an entire questionnaire to generate, the <code>AMCcreatequestions</code> can use vectors for many of its arguments.</p>
 <p>Let’s first create 3 questions, putting the questions and answers in vectors.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">question &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;How much is $1+1$ ?&quot;</span>,
@@ -171,8 +172,6 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
 ##   \end{choices}\end{multicols}\end{question}
 ## }
 ## </code></pre>
-<pre><code>## 
-## %-Make sure the question elements are inserted with &quot;\insertgroup{element}&quot; after the questions (use 'listofelements = &quot;append&quot; or use AMCcreateelement() function for more options).</code></pre>
 <pre><code>## %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ## %%%%%%%%%| List of elements |%%%%%%%%%
 ## %%% (copy &amp; paste after questions) %%%
@@ -180,12 +179,12 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
 ## \section{general}
 ## \shufflegroup{general}
 ## \insertgroup{general}</code></pre>
-<p>Like before, copy-paste is not optimal, as R escapes different characters than LaTeX. Using <code>writefile = TRUE</code> is more convenient to take care of this and translate R text into LaTeX (see above for details).</p>
+<p>Like before, copy-paste is not optimal, as R escapes different characters than LaTeX. Using <code>writefile = TRUE</code> is more convenient to take care of this and translate R text into LaTeX (see above for details). Also, consider using the function <code>AMCcreatetest()</code> to handle the full test creation (described later as <em>Suggested Workflow 1</em>).</p>
 </div>
-<div id="other-options" class="section level1">
-<h1>Other options</h1>
-<div id="changing-the-element" class="section level2">
-<h2>Changing the element</h2>
+<div id="additional-options" class="section level2">
+<h2>Additional options</h2>
+<div id="changing-the-element" class="section level3">
+<h3>Changing the element</h3>
 <p>The element in AMC corresponds to a group of questions. They can for example correspond to different learning outcomes or chapters of a book. AMC is able to randomize questions within elements.</p>
 <p>Provide a character value or vector to the argument <code>element</code> to define it. If you provide a value, all questions will have this value as element. If you provide a vector, each question will have its corresponding element.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AMCcreatequestions</span>(<span class="dt">element =</span> <span class="kw">c</span>(<span class="st">&quot;ADD&quot;</span>, <span class="st">&quot;MULT&quot;</span>, <span class="st">&quot;DIV&quot;</span>),
@@ -229,8 +228,6 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
 ##   \end{choices}\end{multicols}\end{question}
 ## }
 ## </code></pre>
-<pre><code>## 
-## %-Make sure the question elements are inserted with &quot;\insertgroup{element}&quot; after the questions (use 'listofelements = &quot;append&quot; or use AMCcreateelement() function for more options).</code></pre>
 <pre><code>## %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ## %%%%%%%%%| List of elements |%%%%%%%%%
 ## %%% (copy &amp; paste after questions) %%%
@@ -246,8 +243,8 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
 ## \insertgroup{DIV}</code></pre>
 <p>The default element is <code>general</code>.</p>
 </div>
-<div id="changing-the-question-code" class="section level2">
-<h2>Changing the question code</h2>
+<div id="changing-the-question-codes" class="section level3">
+<h3>Changing the question codes</h3>
 <p>In AMC, each question should have a unique code.</p>
 <p>The code can be provided in <code>AMCTestmakeR</code> through the argument <code>code</code> (like for the <code>element</code> argument, a character value or vector can be used).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AMCcreatequestions</span>(<span class="dt">code =</span> <span class="kw">c</span>(<span class="st">&quot;ADD1&quot;</span>, <span class="st">&quot;MULT1&quot;</span>, <span class="st">&quot;DIV1&quot;</span>),
@@ -291,8 +288,6 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
 ##   \end{choices}\end{multicols}\end{question}
 ## }
 ## </code></pre>
-<pre><code>## 
-## %-Make sure the question elements are inserted with &quot;\insertgroup{element}&quot; after the questions (use 'listofelements = &quot;append&quot; or use AMCcreateelement() function for more options).</code></pre>
 <pre><code>## %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ## %%%%%%%%%| List of elements |%%%%%%%%%
 ## %%% (copy &amp; paste after questions) %%%
@@ -342,8 +337,6 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
 ##   \end{choices}\end{multicols}\end{question}
 ## }
 ## </code></pre>
-<pre><code>## 
-## %-Make sure the question elements are inserted with &quot;\insertgroup{element}&quot; after the questions (use 'listofelements = &quot;append&quot; or use AMCcreateelement() function for more options).</code></pre>
 <pre><code>## %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ## %%%%%%%%%| List of elements |%%%%%%%%%
 ## %%% (copy &amp; paste after questions) %%%
@@ -353,11 +346,12 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
 ## \insertgroup{general}</code></pre>
 </div>
 </div>
-<div id="suggested-workflow-once-the-questions-are-ready" class="section level1">
-<h1>Suggested workflow once the questions are ready</h1>
-<p>When your questions are ready and the <code>AMCcreatequestions()</code> gives a satisfactory result. I suggest to directly use <code>AMCcreatetest()</code> to create the other .tex files and to have a fully working test easily.</p>
-<div id="workflow-1-creating-the-test-files-from-scratch-amccreatetest" class="section level2">
-<h2>Workflow 1: Creating the test files from scratch <code>AMCcreatetest()</code></h2>
+</div>
+<div id="once-the-questions-are-ready" class="section level1">
+<h1>Once the questions are ready…</h1>
+<p>When your questions are ready and the <code>AMCcreatequestions()</code> gives a satisfactory result. I suggest to directly use <code>AMCcreatetest()</code> to create the other .tex files and to have a fully working test easily (<em>Workflow 1</em>).</p>
+<div id="workflow-1-creating-the-test-files-from-scratch-with-amccreatetest" class="section level2">
+<h2>Workflow 1: Creating the test files from scratch with <code>AMCcreatetest()</code></h2>
 <p><code>AMCTestmakeR</code> can create a test from scratch with the function <code>AMCcreatetest()</code>. It creates 3 .tex files (groups.tex, questions.tex, elements.tex) that can be directly used in the AMC project folder.</p>
 <p>The first arguments of this function are passed to the <code>AMCcreatequestions()</code> function (see above for how to use it). The rest of the arguments are used to set test options (like <code>fontsize</code>, <code>separateanswersheet</code>, <code>title</code>, <code>identifier</code>, etc.). See the function documentation for a full list of options. If you don’t pass any option (except for the questions of course), you should have a useable – albeit not customized – test.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AMCcreatetest</span>(<span class="st">&quot;How much is $1+2$?&quot;</span>,<span class="dv">2</span>,<span class="kw">list</span>(<span class="st">&quot;3&quot;</span>, <span class="st">&quot;11&quot;</span>))</code></pre></div>
@@ -365,30 +359,35 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
 <h3>More options</h3>
 <p>Separate answer sheets, font size, title, instructions, etc.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AMCcreatetest</span>(
-<span class="co"># Part passed to AMCcreatequestions() (see documentation)</span>
-<span class="st">&quot;How much is $1+2$?&quot;</span>,<span class="dv">2</span>,<span class="kw">list</span>(<span class="st">&quot;3&quot;</span>, <span class="st">&quot;11&quot;</span>),
-<span class="co"># Part used for test options</span>
-<span class="dt">title =</span> <span class="st">&quot;This is the title&quot;</span>, <span class="co">#Custom title</span>
-<span class="dt">paper =</span> <span class="st">&quot;a4&quot;</span>, <span class="co">#change the paper for a4</span>
-<span class="dt">fontsize =</span> <span class="dv">11</span>, <span class="co">#change fontsize</span>
-<span class="dt">identifier =</span> <span class="st">&quot;ID Number&quot;</span>, <span class="co">#change identifier</span>
-<span class="dt">twosided =</span> F, <span class="co">#print in one sided</span>
-<span class="dt">instructions =</span> <span class="st">&quot;Don't respond here.&quot;</span>, <span class="co">#show an instructions block to students (on questions part)</span>
-<span class="dt">separateanswersheet =</span> T, <span class="co">#use a separate answer sheet</span>
-<span class="dt">answersheettitle =</span> <span class="st">&quot;Respond Here&quot;</span>, <span class="co">#Change answer sheet title</span>
-<span class="dt">answersheetinstructions =</span> <span class="st">&quot;Fill the boxes&quot;</span><span class="co">#Answer sheet instructions</span>
+  <span class="co">#This part is passed to the AMCcreatequestions() function:</span>
+  <span class="dt">question =</span> <span class="st">&quot;How much is $1+1$?&quot;</span>,
+  <span class="dv">2</span>,
+  <span class="kw">list</span>(<span class="st">&quot;3&quot;</span>, <span class="st">&quot;11&quot;</span>),
+  <span class="co">#The next part is passed to AMCcreateelements():</span>
+  <span class="dt">shuffle =</span> T,
+  <span class="dt">sections =</span> T,
+  <span class="co">#The last part is for general test options:</span>
+  <span class="dt">title =</span> <span class="st">&quot;Exam&quot;</span>, <span class="co">#Custom title</span>
+  <span class="dt">paper =</span> <span class="st">&quot;a4&quot;</span>, <span class="co">#change the paper for a4</span>
+  <span class="dt">fontsize =</span> <span class="dv">11</span>, <span class="co">#change fontsize</span>
+  <span class="dt">identifier =</span> <span class="st">&quot;ID Number&quot;</span>, <span class="co">#change identifier</span>
+  <span class="dt">twosided =</span> F, <span class="co">#print in one sided</span>
+  <span class="dt">instructions =</span> <span class="st">&quot;Don't respond here.&quot;</span>, <span class="co">#show an instructions block</span>
+  <span class="dt">separateanswersheet =</span> T, <span class="co">#use a separate answer sheet</span>
+  <span class="dt">answersheettitle =</span> <span class="st">&quot;Respond Here&quot;</span>, <span class="co">#Change answer sheet title</span>
+  <span class="dt">answersheetinstructions =</span> <span class="st">&quot;Fill the boxes.&quot;</span><span class="co">#Answer sheet instructions</span>
 )</code></pre></div>
 <p>When working on the questions, I suggest to work using <code>AMCcreatequestions()</code> with the default output as notes (to check the result without opening a separate .tex file). Once your questions are ready, I suggest to switch to <code>AMCcreatequestions()</code>, using the same beginning arguments, and changing the rest.</p>
 </div>
 </div>
 <div id="workflow-2-doing-things-manually-with-your-own-template-and-amccreateelements" class="section level2">
 <h2>Workflow 2: Doing things manually with your own template and <code>AMCcreateelements()</code></h2>
+<p>If you want to customize more, you can do things step by step. If doing that, I highly recommend starting by reading the <a href="http://home.gna.org/auto-qcm/auto-multiple-choice.en/latex.shtml">AMC documentation</a>.</p>
 <p>When using <code>AMCcreatequestions()</code> to create a questionnaire in AMC, I suggest to create, with <code>writefile = TRUE</code>, the questions in a separate questions file (e.g. <code>questions.tex</code>) in your AMC project folder.</p>
 <p>From there, in your main .tex document (usually, that’s named <code>groups.tex</code> by AMC), add <code>\input{questions.tex}</code> at the beginning (but still after your <code>\begin{document}</code>).</p>
 <p>Then, where you want to place the different <code>elements</code>, in your main .tex, add <code>\insertgroup{element}</code> for each of them. Before the <code>\insertgroup{}</code> command, you can use <code>\shufflegroup{element}</code> to shuffle the questions within the element.</p>
-</div>
-<div id="facilitating-insertgroup" class="section level2">
-<h2>Facilitating <code>\insertgroup{}</code></h2>
+<div id="the-amccreateelements-function" class="section level3">
+<h3>The <code>AMCcreateelements()</code> function</h3>
 <p>If you have many elements in your document, and therefore many <code>\insertgroup{}</code> (and <code>\shufflegroup{}</code>) to insert, you may want to use the function <code>AMCcreateelements()</code> function. It will show as a console message (which you can, this time, easily copy-and-paste into your main .tex document) the commands to insert (and shuffle, if desired, through the <code>shuffle</code> argument) the elements:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AMCcreateelements</span>(<span class="dt">element =</span> <span class="kw">c</span>(<span class="st">&quot;ADD&quot;</span>, <span class="st">&quot;MULT&quot;</span>, <span class="st">&quot;DIV&quot;</span>), <span class="dt">shuffle =</span> T, <span class="dt">sections =</span> T)</code></pre></div>
 <pre><code>## %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -414,9 +413,10 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
 ## \insertgroup{STAT}</code></pre>
 </div>
 </div>
+</div>
 <div id="future-features" class="section level1">
 <h1>Future features</h1>
-<p><a href="http://home.gna.org/auto-qcm/index.en">Auto Multiple Choice</a>. is a great freeware that is able to do a lot more that what <code>AMCTestmakeR</code> helps for, so I will try to add the most helpful features here soon. In any case, I strongly encourage to read the documentation of how to use LaTeX in Auto Multiple Choice here <a href="http://home.gna.org/auto-qcm/auto-multiple-choice.en/latex.shtml">here</a> to get a sense of its many possibilities.</p>
+<p><a href="http://home.gna.org/auto-qcm/index.en">Auto Multiple Choice</a> is a great freeware that is able to do a lot more that what <code>AMCTestmakeR</code> helps for, so I will try to add the most helpful features here soon. This software feels the In any case, I strongly encourage to read the documentation of how to use LaTeX in Auto Multiple Choice <a href="http://home.gna.org/auto-qcm/auto-multiple-choice.en/latex.shtml">here</a> to get a sense of its many possibilities.</p>
 </div>
 
 

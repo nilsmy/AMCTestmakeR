@@ -1,8 +1,8 @@
 #' Generate AMC LaTeX question codes in the console, in a LaTeX file, or as a vector.
 #'
 #' @param question A character value or vector containing the questions.
-#' @param correctanswers A character (value, vector) containing the correct answers. A vector (or list) of character vectors can also be passed, in the case of multiple correct answers.
-#' @param incorrectanswers A character (value, vector) containing the wrong answers. A vector (or list) of character vectors can also be passed, in the case of multiple wrong answers.
+#' @param correctanswers A character (value, vector) containing the correct answer. A vector (or list) of character vectors can be passed, in the case of multiple correct answers.
+#' @param incorrectanswers A character (value, vector) containing the wrong answer. A vector (or list) of character vectors can be passed, in the case of multiple wrong answers.
 #' @param element A character value or vector to define the category of the entire set of questions (character value) or of each question (character vector). Defaults to "general.
 #' @param code A character value or vector to identify each question (note that AMC requires each code to be unique in a questionnaire). Defaults to "Q1", "Q2", "Q3", etc. (the prefix "Q" can be changed with the "codeprefix" argument).
 #' @param codeprefix A character value to be used to generate automatically question codes, when not provided with the "code" argument.
@@ -155,7 +155,7 @@ AMCcreatequestions <- function(question, correctanswers, incorrectanswers, eleme
     if (questiontype == "multiple") {
       questiontypetext <- "questionmult"
     }
-    if(x < 2){
+    if (x < 2) {
       paste("\\end{choices}\\end{",questiontypetext,"}\n}\n \n", sep="")
       } else{
       paste("\\end{choices}\\end{multicols}\\end{",questiontypetext,"}\n}\n \n", sep="")}

@@ -15,9 +15,9 @@ AMCcreatequestions(question, correctanswers, incorrectanswers,
 \arguments{
 \item{question}{A character value or vector containing the questions.}
 
-\item{correctanswers}{A character (value, vector) containing the correct answers. A vector (or list) of character vectors can also be passed, in the case of multiple correct answers.}
+\item{correctanswers}{A character (value, vector) containing the correct answer. A vector (or list) of character vectors can be passed, in the case of multiple correct answers.}
 
-\item{incorrectanswers}{A character (value, vector) containing the wrong answers. A vector (or list) of character vectors can also be passed, in the case of multiple wrong answers.}
+\item{incorrectanswers}{A character (value, vector) containing the wrong answer. A vector (or list) of character vectors can be passed, in the case of multiple wrong answers.}
 
 \item{element}{A character value or vector to define the category of the entire set of questions (character value) or of each question (character vector). Defaults to "general.}
 

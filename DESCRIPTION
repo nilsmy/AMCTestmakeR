@@ -1,7 +1,7 @@
 Package: AMCTestmakeR
 Type: Package
 Title: Generate LaTeX Code for Auto-Multiple-Choice (AMC)
-Version: 0.1.0
+Version: 0.1.1
 Author: Nils Myszkowski
 Maintainer: Nils Myszkowski <nmyszkowski@pace.edu>
 Description: Generate code for use with the Optical Mark Recognition free software Auto Multiple Choice (AMC). More specifically, this package provides functions that use as input the question and answer texts, and output the LaTeX code for AMC.
