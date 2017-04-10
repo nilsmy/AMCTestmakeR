@@ -54,7 +54,7 @@
 #'   incorrectanswers = list(incorrect1,incorrect2,incorrect3),
 #'   codeprefix = "MATH")
 #'
-AMCcreatequestions <- function(question, correctanswers, incorrectanswers, element = "general", code = paste(codeprefix,c(1:length(question)), sep=""), codeprefix = "Q", output = "message", filepath = "questions.tex", questiontype = "single", append = F, multicols=2, messages = T, listelements = T, scoringcorrect = 1, scoringincorrect = 0, scoringnoresponse = 0, scoringincoherent = scoringincorrect, scoringbottom = scoringincorrect) {
+AMCcreatequestions <- function(question, correctanswers, incorrectanswers, element = "general", code = paste(codeprefix,c(1:length(question)), sep=""), codeprefix = "Q", output = "message", filepath = "questions.tex", questiontype = "single", append = F, multicols=2, messages = T, listelements = T, scoringcorrect = 1, scoringincorrect = 0, scoringnoresponse = 0, scoringincoherent = scoringincorrect, scoringbottom = scoringincorrect, shuffleanswersonce = T) {
 
 
 
@@ -169,14 +169,33 @@ AMCcreatequestions <- function(question, correctanswers, incorrectanswers, eleme
   vectorofquestion <- unlist(listofquestion)
 
 
+  # For one question, create vector of all answers
+  vectorofallanswersforonequestion <- c(arrayofcodedcorrectanswers, arrayofcodedincorrectanswers)
 
+
+  if (shuffleanswersonce == T) {
+    vectorofallanswersforonequestion <- sample(x = vectorofallanswersforonequestion,
+                                               size = length(vectorofallanswersforonequestion),
+                                               replace = F)
+  }
+
+
+
+  # Bind together answers to randomize them in R
+  #arrayofallanswersforonequestion <- cbind(paste(arrayofcodedcorrectanswers, collapse = " "),arrayofcodedincorrectanswers)
+                                                                                                   #, collapse = " "))
+  arrayofallanswersformultiplequestions <- cbind(arrayofcodedcorrectanswers,arrayofcodedincorrectanswers)
+
+
+
+ # sample()
 
 
   # Bind the code into a dataset
   if(length(question)==1){
-  bindedcode <- cbind(vectorofelement, vectorofcode, vectorofquestion,paste(arrayofcodedcorrectanswers, collapse = " "),paste(arrayofcodedincorrectanswers, collapse = " "), vectorofclosingcode)
+  bindedcode <- cbind(vectorofelement, vectorofcode, vectorofquestion,paste(vectorofallanswersforonequestion, collapse = " "), vectorofclosingcode)
   } else {
-  bindedcode <- cbind(vectorofelement, vectorofcode, vectorofquestion,arrayofcodedcorrectanswers,arrayofcodedincorrectanswers, vectorofclosingcode) }
+  bindedcode <- cbind(vectorofelement, vectorofcode, vectorofquestion,arrayofallanswersformultiplequestions, vectorofclosingcode) }
 
   # Create list of questions
   texfile <- apply(bindedcode, 1, paste, collapse=" ")
@@ -232,6 +251,14 @@ AMCcreatequestions <- function(question, correctanswers, incorrectanswers, eleme
     #return(unname(texfile))
     return(vectorofquestion)
   }
+
+
+  #FOR TESTS
+  if (output == "test") {
+    #return(unname(texfile))
+    return(arrayofallanswersformultiplequestions)
+  }
+
 
   }
 

@@ -10,7 +10,7 @@ AMCcreatequestions(question, correctanswers, incorrectanswers,
   questiontype = "single", append = F, multicols = 2, messages = T,
   listelements = T, scoringcorrect = 1, scoringincorrect = 0,
   scoringnoresponse = 0, scoringincoherent = scoringincorrect,
-  scoringbottom = scoringincorrect)
+  scoringbottom = scoringincorrect, shuffleanswersonce = T)
 }
 \arguments{
 \item{question}{A character value or vector containing the questions.}
