@@ -169,32 +169,42 @@ AMCcreatequestions <- function(question, correctanswers, incorrectanswers, eleme
   vectorofquestion <- unlist(listofquestion)
 
 
-  # For one question, create vector of all answers
-  vectorofallanswersforonequestion <- c(arrayofcodedcorrectanswers, arrayofcodedincorrectanswers)
-
-
-  if (shuffleanswersonce == T) {
-    vectorofallanswersforonequestion <- sample(x = vectorofallanswersforonequestion,
-                                               size = length(vectorofallanswersforonequestion),
-                                               replace = F)
-  }
 
 
 
-  # Bind together answers to randomize them in R
-  #arrayofallanswersforonequestion <- cbind(paste(arrayofcodedcorrectanswers, collapse = " "),arrayofcodedincorrectanswers)
-                                                                                                   #, collapse = " "))
-  arrayofallanswersformultiplequestions <- cbind(arrayofcodedcorrectanswers,arrayofcodedincorrectanswers)
 
 
 
- # sample()
+
+
+
 
 
   # Bind the code into a dataset
   if(length(question)==1){
+    # For one question, create vector of all answers
+    vectorofallanswersforonequestion <- c(arrayofcodedcorrectanswers, arrayofcodedincorrectanswers)
+
+    # Shuffle them if shuffleanswersonce = TRUE
+    if (shuffleanswersonce == T) {
+      vectorofallanswersforonequestion <- sample(x = vectorofallanswersforonequestion,
+                                                 size = length(vectorofallanswersforonequestion),
+                                                 replace = F)
+    }
+
+    #Bind code
   bindedcode <- cbind(vectorofelement, vectorofcode, vectorofquestion,paste(vectorofallanswersforonequestion, collapse = " "), vectorofclosingcode)
   } else {
+    # Bind together answers in array to randomize them in R
+    arrayofallanswersformultiplequestions <- cbind(arrayofcodedcorrectanswers,arrayofcodedincorrectanswers)
+
+    # Shuffle them if shuffleanswersonce = TRUE
+    if (shuffleanswersonce == T) {
+      shuffled <- datamatrix <- arrayofallanswersformultiplequestions
+      for (i in 1:nrow(datamatrix)) { shuffled[i, ] <- sample(datamatrix[i, ]) }
+      arrayofallanswersformultiplequestions <- shuffled
+    }
+
   bindedcode <- cbind(vectorofelement, vectorofcode, vectorofquestion,arrayofallanswersformultiplequestions, vectorofclosingcode) }
 
   # Create list of questions
