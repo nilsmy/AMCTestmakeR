@@ -4,14 +4,14 @@
 \alias{AMCcreateelements}
 \title{Generate AMC LaTeX question group ("element") codes}
 \usage{
-AMCcreateelements(element = "general", shuffle = TRUE, sections = TRUE,
-  output = "message", filepath = "elements.tex", append = FALSE,
-  messages = TRUE)
+AMCcreateelements(element = "general", shufflequestions = TRUE,
+  sections = TRUE, output = "message", filepath = "elements.tex",
+  append = FALSE, messages = TRUE)
 }
 \arguments{
 \item{element}{A character value or vector of question groups ("elements") to generate input code for. Default is "general".}
 
-\item{shuffle}{A logical value or vector to indicate whether to shuffle questions inside a question group.}
+\item{shufflequestions}{A logical value or vector to indicate whether to shuffle questions inside a question group. Defaults to TRUE.}
 
 \item{sections}{A character value or vector to indicate whether to create a new LaTeX section for each element (defaults to TRUE).}
 
@@ -41,7 +41,7 @@ AMCcreateelements(c(1:4), output = "list")
 AMCcreateelements(rep(1:3, 5), output = "list")
 
 #To cancel shuffling
-AMCcreateelements(c(1:4), output = "list", shuffle = FALSE)
+AMCcreateelements(c(1:4), output = "list", shufflequestions = FALSE)
 
 #To remove sections at each element
 AMCcreateelements(c(1:4), sections = FALSE, output = "list")

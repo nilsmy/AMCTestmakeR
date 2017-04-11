@@ -18,6 +18,7 @@
 #' @param scoringnoresponse A numeric value or vector to indicate the scoring for non-responding. Defaults to 0.
 #' @param scoringincoherent A numeric value or vector to indicate the scoring for incoherent answer(s) (e.g. two boxes checked for a single-answer questionnaire). Defaults to 0.
 #' @param scoringbottom A numeric value or vector to indicate the minimum score for the question(s). Especially useful when attributing negative points to incorrect answers in a multiple-answer questionnaire, to ensure students do not lose too many points on one question. Defaults to 0.
+#' @param shuffleanswersonce A logical value to indicate whether to shuffle answers for each question directly in the LaTeX code (useful if the answers are not randomized by examinee by AMC). Defaults to TRUE.
 #'
 #' @return A character value or vector (output = "list" or "vector"), a copy-and-pastable message (output = "message") or a LaTeX .tex file (output = "file") containing AMC LaTeX code for questions and answers.
 #' @export

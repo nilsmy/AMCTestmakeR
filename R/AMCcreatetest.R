@@ -14,7 +14,9 @@
 #' @param scoringnoresponse A numeric value or vector to indicate the scoring for non-responding. Defaults to 0.
 #' @param scoringincoherent A numeric value or vector to indicate the scoring for incoherent answer(s) (e.g. two boxes checked for a single-answer questionnaire). Defaults to 0.
 #' @param scoringbottom A numeric value or vector to indicate the minimum score for the question(s). Especially useful when attributing negative points to incorrect answers in a multiple-answer questionnaire, to ensure students do not lose too many points on one question. Defaults to 0.
-#' @param shuffle A logical value or vector to indicate whether to shuffle questions inside a question group.
+#' @param shufflequestions A logical value or vector to indicate whether to shuffle questions inside a question group. Defaults to TRUE.
+#' @param shuffleanswers A logical value or vector to indicate whether to shuffle answers per examinee. Defaults to TRUE. If set to FALSE, it is recommended to shuffle once for all examinee with shuffle the answers once with 'shuffleanswersonce = TRUE'.
+#' @param shuffleanswersonce A logical value to indicate whether to shuffle answers for each question directly in the LaTeX code (useful if the answers are not randomized by examinee by AMC). Defaults to TRUE.
 #' @param sections A character value or vector to indicate whether to create a new LaTeX section for each element (defaults to TRUE).
 #' @param filepath A character value indicating the path for the main .tex file output (most often, in AMC, it is \code{groups.tex}, which is the default of the function). Note that the other created files (\code{questions.tex} and \code{elements.tex} will we written in the folder of this file).
 #' @param messages A logical value to indicate whether to output messages and reports (default is TRUE).
@@ -27,6 +29,7 @@
 #' @param answersheettitle A character value to indicate the title of the separate answer sheet. Defaults to "Answer sheet".
 #' @param answersheetinstructions A logical or character value to add default (TRUE), remove (FALSE) or customize (character value) instructions given on the separate answer sheet. Default is TRUE, which indicates that the students shall answer on the answer sheet.
 #' @param twosided A logical value to indicate whether the exam will be printed two sided. This is notably important when printing on a separate answer sheet, to have the answer sheet printed on a separate page. Defaults to TRUE.
+#' @param lettersinsidebox A logical value to indicate whether to put letters inside boxes. Defaults to FALSE.
 #' @param box A logical value to indicate whether to box the questions and answers, to ensure that they are always presented on the same page. Defaults to TRUE.
 #'
 #' @return Writes 3 tex documents (\code{groups.tex}, \code{questions.tex} and \code{elements.tex})) for direct use in \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice}.
@@ -42,7 +45,7 @@
 #'  correctanswers = 2,
 #'  incorrectanswer = list("3", "11", "4"),
 #'  # Arguments passed to AMCcreateelements()
-#'  shuffle = T,
+#'  shufflequestions = T,
 #'  sections = T,
 #'  # Part used for test options
 #'  title = "Exam", #Custom title
@@ -69,7 +72,9 @@ AMCcreatetest <- function(question,
                           scoringnoresponse = 0,
                           scoringincoherent = scoringincorrect,
                           scoringbottom = scoringincorrect,
-                          shuffle = T,
+                          shufflequestions = T,
+                          shuffleanswers = T,
+                          shuffleanswersonce = T,
                           sections = T,
                           title = "Test",
                           filepath = "groups.tex",
@@ -82,6 +87,7 @@ AMCcreatetest <- function(question,
                           answersheettitle = "Answer sheet",
                           answersheetinstructions = T,
                           twosided = T,
+                          lettersinsidebox = F,
                           box = T) {
 
   #Name file path
@@ -243,13 +249,27 @@ AMCcreatetest <- function(question,
     useboxpackage <- ""
   }
 
+  # OPTION letters inside box
+  if (lettersinsidebox == T) {
+    lettersinsideboxcode <- "insidebox,"
+  } else {
+    lettersinsideboxcode <- ""
+  }
+
+  # OPTION no shuffle
+  if (shuffleanswers == T) {
+    shuffleanswerscode <- "noshuffle,"
+  } else {
+    shuffleanswerscode <- ""
+  }
+
   listoriginaltex <- c(paste("\\documentclass[",paper,",",fontsize,"pt]{",articlelibrary,"}	\n", sep =""),
                        "\n",
                        "\\usepackage{multicol}	\n",
                        "\\usepackage[utf8x]{inputenc}	\n",
                        "\\usepackage[T1]{fontenc}	\n",
                        "\\usepackage{amsmath}	\n",
-                       "\\usepackage[",useboxpackage,
+                       "\\usepackage[",useboxpackage,lettersinsideboxcode, shuffleanswerscode,
                        "completemulti",separateanswer1,"]{automultiplechoice}	\n",
                        "\n",
                        "\\renewcommand{\\rmdefault}{\\sfdefault}	\n",
@@ -329,12 +349,14 @@ collapsedlist <- paste(listoriginaltex, sep = "", collapse = "")
                      scoringincorrect = scoringincorrect,
                      scoringnoresponse = scoringnoresponse,
                      scoringincoherent = scoringincoherent,
-                     scoringbottom = scoringbottom)
+                     scoringbottom = scoringbottom,
+                     shuffleanswersonce = shuffleanswersonce
+                     )
 
   # Create list of elements through AMCcreatelements
   #(verbose but more options)
   AMCcreateelements(element = element,
-                    shuffle = shuffle,
+                    shufflequestions = shufflequestions,
                     sections = sections,
                     output = "file",
                     append = F,

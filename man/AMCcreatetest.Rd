@@ -9,11 +9,12 @@ AMCcreatetest(question, correctanswers, incorrectanswers, element = "general",
   codeprefix = "Q", questiontype = "single", multicols = 2,
   scoringcorrect = 1, scoringincorrect = 0, scoringnoresponse = 0,
   scoringincoherent = scoringincorrect, scoringbottom = scoringincorrect,
-  shuffle = T, sections = T, title = "Test", filepath = "groups.tex",
-  messages = T, fontsize = 10, instructions = T, paper = "letter",
+  shufflequestions = T, shuffleanswers = T, shuffleanswersonce = T,
+  sections = T, title = "Test", filepath = "groups.tex", messages = T,
+  fontsize = 10, instructions = T, paper = "letter",
   identifier = "Name", separateanswersheet = F,
   answersheettitle = "Answer sheet", answersheetinstructions = T,
-  twosided = T, box = T)
+  twosided = T, lettersinsidebox = F, box = T)
 }
 \arguments{
 \item{question}{A character value or vector containing the questions.}
@@ -42,7 +43,11 @@ AMCcreatetest(question, correctanswers, incorrectanswers, element = "general",
 
 \item{scoringbottom}{A numeric value or vector to indicate the minimum score for the question(s). Especially useful when attributing negative points to incorrect answers in a multiple-answer questionnaire, to ensure students do not lose too many points on one question. Defaults to 0.}
 
-\item{shuffle}{A logical value or vector to indicate whether to shuffle questions inside a question group.}
+\item{shufflequestions}{A logical value or vector to indicate whether to shuffle questions inside a question group. Defaults to TRUE.}
+
+\item{shuffleanswers}{A logical value or vector to indicate whether to shuffle answers per examinee. Defaults to TRUE. If set to FALSE, it is recommended to shuffle once for all examinee with shuffle the answers once with 'shuffleanswersonce = TRUE'.}
+
+\item{shuffleanswersonce}{A logical value to indicate whether to shuffle answers for each question directly in the LaTeX code (useful if the answers are not randomized by examinee by AMC). Defaults to TRUE.}
 
 \item{sections}{A character value or vector to indicate whether to create a new LaTeX section for each element (defaults to TRUE).}
 
@@ -68,6 +73,8 @@ AMCcreatetest(question, correctanswers, incorrectanswers, element = "general",
 
 \item{twosided}{A logical value to indicate whether the exam will be printed two sided. This is notably important when printing on a separate answer sheet, to have the answer sheet printed on a separate page. Defaults to TRUE.}
 
+\item{lettersinsidebox}{A logical value to indicate whether to put letters inside boxes. Defaults to FALSE.}
+
 \item{box}{A logical value to indicate whether to box the questions and answers, to ensure that they are always presented on the same page. Defaults to TRUE.}
 }
 \value{
@@ -86,7 +93,7 @@ Create a full \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice}
  correctanswers = 2,
  incorrectanswer = list("3", "11", "4"),
  # Arguments passed to AMCcreateelements()
- shuffle = T,
+ shufflequestions = T,
  sections = T,
  # Part used for test options
  title = "Exam", #Custom title
