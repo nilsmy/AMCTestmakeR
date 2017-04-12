@@ -14,7 +14,7 @@ AMCcreatetest(question, correctanswers, incorrectanswers, element = "general",
   fontsize = 10, instructions = T, paper = "letter",
   identifier = "Name", separateanswersheet = F,
   answersheettitle = "Answer sheet", answersheetinstructions = T,
-  twosided = T, lettersinsidebox = F, box = T)
+  twosided = T, lettersinsidebox = F, box = T, facilitatemanualadd = T)
 }
 \arguments{
 \item{question}{A character value or vector containing the questions.}
@@ -76,6 +76,8 @@ AMCcreatetest(question, correctanswers, incorrectanswers, element = "general",
 \item{lettersinsidebox}{A logical value to indicate whether to put letters inside boxes. Defaults to FALSE.}
 
 \item{box}{A logical value to indicate whether to box the questions and answers, to ensure that they are always presented on the same page. Defaults to TRUE.}
+
+\item{facilitatemanualadd}{A logical indicating whether to add LaTeX code to facilitate adding questions and elements manually. If TRUE, creates .tex files where questions and elements can be input manually without changing the main files. Defaults to FALSE.}
 }
 \value{
 Writes 3 tex documents (\code{groups.tex}, \code{questions.tex} and \code{elements.tex})) for direct use in \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice}.

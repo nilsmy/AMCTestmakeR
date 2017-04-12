@@ -31,6 +31,7 @@
 #' @param twosided A logical value to indicate whether the exam will be printed two sided. This is notably important when printing on a separate answer sheet, to have the answer sheet printed on a separate page. Defaults to TRUE.
 #' @param lettersinsidebox A logical value to indicate whether to put letters inside boxes. Defaults to FALSE.
 #' @param box A logical value to indicate whether to box the questions and answers, to ensure that they are always presented on the same page. Defaults to TRUE.
+#' @param facilitatemanualadd A logical indicating whether to add LaTeX code to facilitate adding questions and elements manually. If TRUE, creates .tex files where questions and elements can be input manually without changing the main files. Defaults to FALSE.
 #'
 #' @return Writes 3 tex documents (\code{groups.tex}, \code{questions.tex} and \code{elements.tex})) for direct use in \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice}.
 #' @export
@@ -88,7 +89,8 @@ AMCcreatetest <- function(question,
                           answersheetinstructions = T,
                           twosided = T,
                           lettersinsidebox = F,
-                          box = T) {
+                          box = T,
+                          facilitatemanualadd = T) {
 
   #Name file path
   filepathname <- paste(dirname(filepath), sep="")
@@ -263,6 +265,32 @@ AMCcreatetest <- function(question,
     shuffleanswerscode <- ""
   }
 
+
+  # OPTION facilitate manual add
+  if (facilitatemanualadd == T) {
+    manualaddquestionscode <- "\n %Manually add questions in the separate file	\n \\input{manuallyaddedquestions.tex}\n"
+    manualaddelementscode <- "\n %Manually add question groups (elements) in the separate file	\n \\input{manuallyaddedelements.tex}\n"
+    facilitatemanualaddmessage <- c("\n- manuallyaddedquestions.tex (manually add questions here)","\n- manuallyaddedelements.tex (manually add questions here)")
+    # Write the additional files for questions
+    filemanuallyaddedquestions <- paste("%Place your additional questions below (or leave blank but keep the file)\n",
+                                        "%Note : AMCTestmakeR is set to NOT erase your additional questions if you rerun it.\n",
+                                        sep ="")
+    filepathmanuallyaddedquestions <- paste(dirname(filepath), "/manuallyaddedquestions.tex", sep="")
+    write(filemanuallyaddedquestions, filepathmanuallyaddedquestions, append = T)
+    # Write the additional files for elements
+    filemanuallyaddedelements <- paste("%Place your additional question groups (elements) below (or leave blank but keep the file)\n",
+                                       "%Note : AMCTestmakeR is set to NOT erase your additional questions if you rerun it.\n",
+                                        sep ="")
+    filepathmanuallyaddedelements <- paste(dirname(filepath), "/manuallyaddedelements.tex", sep="")
+    write(filemanuallyaddedelements, filepathmanuallyaddedelements, append = T)
+  } else {
+    manualaddquestionscode <- ""
+    manualaddelementscode <- ""
+    facilitatemanualaddmessage <- ""
+
+  }
+
+
   listoriginaltex <- c(paste("\\documentclass[",paper,",",fontsize,"pt]{",articlelibrary,"}	\n", sep =""),
                        "\n",
                        "\\usepackage{multicol}	\n",
@@ -274,7 +302,8 @@ AMCcreatetest <- function(question,
                        "\n",
                        "\\renewcommand{\\rmdefault}{\\sfdefault}	\n",
                        "\n",
-                       "%\\geometry{hmargin=2.5cm,headheight=1.5cm,headsep=.2cm,footskip=0.8cm,top=2.5cm,bottom=2.5cm}\n",
+                       "%Tweak margins here if desired",
+                       "%\\geometry{hmargin=3cm,headheight=2cm,headsep=.3cm,footskip=1cm,top=3.5cm,bottom=2.5cm}\n",
                        "\n",
                        "\\usepackage{titlesec}	\n",
                        "\n",
@@ -288,7 +317,7 @@ AMCcreatetest <- function(question,
                        "\\AMCrandomseed{1527384}	\n",
                        "\n",
                        "%Takes the questions from the questions.tex file\n",
-                       "\\input{questions.tex}",
+                       "\\input{questions.tex}",manualaddquestionscode,
                        "\n",
                        "\\begin{document}	\n",
                        "\n",
@@ -315,6 +344,7 @@ AMCcreatetest <- function(question,
                        "\n",
                        "%Takes the elements list from the elements.tex file\n",
                        "\\input{elements.tex}",
+                       manualaddelementscode,
                        "\n",
                        clearpagetext," \n",
                        "\n",
@@ -364,6 +394,8 @@ collapsedlist <- paste(listoriginaltex, sep = "", collapse = "")
                     filepath = filepathelements)
 
 
+
+
 # Report message
 if (messages == T){
 message("The following files were successfully written to ",
@@ -372,7 +404,9 @@ message("The following files were successfully written to ",
         basename(filepath),
         "\n- questions.tex",
         "\n- elements.tex",
-        "\n\nPut these 3 files in your AMC project folder and use AMC to compile them."
+        #Adds additional messages
+        facilitatemanualaddmessage,
+        "\n\nPut all these files in your AMC project folder and use AMC to compile them."
         )
 
 }

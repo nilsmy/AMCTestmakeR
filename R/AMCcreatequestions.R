@@ -55,7 +55,26 @@
 #'   incorrectanswers = list(incorrect1,incorrect2,incorrect3),
 #'   codeprefix = "MATH")
 #'
-AMCcreatequestions <- function(question, correctanswers, incorrectanswers, element = "general", code = paste(codeprefix,c(1:length(question)), sep=""), codeprefix = "Q", output = "message", filepath = "questions.tex", questiontype = "single", append = F, multicols=2, messages = T, listelements = T, scoringcorrect = 1, scoringincorrect = 0, scoringnoresponse = 0, scoringincoherent = scoringincorrect, scoringbottom = scoringincorrect, shuffleanswersonce = T) {
+AMCcreatequestions <- function(question,
+                               correctanswers,
+                               incorrectanswers,
+                               element = "general",
+                               code = paste(codeprefix,c(1:length(question)), sep=""),
+                               codeprefix = "Q",
+                               output = "message",
+                               filepath = "questions.tex",
+                               questiontype = "single",
+                               append = F,
+                               multicols=2,
+                               messages = T,
+                               listelements = T,
+                               scoringcorrect = 1,
+                               scoringincorrect = 0,
+                               scoringnoresponse = 0,
+                               scoringincoherent = scoringincorrect,
+                               scoringbottom = scoringincorrect,
+                               shuffleanswersonce = T
+                               ) {
 
 
 
