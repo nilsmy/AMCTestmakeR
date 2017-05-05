@@ -13,8 +13,3 @@
 
 This is a new release, so there are no reverse dependencies.
 
-## Resubmission
-
-This is a resubmission. In this version I have:
-
-* Converted the DESCRIPTION title to title case.
