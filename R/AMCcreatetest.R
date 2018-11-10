@@ -1,5 +1,5 @@
 
-#' Create a full \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice} test with a main .tex file (\code{groups.tex}), a file for questions (\code{questions.tex}), a file for elements (\code{elements.tex}.
+#' Create a full Auto-Multiple-Choice test with a main .tex file (\code{groups.tex}), a file for questions (\code{questions.tex}), a file for elements (\code{elements.tex}.
 #'
 #' @param question A character value or vector containing the questions.
 #' @param correctanswers A character (value, vector) containing the correct answer. A vector (or list) of character vectors can also be passed, in the case of multiple correct answers.
@@ -14,9 +14,11 @@
 #' @param scoringnoresponse A numeric value or vector to indicate the scoring for non-responding. Defaults to 0.
 #' @param scoringincoherent A numeric value or vector to indicate the scoring for incoherent answer(s) (e.g. two boxes checked for a single-answer questionnaire). Defaults to 0.
 #' @param scoringbottom A numeric value or vector to indicate the minimum score for the question(s). Especially useful when attributing negative points to incorrect answers in a multiple-answer questionnaire, to ensure students do not lose too many points on one question. Defaults to 0.
-#' @param shuffle A logical value or vector to indicate whether to shuffle questions inside a question group.
+#' @param shufflequestions A logical value or vector to indicate whether to shuffle questions inside a question group. Defaults to TRUE.
+#' @param shuffleanswers A logical value or vector to indicate whether to shuffle answers per examinee. Defaults to TRUE. If set to FALSE, it is recommended to shuffle once for all examinee with shuffle the answers once with 'shuffleanswersonce = TRUE'.
+#' @param shuffleanswersonce A logical value to indicate whether to shuffle answers for each question directly in the LaTeX code (useful if the answers are not randomized by examinee by AMC). Defaults to TRUE.
 #' @param sections A character value or vector to indicate whether to create a new LaTeX section for each element (defaults to TRUE).
-#' @param filepath A character value indicating the path for the main .tex file output (most often, in AMC, it is \code{groups.tex}, which is the default of the function). Note that the other created files (\code{questions.tex} and \code{elements.tex} will we written in the folder of this file).
+#' @param filepath A character value indicating the path for the main .tex file output. Most often, in AMC, it is \code{source.tex} (default), but in some examples it's named \code{groups.tex}, for example. Note that the other created files (\code{questions.tex} and \code{elements.tex} will we written in the folder of this file).
 #' @param messages A logical value to indicate whether to output messages and reports (default is TRUE).
 #' @param title A character value indicating a title for the test (default is "Test").
 #' @param fontsize A numeric value to indicate the font size of the output document. Default is 10. Note: Above 12 pt, the LaTeX package "extarticle" is automatically used in lieu of "article".
@@ -27,9 +29,11 @@
 #' @param answersheettitle A character value to indicate the title of the separate answer sheet. Defaults to "Answer sheet".
 #' @param answersheetinstructions A logical or character value to add default (TRUE), remove (FALSE) or customize (character value) instructions given on the separate answer sheet. Default is TRUE, which indicates that the students shall answer on the answer sheet.
 #' @param twosided A logical value to indicate whether the exam will be printed two sided. This is notably important when printing on a separate answer sheet, to have the answer sheet printed on a separate page. Defaults to TRUE.
+#' @param lettersinsidebox A logical value to indicate whether to put letters inside boxes. Defaults to FALSE.
 #' @param box A logical value to indicate whether to box the questions and answers, to ensure that they are always presented on the same page. Defaults to TRUE.
+#' @param facilitatemanualadd A logical indicating whether to add LaTeX code to facilitate adding questions and elements manually. If TRUE, creates .tex files where questions and elements can be input manually without changing the main files. Defaults to FALSE.
 #'
-#' @return Writes 3 tex documents (\code{groups.tex}, \code{questions.tex} and \code{elements.tex})) for direct use in \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice}.
+#' @return Writes 3 .tex documents (\code{source.tex}, \code{questions.tex} and \code{elements.tex})) for direct use in Auto-Multiple-Choice.
 #' @export
 #'
 #' @examples
@@ -42,16 +46,15 @@
 #'  correctanswers = 2,
 #'  incorrectanswer = list("3", "11", "4"),
 #'  # Arguments passed to AMCcreateelements()
-#'  shuffle = T,
-#'  sections = T,
+#'  shufflequestions = T,
+#'  sections = F,
 #'  # Part used for test options
 #'  title = "Exam", #Custom title
-#'  paper = "a4", #change the paper for a4
 #'  fontsize = 11, #change fontsize
 #'  identifier = "ID Number", #change identifier
 #'  twosided = F, #print in one sided
 #'  instructions = T, #show an instructions block to students
-#'  separateanswersheet = T, #use a separate answer sheet
+#'  separateanswersheet = F, #use a separate answer sheet
 #'  answersheettitle = "Respond Here", #Change answer sheet title
 #'  answersheetinstructions = "Fill the boxes" #Answer sheet instructions
 #'   )}
@@ -69,10 +72,12 @@ AMCcreatetest <- function(question,
                           scoringnoresponse = 0,
                           scoringincoherent = scoringincorrect,
                           scoringbottom = scoringincorrect,
-                          shuffle = T,
+                          shufflequestions = T,
+                          shuffleanswers = T,
+                          shuffleanswersonce = T,
                           sections = T,
                           title = "Test",
-                          filepath = "groups.tex",
+                          filepath = "source.tex",
                           messages = T,
                           fontsize = 10,
                           instructions = T,
@@ -82,7 +87,9 @@ AMCcreatetest <- function(question,
                           answersheettitle = "Answer sheet",
                           answersheetinstructions = T,
                           twosided = T,
-                          box = T) {
+                          lettersinsidebox = F,
+                          box = T,
+                          facilitatemanualadd = T) {
 
   #Name file path
   filepathname <- paste(dirname(filepath), sep="")
@@ -243,18 +250,59 @@ AMCcreatetest <- function(question,
     useboxpackage <- ""
   }
 
+  # OPTION letters inside box
+  if (lettersinsidebox == T) {
+    lettersinsideboxcode <- "insidebox,"
+  } else {
+    lettersinsideboxcode <- ""
+  }
+
+  # OPTION no shuffle
+  if (shuffleanswers == T) {
+    shuffleanswerscode <- "noshuffle,"
+  } else {
+    shuffleanswerscode <- ""
+  }
+
+
+  # OPTION facilitate manual add
+  if (facilitatemanualadd == T) {
+    manualaddquestionscode <- "\n %Manually add questions in the separate file	\n \\input{manuallyaddedquestions.tex}\n"
+    manualaddelementscode <- "\n %Manually add question groups (elements) in the separate file	\n \\input{manuallyaddedelements.tex}\n"
+    facilitatemanualaddmessage <- c("\n- manuallyaddedquestions.tex (manually add questions here)","\n- manuallyaddedelements.tex (manually add questions here)")
+    # Write the additional files for questions
+    filemanuallyaddedquestions <- paste("%Place your additional questions below (or leave blank but keep the file)\n",
+                                        "%Note : AMCTestmakeR is set to NOT erase your additional questions if you rerun it.\n",
+                                        sep ="")
+    filepathmanuallyaddedquestions <- paste(dirname(filepath), "/manuallyaddedquestions.tex", sep="")
+    write(filemanuallyaddedquestions, filepathmanuallyaddedquestions, append = T)
+    # Write the additional files for elements
+    filemanuallyaddedelements <- paste("%Place your additional question groups (elements) below (or leave blank but keep the file)\n",
+                                       "%Note : AMCTestmakeR is set to NOT erase your additional questions if you rerun it.\n",
+                                        sep ="")
+    filepathmanuallyaddedelements <- paste(dirname(filepath), "/manuallyaddedelements.tex", sep="")
+    write(filemanuallyaddedelements, filepathmanuallyaddedelements, append = T)
+  } else {
+    manualaddquestionscode <- ""
+    manualaddelementscode <- ""
+    facilitatemanualaddmessage <- ""
+
+  }
+
+
   listoriginaltex <- c(paste("\\documentclass[",paper,",",fontsize,"pt]{",articlelibrary,"}	\n", sep =""),
                        "\n",
                        "\\usepackage{multicol}	\n",
                        "\\usepackage[utf8x]{inputenc}	\n",
                        "\\usepackage[T1]{fontenc}	\n",
                        "\\usepackage{amsmath}	\n",
-                       "\\usepackage[",useboxpackage,
+                       "\\usepackage[",useboxpackage,lettersinsideboxcode, shuffleanswerscode,
                        "completemulti",separateanswer1,"]{automultiplechoice}	\n",
                        "\n",
                        "\\renewcommand{\\rmdefault}{\\sfdefault}	\n",
                        "\n",
-                       "%\\geometry{hmargin=2.5cm,headheight=1.5cm,headsep=.2cm,footskip=0.8cm,top=2.5cm,bottom=2.5cm}\n",
+                       "%Tweak margins here if desired",
+                       "%\\geometry{hmargin=3cm,headheight=2cm,headsep=.3cm,footskip=1cm,top=3.5cm,bottom=2.5cm}\n",
                        "\n",
                        "\\usepackage{titlesec}	\n",
                        "\n",
@@ -268,7 +316,7 @@ AMCcreatetest <- function(question,
                        "\\AMCrandomseed{1527384}	\n",
                        "\n",
                        "%Takes the questions from the questions.tex file\n",
-                       "\\input{questions.tex}",
+                       "\\input{questions.tex}",manualaddquestionscode,
                        "\n",
                        "\\begin{document}	\n",
                        "\n",
@@ -295,6 +343,7 @@ AMCcreatetest <- function(question,
                        "\n",
                        "%Takes the elements list from the elements.tex file\n",
                        "\\input{elements.tex}",
+                       manualaddelementscode,
                        "\n",
                        clearpagetext," \n",
                        "\n",
@@ -329,17 +378,21 @@ collapsedlist <- paste(listoriginaltex, sep = "", collapse = "")
                      scoringincorrect = scoringincorrect,
                      scoringnoresponse = scoringnoresponse,
                      scoringincoherent = scoringincoherent,
-                     scoringbottom = scoringbottom)
+                     scoringbottom = scoringbottom,
+                     shuffleanswersonce = shuffleanswersonce
+                     )
 
   # Create list of elements through AMCcreatelements
   #(verbose but more options)
   AMCcreateelements(element = element,
-                    shuffle = shuffle,
+                    shufflequestions = shufflequestions,
                     sections = sections,
                     output = "file",
                     append = F,
                     messages = F,
                     filepath = filepathelements)
+
+
 
 
 # Report message
@@ -350,7 +403,9 @@ message("The following files were successfully written to ",
         basename(filepath),
         "\n- questions.tex",
         "\n- elements.tex",
-        "\n\nPut these 3 files in your AMC project folder and use AMC to compile them."
+        #Adds additional messages
+        facilitatemanualaddmessage,
+        "\n\nPut all these files in your AMC project folder and use AMC to compile them."
         )
 
 }

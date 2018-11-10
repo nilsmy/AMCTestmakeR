@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8" />
+<meta charset="utf-8">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -12,7 +12,7 @@
 
 <meta name="author" content="Nils Myszkowski" />
 
-<meta name="date" content="2018-11-09" />
+<meta name="date" content="2017-03-28" />
 
 <title>Using AMCTestmakeR</title>
 
@@ -70,11 +70,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Using <code>AMCTestmakeR</code></h1>
 <h4 class="author"><em>Nils Myszkowski</em></h4>
-<h4 class="date"><em>2018-11-09</em></h4>
+<h4 class="date"><em>2017-03-28</em></h4>
 
 
 
-<p><code>AMCTestmakeR</code> provides functions to be used with the free Optical Mark Recognition (OMR) software Auto Multiple Choice.</p>
+<p><code>AMCTestmakeR</code> provides functions to be used with the free Optical Mark Recognition (OMR) software <a href="http://home.gna.org/auto-qcm/index.en">Auto Multiple Choice</a>.</p>
 <p>It’s main purpose is to facilitate working with R and AMC in parallel, but it can also be used to transform a spreadsheet into an AMC questionnaire easily.</p>
 <p>So far, the features are limited to generating AMC-LaTeX code questions for Multiple Choice Questionnaires (single and multiple answer). Hopefully, it’s how most people use Auto Multiple Choice.</p>
 <div id="install-and-load-the-library" class="section level1">
@@ -100,9 +100,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
  {\begin{question}{Q1}\scoring{b=1,m=0,v=0,e=0,b=0}
  How much is $1+1$?
  \begin{multicols}{2}\AMCBoxedAnswers\begin{choices}
- \wrongchoice{11}
- \wrongchoice{3}
  \correctchoice{2}
+ \wrongchoice{3}
+ \wrongchoice{11}
  \end{choices}\end{multicols}\end{question}
 }
  </code></pre>
@@ -110,7 +110,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 %%%%%%%%%| List of elements |%%%%%%%%%
 %%% (copy &amp; paste after questions) %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{general}
+\section{general}
 \shufflegroup{general}
 \insertgroup{general}</code></pre>
 <p>Or, more simply <code>AMCcreatequestions(&quot;How much is $1+1$?&quot;,2,list(3, 11))</code>.</p>
@@ -144,10 +144,10 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
 ##  {\begin{question}{Q1}\scoring{b=1,m=0,v=0,e=0,b=0}
 ##  How much is $1+1$ ?
 ##  \begin{multicols}{2}\AMCBoxedAnswers\begin{choices}
-##  \wrongchoice{3}
 ##  \correctchoice{2}
-##  \wrongchoice{4}
+##  \wrongchoice{3}
 ##  \wrongchoice{1}
+##  \wrongchoice{4}
 ##  \end{choices}\end{multicols}\end{question}
 ## }
 ##  
@@ -155,10 +155,10 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
 ##  {\begin{question}{Q2}\scoring{b=1,m=0,v=0,e=0,b=0}
 ##  How much is $1 \times 1$ ?
 ##  \begin{multicols}{2}\AMCBoxedAnswers\begin{choices}
-##  \wrongchoice{4}
-##  \wrongchoice{8}
 ##  \correctchoice{1}
+##  \wrongchoice{4}
 ##  \wrongchoice{3}
+##  \wrongchoice{8}
 ##  \end{choices}\end{multicols}\end{question}
 ## }
 ##  
@@ -166,9 +166,9 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
 ##  {\begin{question}{Q3}\scoring{b=1,m=0,v=0,e=0,b=0}
 ##  How much is $\frac{1}{2}$ ?
 ##  \begin{multicols}{2}\AMCBoxedAnswers\begin{choices}
-##  \wrongchoice{100}
-##  \wrongchoice{10}
 ##  \correctchoice{0.5}
+##  \wrongchoice{10}
+##  \wrongchoice{100}
 ##   \end{choices}\end{multicols}\end{question}
 ## }
 ## </code></pre>
@@ -176,7 +176,7 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
 ## %%%%%%%%%| List of elements |%%%%%%%%%
 ## %%% (copy &amp; paste after questions) %%%
 ## %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-## \section*{general}
+## \section{general}
 ## \shufflegroup{general}
 ## \insertgroup{general}</code></pre>
 <p>Like before, copy-paste is not optimal, as R escapes different characters than LaTeX. Using <code>writefile = TRUE</code> is more convenient to take care of this and translate R text into LaTeX (see above for details). Also, consider using the function <code>AMCcreatetest()</code> to handle the full test creation (described later as <em>Suggested Workflow 1</em>).</p>
@@ -200,10 +200,10 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
 ##  {\begin{question}{Q1}\scoring{b=1,m=0,v=0,e=0,b=0}
 ##  How much is $1+1$ ?
 ##  \begin{multicols}{2}\AMCBoxedAnswers\begin{choices}
+##  \correctchoice{2}
+##  \wrongchoice{3}
 ##  \wrongchoice{1}
 ##  \wrongchoice{4}
-##  \wrongchoice{3}
-##  \correctchoice{2}
 ##  \end{choices}\end{multicols}\end{question}
 ## }
 ##  
@@ -211,8 +211,8 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
 ##  {\begin{question}{Q2}\scoring{b=1,m=0,v=0,e=0,b=0}
 ##  How much is $1 \times 1$ ?
 ##  \begin{multicols}{2}\AMCBoxedAnswers\begin{choices}
-##  \wrongchoice{4}
 ##  \correctchoice{1}
+##  \wrongchoice{4}
 ##  \wrongchoice{3}
 ##  \wrongchoice{8}
 ##  \end{choices}\end{multicols}\end{question}
@@ -222,23 +222,23 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
 ##  {\begin{question}{Q3}\scoring{b=1,m=0,v=0,e=0,b=0}
 ##  How much is $\frac{1}{2}$ ?
 ##  \begin{multicols}{2}\AMCBoxedAnswers\begin{choices}
+##  \correctchoice{0.5}
 ##  \wrongchoice{10}
 ##  \wrongchoice{100}
-##   \correctchoice{0.5}
-##  \end{choices}\end{multicols}\end{question}
+##   \end{choices}\end{multicols}\end{question}
 ## }
 ## </code></pre>
 <pre><code>## %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ## %%%%%%%%%| List of elements |%%%%%%%%%
 ## %%% (copy &amp; paste after questions) %%%
 ## %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-## \section*{ADD}
+## \section{ADD}
 ## \shufflegroup{ADD}
 ## \insertgroup{ADD}
-## \section*{MULT}
+## \section{MULT}
 ## \shufflegroup{MULT}
 ## \insertgroup{MULT}
-## \section*{DIV}
+## \section{DIV}
 ## \shufflegroup{DIV}
 ## \insertgroup{DIV}</code></pre>
 <p>The default element is <code>general</code>.</p>
@@ -260,10 +260,10 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
 ##  {\begin{question}{ADD1}\scoring{b=1,m=0,v=0,e=0,b=0}
 ##  How much is $1+1$ ?
 ##  \begin{multicols}{2}\AMCBoxedAnswers\begin{choices}
-##  \wrongchoice{3}
-##  \wrongchoice{4}
-##  \wrongchoice{1}
 ##  \correctchoice{2}
+##  \wrongchoice{3}
+##  \wrongchoice{1}
+##  \wrongchoice{4}
 ##  \end{choices}\end{multicols}\end{question}
 ## }
 ##  
@@ -271,9 +271,9 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
 ##  {\begin{question}{MULT1}\scoring{b=1,m=0,v=0,e=0,b=0}
 ##  How much is $1 \times 1$ ?
 ##  \begin{multicols}{2}\AMCBoxedAnswers\begin{choices}
-##  \wrongchoice{3}
-##  \wrongchoice{4}
 ##  \correctchoice{1}
+##  \wrongchoice{4}
+##  \wrongchoice{3}
 ##  \wrongchoice{8}
 ##  \end{choices}\end{multicols}\end{question}
 ## }
@@ -283,16 +283,16 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
 ##  How much is $\frac{1}{2}$ ?
 ##  \begin{multicols}{2}\AMCBoxedAnswers\begin{choices}
 ##  \correctchoice{0.5}
-##   \wrongchoice{10}
+##  \wrongchoice{10}
 ##  \wrongchoice{100}
-##  \end{choices}\end{multicols}\end{question}
+##   \end{choices}\end{multicols}\end{question}
 ## }
 ## </code></pre>
 <pre><code>## %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ## %%%%%%%%%| List of elements |%%%%%%%%%
 ## %%% (copy &amp; paste after questions) %%%
 ## %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-## \section*{general}
+## \section{general}
 ## \shufflegroup{general}
 ## \insertgroup{general}</code></pre>
 <p>A lazy version of this is, instead of codes, to input a code prefix with the <code>codeprefix</code> argument. Unique codes will be generated by the function by incrementing numbers after the prefix.</p>
@@ -309,10 +309,10 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
 ##  {\begin{question}{MATH1}\scoring{b=1,m=0,v=0,e=0,b=0}
 ##  How much is $1+1$ ?
 ##  \begin{multicols}{2}\AMCBoxedAnswers\begin{choices}
+##  \correctchoice{2}
 ##  \wrongchoice{3}
 ##  \wrongchoice{1}
 ##  \wrongchoice{4}
-##  \correctchoice{2}
 ##  \end{choices}\end{multicols}\end{question}
 ## }
 ##  
@@ -320,9 +320,9 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
 ##  {\begin{question}{MATH2}\scoring{b=1,m=0,v=0,e=0,b=0}
 ##  How much is $1 \times 1$ ?
 ##  \begin{multicols}{2}\AMCBoxedAnswers\begin{choices}
-##  \wrongchoice{3}
 ##  \correctchoice{1}
 ##  \wrongchoice{4}
+##  \wrongchoice{3}
 ##  \wrongchoice{8}
 ##  \end{choices}\end{multicols}\end{question}
 ## }
@@ -331,17 +331,17 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
 ##  {\begin{question}{MATH3}\scoring{b=1,m=0,v=0,e=0,b=0}
 ##  How much is $\frac{1}{2}$ ?
 ##  \begin{multicols}{2}\AMCBoxedAnswers\begin{choices}
-##  \wrongchoice{10}
-##   \wrongchoice{100}
 ##  \correctchoice{0.5}
-##  \end{choices}\end{multicols}\end{question}
+##  \wrongchoice{10}
+##  \wrongchoice{100}
+##   \end{choices}\end{multicols}\end{question}
 ## }
 ## </code></pre>
 <pre><code>## %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ## %%%%%%%%%| List of elements |%%%%%%%%%
 ## %%% (copy &amp; paste after questions) %%%
 ## %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-## \section*{general}
+## \section{general}
 ## \shufflegroup{general}
 ## \insertgroup{general}</code></pre>
 </div>
@@ -359,30 +359,25 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
 <h3>More options</h3>
 <p>Separate answer sheets, font size, title, instructions, etc.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">AMCcreatetest</span>(
-  <span class="co">#This part is passed to the AMCcreatequestions() function:</span>
-  <span class="dt">question =</span> <span class="st">&quot;How much is $1+1$?&quot;</span>,
-  <span class="dv">2</span>,
-  <span class="kw">list</span>(<span class="st">&quot;3&quot;</span>, <span class="st">&quot;11&quot;</span>),
-  <span class="co">#The next part is passed to AMCcreateelements():</span>
-  <span class="dt">shuffle =</span> T,
-  <span class="dt">sections =</span> T,
-  <span class="co">#The last part is for general test options:</span>
-  <span class="dt">title =</span> <span class="st">&quot;Exam&quot;</span>, <span class="co">#Custom title</span>
-  <span class="dt">paper =</span> <span class="st">&quot;a4&quot;</span>, <span class="co">#change the paper for a4</span>
-  <span class="dt">fontsize =</span> <span class="dv">11</span>, <span class="co">#change fontsize</span>
-  <span class="dt">identifier =</span> <span class="st">&quot;ID Number&quot;</span>, <span class="co">#change identifier</span>
-  <span class="dt">twosided =</span> F, <span class="co">#print in one sided</span>
-  <span class="dt">instructions =</span> <span class="st">&quot;Don't respond here.&quot;</span>, <span class="co">#show an instructions block</span>
-  <span class="dt">separateanswersheet =</span> T, <span class="co">#use a separate answer sheet</span>
-  <span class="dt">answersheettitle =</span> <span class="st">&quot;Respond Here&quot;</span>, <span class="co">#Change answer sheet title</span>
-  <span class="dt">answersheetinstructions =</span> <span class="st">&quot;Fill the boxes.&quot;</span><span class="co">#Answer sheet instructions</span>
+<span class="co"># Part passed to AMCcreatequestions() (see documentation)</span>
+<span class="st">&quot;How much is $1+2$?&quot;</span>,<span class="dv">2</span>,<span class="kw">list</span>(<span class="st">&quot;3&quot;</span>, <span class="st">&quot;11&quot;</span>),
+<span class="co"># Part used for test options</span>
+<span class="dt">title =</span> <span class="st">&quot;This is the title&quot;</span>, <span class="co">#Custom title</span>
+<span class="dt">paper =</span> <span class="st">&quot;a4&quot;</span>, <span class="co">#change the paper for a4</span>
+<span class="dt">fontsize =</span> <span class="dv">11</span>, <span class="co">#change fontsize</span>
+<span class="dt">identifier =</span> <span class="st">&quot;ID Number&quot;</span>, <span class="co">#change identifier</span>
+<span class="dt">twosided =</span> F, <span class="co">#print in one sided</span>
+<span class="dt">instructions =</span> <span class="st">&quot;Don't respond here.&quot;</span>, <span class="co">#show an instructions block to students (on questions part)</span>
+<span class="dt">separateanswersheet =</span> T, <span class="co">#use a separate answer sheet</span>
+<span class="dt">answersheettitle =</span> <span class="st">&quot;Respond Here&quot;</span>, <span class="co">#Change answer sheet title</span>
+<span class="dt">answersheetinstructions =</span> <span class="st">&quot;Fill the boxes&quot;</span><span class="co">#Answer sheet instructions</span>
 )</code></pre></div>
 <p>When working on the questions, I suggest to work using <code>AMCcreatequestions()</code> with the default output as notes (to check the result without opening a separate .tex file). Once your questions are ready, I suggest to switch to <code>AMCcreatequestions()</code>, using the same beginning arguments, and changing the rest.</p>
 </div>
 </div>
 <div id="workflow-2-doing-things-manually-with-your-own-template-and-amccreateelements" class="section level2">
 <h2>Workflow 2: Doing things manually with your own template and <code>AMCcreateelements()</code></h2>
-<p>If you want to customize more, you can do things step by step. If doing that, I highly recommend starting by reading the AMC documentation.</p>
+<p>If you want to customize more, you can do things step by step. If doing that, I highly recommend starting by reading the <a href="http://home.gna.org/auto-qcm/auto-multiple-choice.en/latex.shtml">AMC documentation</a>.</p>
 <p>When using <code>AMCcreatequestions()</code> to create a questionnaire in AMC, I suggest to create, with <code>writefile = TRUE</code>, the questions in a separate questions file (e.g. <code>questions.tex</code>) in your AMC project folder.</p>
 <p>From there, in your main .tex document (usually, that’s named <code>groups.tex</code> by AMC), add <code>\input{questions.tex}</code> at the beginning (but still after your <code>\begin{document}</code>).</p>
 <p>Then, where you want to place the different <code>elements</code>, in your main .tex, add <code>\insertgroup{element}</code> for each of them. Before the <code>\insertgroup{}</code> command, you can use <code>\shufflegroup{element}</code> to shuffle the questions within the element.</p>
@@ -394,13 +389,13 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
 ## %%%%%%%%%| List of elements |%%%%%%%%%
 ## %%% (copy &amp; paste after questions) %%%
 ## %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-## \section*{ADD}
+## \section{ADD}
 ## \shufflegroup{ADD}
 ## \insertgroup{ADD}
-## \section*{MULT}
+## \section{MULT}
 ## \shufflegroup{MULT}
 ## \insertgroup{MULT}
-## \section*{DIV}
+## \section{DIV}
 ## \shufflegroup{DIV}
 ## \insertgroup{DIV}</code></pre>
 <p>Note that, if the same element is input multiple times (which often happens if you pass to this function the same vector of elements as the one used in <code>AMCcreatequestions()</code>), it is not a problem, since only unique values are output:</p>
@@ -416,7 +411,7 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
 </div>
 <div id="future-features" class="section level1">
 <h1>Future features</h1>
-<p>Auto Multiple Choice is a great freeware that is able to do a lot more that what <code>AMCTestmakeR</code> helps for, so I will try to add the most helpful features here soon. This software feels the In any case, I strongly encourage to read the documentation of how to use LaTeX in Auto Multiple Choice to get a sense of its many possibilities.</p>
+<p><a href="http://home.gna.org/auto-qcm/index.en">Auto Multiple Choice</a> is a great freeware that is able to do a lot more that what <code>AMCTestmakeR</code> helps for, so I will try to add the most helpful features here soon. This software feels the In any case, I strongly encourage to read the documentation of how to use LaTeX in Auto Multiple Choice <a href="http://home.gna.org/auto-qcm/auto-multiple-choice.en/latex.shtml">here</a> to get a sense of its many possibilities.</p>
 </div>
 
 
@@ -426,7 +421,7 @@ incorrect3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

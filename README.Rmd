@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 
 
 
-`AMCTestmakeR` provides functions to be used with the free Optical Mark Recognition (OMR) software [Auto Multiple Choice](http://home.gna.org/auto-qcm/index.en).
+`AMCTestmakeR` provides functions to be used with the free Optical Mark Recognition (OMR) software Auto Multiple Choice.
 
 It's main purpose is to facilitate working with R and AMC in parallel, but it can also be used to transform a spreadsheet into an AMC questionnaire easily.
 
@@ -180,7 +180,7 @@ When working on the questions, I suggest to work using `AMCcreatequestions()` wi
 
 ## Workflow 2: Doing things manually with your own template and `AMCcreateelements()`
 
-If you want to customize more, you can do things step by step. If doing that, I highly recommend starting by reading the [AMC documentation](http://home.gna.org/auto-qcm/auto-multiple-choice.en/latex.shtml).
+If you want to customize more, you can do things step by step. If doing that, I highly recommend starting by reading the AMC documentation.
 
 When using `AMCcreatequestions()` to create a questionnaire in AMC, I suggest to create, with `writefile = TRUE`, the questions in a separate questions file (e.g. `questions.tex`) in your AMC project folder.
 
@@ -190,23 +190,23 @@ Then, where you want to place the different `elements`, in your main .tex, add `
 
 ### The `AMCcreateelements()` function
 
-If you have many elements in your document, and therefore many `\insertgroup{}` (and `\shufflegroup{}`) to insert, you may want to use the function `AMCcreateelements()` function. It will show as a console message (which you can, this time, easily copy-and-paste into your main .tex document) the commands to insert (and shuffle, if desired, through the `shuffle` argument) the elements:
+If you have many elements in your document, and therefore many `\insertgroup{}` (and `\shufflegroup{}`) to insert, you may want to use the function `AMCcreateelements()` function. It will show as a console message (which you can, this time, easily copy-and-paste into your main .tex document) the commands to insert (and shuffle, if desired, through the `shufflequestions` argument) the elements:
 
 ```{r}
-AMCcreateelements(element = c("ADD", "MULT", "DIV"), shuffle = T, sections = T)
+AMCcreateelements(element = c("ADD", "MULT", "DIV"), shufflequestions = T, sections = T)
 ```
 
 Note that, if the same element is input multiple times (which often happens if you pass to this function the same vector of elements as the one used in `AMCcreatequestions()`), it is not a problem, since only unique values are output:
 
 ```{r}
-AMCcreateelements(element = c("MATH", "MATH", "MATH", "STAT"), shuffle = F, sections = F)
+AMCcreateelements(element = c("MATH", "MATH", "MATH", "STAT"), shufflequestions = F, sections = F)
 ```
 
 
 
 # Future features
 
-[Auto Multiple Choice](http://home.gna.org/auto-qcm/index.en) is a great freeware that is able to do a lot more that what `AMCTestmakeR` helps for, so I will try to add the most helpful features here soon. This software feels the In any case, I strongly encourage to read the documentation of how to use LaTeX in Auto Multiple Choice [here](http://home.gna.org/auto-qcm/auto-multiple-choice.en/latex.shtml) to get a sense of its many possibilities.
+Auto multiple choice s a great freeware that is able to do a lot more that what `AMCTestmakeR` helps for, so I will try to add the most helpful features here soon. This software feels the In any case, I strongly encourage to read the documentation of how to use LaTeX in Auto Multiple Choice to get a sense of its many possibilities.
 
 
 

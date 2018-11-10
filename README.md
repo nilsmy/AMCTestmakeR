@@ -1,6 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-`AMCTestmakeR` provides functions to be used with the free Optical Mark Recognition (OMR) software [Auto Multiple Choice](http://home.gna.org/auto-qcm/index.en).
+`AMCTestmakeR` provides functions to be used with the free Optical Mark Recognition (OMR) software Auto Multiple Choice.
 
 It's main purpose is to facilitate working with R and AMC in parallel, but it can also be used to transform a spreadsheet into an AMC questionnaire easily.
 
@@ -55,8 +55,8 @@ AMCcreatequestions(
  How much is $1+1$?
  \begin{multicols}{2}\AMCBoxedAnswers\begin{choices}
  \correctchoice{2}
- \wrongchoice{3}
  \wrongchoice{11}
+ \wrongchoice{3}
  \end{choices}\end{multicols}\end{question}
 }
  
@@ -111,8 +111,8 @@ AMCcreatequestions(question = question,
 #>  How much is $1+1$ ?
 #>  \begin{multicols}{2}\AMCBoxedAnswers\begin{choices}
 #>  \correctchoice{2}
-#>  \wrongchoice{3}
 #>  \wrongchoice{1}
+#>  \wrongchoice{3}
 #>  \wrongchoice{4}
 #>  \end{choices}\end{multicols}\end{question}
 #> }
@@ -121,10 +121,10 @@ AMCcreatequestions(question = question,
 #>  {\begin{question}{Q2}\scoring{b=1,m=0,v=0,e=0,b=0}
 #>  How much is $1 \times 1$ ?
 #>  \begin{multicols}{2}\AMCBoxedAnswers\begin{choices}
-#>  \correctchoice{1}
-#>  \wrongchoice{4}
-#>  \wrongchoice{3}
 #>  \wrongchoice{8}
+#>  \wrongchoice{4}
+#>  \correctchoice{1}
+#>  \wrongchoice{3}
 #>  \end{choices}\end{multicols}\end{question}
 #> }
 #>  
@@ -132,10 +132,10 @@ AMCcreatequestions(question = question,
 #>  {\begin{question}{Q3}\scoring{b=1,m=0,v=0,e=0,b=0}
 #>  How much is $\frac{1}{2}$ ?
 #>  \begin{multicols}{2}\AMCBoxedAnswers\begin{choices}
-#>  \correctchoice{0.5}
+#>   \wrongchoice{100}
 #>  \wrongchoice{10}
-#>  \wrongchoice{100}
-#>   \end{choices}\end{multicols}\end{question}
+#>  \correctchoice{0.5}
+#>  \end{choices}\end{multicols}\end{question}
 #> }
 #> 
 #> %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -172,10 +172,10 @@ AMCcreatequestions(element = c("ADD", "MULT", "DIV"),
 #>  {\begin{question}{Q1}\scoring{b=1,m=0,v=0,e=0,b=0}
 #>  How much is $1+1$ ?
 #>  \begin{multicols}{2}\AMCBoxedAnswers\begin{choices}
+#>  \wrongchoice{4}
+#>  \wrongchoice{1}
 #>  \correctchoice{2}
 #>  \wrongchoice{3}
-#>  \wrongchoice{1}
-#>  \wrongchoice{4}
 #>  \end{choices}\end{multicols}\end{question}
 #> }
 #>  
@@ -194,10 +194,10 @@ AMCcreatequestions(element = c("ADD", "MULT", "DIV"),
 #>  {\begin{question}{Q3}\scoring{b=1,m=0,v=0,e=0,b=0}
 #>  How much is $\frac{1}{2}$ ?
 #>  \begin{multicols}{2}\AMCBoxedAnswers\begin{choices}
-#>  \correctchoice{0.5}
-#>  \wrongchoice{10}
 #>  \wrongchoice{100}
-#>   \end{choices}\end{multicols}\end{question}
+#>   \correctchoice{0.5}
+#>  \wrongchoice{10}
+#>  \end{choices}\end{multicols}\end{question}
 #> }
 #> 
 #> %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -237,10 +237,10 @@ AMCcreatequestions(code = c("ADD1", "MULT1", "DIV1"),
 #>  {\begin{question}{ADD1}\scoring{b=1,m=0,v=0,e=0,b=0}
 #>  How much is $1+1$ ?
 #>  \begin{multicols}{2}\AMCBoxedAnswers\begin{choices}
-#>  \correctchoice{2}
 #>  \wrongchoice{3}
-#>  \wrongchoice{1}
 #>  \wrongchoice{4}
+#>  \wrongchoice{1}
+#>  \correctchoice{2}
 #>  \end{choices}\end{multicols}\end{question}
 #> }
 #>  
@@ -248,10 +248,10 @@ AMCcreatequestions(code = c("ADD1", "MULT1", "DIV1"),
 #>  {\begin{question}{MULT1}\scoring{b=1,m=0,v=0,e=0,b=0}
 #>  How much is $1 \times 1$ ?
 #>  \begin{multicols}{2}\AMCBoxedAnswers\begin{choices}
-#>  \correctchoice{1}
 #>  \wrongchoice{4}
 #>  \wrongchoice{3}
 #>  \wrongchoice{8}
+#>  \correctchoice{1}
 #>  \end{choices}\end{multicols}\end{question}
 #> }
 #>  
@@ -259,9 +259,9 @@ AMCcreatequestions(code = c("ADD1", "MULT1", "DIV1"),
 #>  {\begin{question}{DIV1}\scoring{b=1,m=0,v=0,e=0,b=0}
 #>  How much is $\frac{1}{2}$ ?
 #>  \begin{multicols}{2}\AMCBoxedAnswers\begin{choices}
-#>  \correctchoice{0.5}
-#>  \wrongchoice{10}
 #>  \wrongchoice{100}
+#>  \wrongchoice{10}
+#>  \correctchoice{0.5}
 #>   \end{choices}\end{multicols}\end{question}
 #> }
 #> 
@@ -290,9 +290,9 @@ AMCcreatequestions(codeprefix = "MATH",
 #>  {\begin{question}{MATH1}\scoring{b=1,m=0,v=0,e=0,b=0}
 #>  How much is $1+1$ ?
 #>  \begin{multicols}{2}\AMCBoxedAnswers\begin{choices}
-#>  \correctchoice{2}
-#>  \wrongchoice{3}
 #>  \wrongchoice{1}
+#>  \wrongchoice{3}
+#>  \correctchoice{2}
 #>  \wrongchoice{4}
 #>  \end{choices}\end{multicols}\end{question}
 #> }
@@ -301,9 +301,9 @@ AMCcreatequestions(codeprefix = "MATH",
 #>  {\begin{question}{MATH2}\scoring{b=1,m=0,v=0,e=0,b=0}
 #>  How much is $1 \times 1$ ?
 #>  \begin{multicols}{2}\AMCBoxedAnswers\begin{choices}
-#>  \correctchoice{1}
 #>  \wrongchoice{4}
 #>  \wrongchoice{3}
+#>  \correctchoice{1}
 #>  \wrongchoice{8}
 #>  \end{choices}\end{multicols}\end{question}
 #> }
@@ -312,10 +312,10 @@ AMCcreatequestions(codeprefix = "MATH",
 #>  {\begin{question}{MATH3}\scoring{b=1,m=0,v=0,e=0,b=0}
 #>  How much is $\frac{1}{2}$ ?
 #>  \begin{multicols}{2}\AMCBoxedAnswers\begin{choices}
+#>   \wrongchoice{100}
 #>  \correctchoice{0.5}
 #>  \wrongchoice{10}
-#>  \wrongchoice{100}
-#>   \end{choices}\end{multicols}\end{question}
+#>  \end{choices}\end{multicols}\end{question}
 #> }
 #> 
 #> %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -374,7 +374,7 @@ When working on the questions, I suggest to work using `AMCcreatequestions()` wi
 Workflow 2: Doing things manually with your own template and `AMCcreateelements()`
 ----------------------------------------------------------------------------------
 
-If you want to customize more, you can do things step by step. If doing that, I highly recommend starting by reading the [AMC documentation](http://home.gna.org/auto-qcm/auto-multiple-choice.en/latex.shtml).
+If you want to customize more, you can do things step by step. If doing that, I highly recommend starting by reading the AMC documentation.
 
 When using `AMCcreatequestions()` to create a questionnaire in AMC, I suggest to create, with `writefile = TRUE`, the questions in a separate questions file (e.g. `questions.tex`) in your AMC project folder.
 
@@ -384,10 +384,10 @@ Then, where you want to place the different `elements`, in your main .tex, add `
 
 ### The `AMCcreateelements()` function
 
-If you have many elements in your document, and therefore many `\insertgroup{}` (and `\shufflegroup{}`) to insert, you may want to use the function `AMCcreateelements()` function. It will show as a console message (which you can, this time, easily copy-and-paste into your main .tex document) the commands to insert (and shuffle, if desired, through the `shuffle` argument) the elements:
+If you have many elements in your document, and therefore many `\insertgroup{}` (and `\shufflegroup{}`) to insert, you may want to use the function `AMCcreateelements()` function. It will show as a console message (which you can, this time, easily copy-and-paste into your main .tex document) the commands to insert (and shuffle, if desired, through the `shufflequestions` argument) the elements:
 
 ``` r
-AMCcreateelements(element = c("ADD", "MULT", "DIV"), shuffle = T, sections = T)
+AMCcreateelements(element = c("ADD", "MULT", "DIV"), shufflequestions = T, sections = T)
 #> %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #> %%%%%%%%%| List of elements |%%%%%%%%%
 #> %%% (copy & paste after questions) %%%
@@ -406,7 +406,7 @@ AMCcreateelements(element = c("ADD", "MULT", "DIV"), shuffle = T, sections = T)
 Note that, if the same element is input multiple times (which often happens if you pass to this function the same vector of elements as the one used in `AMCcreatequestions()`), it is not a problem, since only unique values are output:
 
 ``` r
-AMCcreateelements(element = c("MATH", "MATH", "MATH", "STAT"), shuffle = F, sections = F)
+AMCcreateelements(element = c("MATH", "MATH", "MATH", "STAT"), shufflequestions = F, sections = F)
 #> %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #> %%%%%%%%%| List of elements |%%%%%%%%%
 #> %%% (copy & paste after questions) %%%
@@ -418,4 +418,4 @@ AMCcreateelements(element = c("MATH", "MATH", "MATH", "STAT"), shuffle = F, sect
 Future features
 ===============
 
-[Auto Multiple Choice](http://home.gna.org/auto-qcm/index.en) is a great freeware that is able to do a lot more that what `AMCTestmakeR` helps for, so I will try to add the most helpful features here soon. This software feels the In any case, I strongly encourage to read the documentation of how to use LaTeX in Auto Multiple Choice [here](http://home.gna.org/auto-qcm/auto-multiple-choice.en/latex.shtml) to get a sense of its many possibilities.
+Auto multiple choice s a great freeware that is able to do a lot more that what `AMCTestmakeR` helps for, so I will try to add the most helpful features here soon. This software feels the In any case, I strongly encourage to read the documentation of how to use LaTeX in Auto Multiple Choice to get a sense of its many possibilities.

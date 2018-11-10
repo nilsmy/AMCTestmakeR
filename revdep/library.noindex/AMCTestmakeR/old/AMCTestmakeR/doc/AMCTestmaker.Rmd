@@ -10,7 +10,7 @@ vignette: >
 ---
 
 
-`AMCTestmakeR` provides functions to be used with the free Optical Mark Recognition (OMR) software Auto Multiple Choice.
+`AMCTestmakeR` provides functions to be used with the free Optical Mark Recognition (OMR) software [Auto Multiple Choice](http://home.gna.org/auto-qcm/index.en).
 
 It's main purpose is to facilitate working with R and AMC in parallel, but it can also be used to transform a spreadsheet into an AMC questionnaire easily.
 
@@ -136,23 +136,18 @@ Separate answer sheets, font size, title, instructions, etc.
 
 ```{r eval=F}
 AMCcreatetest(
-  #This part is passed to the AMCcreatequestions() function:
-  question = "How much is $1+1$?",
-  2,
-  list("3", "11"),
-  #The next part is passed to AMCcreateelements():
-  shuffle = T,
-  sections = T,
-  #The last part is for general test options:
-  title = "Exam", #Custom title
-  paper = "a4", #change the paper for a4
-  fontsize = 11, #change fontsize
-  identifier = "ID Number", #change identifier
-  twosided = F, #print in one sided
-  instructions = "Don't respond here.", #show an instructions block
-  separateanswersheet = T, #use a separate answer sheet
-  answersheettitle = "Respond Here", #Change answer sheet title
-  answersheetinstructions = "Fill the boxes."#Answer sheet instructions
+# Part passed to AMCcreatequestions() (see documentation)
+"How much is $1+2$?",2,list("3", "11"),
+# Part used for test options
+title = "This is the title", #Custom title
+paper = "a4", #change the paper for a4
+fontsize = 11, #change fontsize
+identifier = "ID Number", #change identifier
+twosided = F, #print in one sided
+instructions = "Don't respond here.", #show an instructions block to students (on questions part)
+separateanswersheet = T, #use a separate answer sheet
+answersheettitle = "Respond Here", #Change answer sheet title
+answersheetinstructions = "Fill the boxes"#Answer sheet instructions
 )
 ```
 
@@ -161,7 +156,7 @@ When working on the questions, I suggest to work using `AMCcreatequestions()` wi
 
 ## Workflow 2: Doing things manually with your own template and `AMCcreateelements()`
 
-If you want to customize more, you can do things step by step. If doing that, I highly recommend starting by reading the AMC documentation.
+If you want to customize more, you can do things step by step. If doing that, I highly recommend starting by reading the [AMC documentation](http://home.gna.org/auto-qcm/auto-multiple-choice.en/latex.shtml).
 
 When using `AMCcreatequestions()` to create a questionnaire in AMC, I suggest to create, with `writefile = TRUE`, the questions in a separate questions file (e.g. `questions.tex`) in your AMC project folder.
 
@@ -187,7 +182,7 @@ AMCcreateelements(element = c("MATH", "MATH", "MATH", "STAT"), shuffle = F, sect
 
 # Future features
 
-Auto Multiple Choice is a great freeware that is able to do a lot more that what `AMCTestmakeR` helps for, so I will try to add the most helpful features here soon. This software feels the In any case, I strongly encourage to read the documentation of how to use LaTeX in Auto Multiple Choice to get a sense of its many possibilities.
+[Auto Multiple Choice](http://home.gna.org/auto-qcm/index.en) is a great freeware that is able to do a lot more that what `AMCTestmakeR` helps for, so I will try to add the most helpful features here soon. This software feels the In any case, I strongly encourage to read the documentation of how to use LaTeX in Auto Multiple Choice [here](http://home.gna.org/auto-qcm/auto-multiple-choice.en/latex.shtml) to get a sense of its many possibilities.
 
 
 
