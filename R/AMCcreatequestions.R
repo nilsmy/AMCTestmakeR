@@ -248,7 +248,7 @@ AMCcreatequestions <- function(question,
               "%%%%%%%%%%%%%%%%%%%%%%\n",
               "%%%| Instructions |%%%\n",
               "%%%%%%%%%%%%%%%%%%%%%%\n",
-              "%-Place the created .tex file in the AMC project folder. \n-In the main .tex file (usually, \"groups.tex\") point to the created file using \"\\input{", paste(basename(filepath)), "}\".")
+              "%-Place the created .tex file in the AMC project folder. \n-In the main .tex file (usually, \"source.tex\") point to the created file using \"\\input{", paste(basename(filepath)), "}\".")
     }
   }
         #Append list of elements to questions file

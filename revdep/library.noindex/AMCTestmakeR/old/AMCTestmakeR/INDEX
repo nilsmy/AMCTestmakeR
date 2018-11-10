@@ -1,0 +1,8 @@
+AMCcreateelements       Generate AMC LaTeX question group ("element")
+                        codes
+AMCcreatequestions      Generate AMC LaTeX question codes in the
+                        console, in a LaTeX file, or as a vector.
+AMCcreatetest           Create a full Auto-Multiple-Choice test with a
+                        main .tex file ('groups.tex'), a file for
+                        questions ('questions.tex'), a file for
+                        elements ('elements.tex'.

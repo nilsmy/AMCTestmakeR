@@ -5,11 +5,12 @@
 \title{Generate AMC LaTeX question codes in the console, in a LaTeX file, or as a vector.}
 \usage{
 AMCcreatequestions(question, correctanswers, incorrectanswers,
-  element = "general", code = paste(codeprefix, c(1:length(question)), sep =
-  ""), codeprefix = "Q", output = "message", filepath = "questions.tex",
-  questiontype = "single", append = F, multicols = 2, messages = T,
-  listelements = T, scoringcorrect = 1, scoringincorrect = 0,
-  scoringnoresponse = 0, scoringincoherent = scoringincorrect,
+  element = "general", code = paste(codeprefix, c(1:length(question)),
+  sep = ""), codeprefix = "Q", output = "message",
+  filepath = "questions.tex", questiontype = "single", append = F,
+  multicols = 2, messages = T, listelements = T,
+  scoringcorrect = 1, scoringincorrect = 0, scoringnoresponse = 0,
+  scoringincoherent = scoringincorrect,
   scoringbottom = scoringincorrect, shuffleanswersonce = T)
 }
 \arguments{

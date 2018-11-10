@@ -1,5 +1,5 @@
 
-#' Create a full \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice} test with a main .tex file (\code{groups.tex}), a file for questions (\code{questions.tex}), a file for elements (\code{elements.tex}.
+#' Create a full Auto-Multiple-Choice test with a main .tex file (\code{groups.tex}), a file for questions (\code{questions.tex}), a file for elements (\code{elements.tex}.
 #'
 #' @param question A character value or vector containing the questions.
 #' @param correctanswers A character (value, vector) containing the correct answer. A vector (or list) of character vectors can also be passed, in the case of multiple correct answers.
@@ -18,7 +18,7 @@
 #' @param shuffleanswers A logical value or vector to indicate whether to shuffle answers per examinee. Defaults to TRUE. If set to FALSE, it is recommended to shuffle once for all examinee with shuffle the answers once with 'shuffleanswersonce = TRUE'.
 #' @param shuffleanswersonce A logical value to indicate whether to shuffle answers for each question directly in the LaTeX code (useful if the answers are not randomized by examinee by AMC). Defaults to TRUE.
 #' @param sections A character value or vector to indicate whether to create a new LaTeX section for each element (defaults to TRUE).
-#' @param filepath A character value indicating the path for the main .tex file output (most often, in AMC, it is \code{groups.tex}, which is the default of the function). Note that the other created files (\code{questions.tex} and \code{elements.tex} will we written in the folder of this file).
+#' @param filepath A character value indicating the path for the main .tex file output. Most often, in AMC, it is \code{source.tex} (default), but in some examples it's named \code{groups.tex}, for example. Note that the other created files (\code{questions.tex} and \code{elements.tex} will we written in the folder of this file).
 #' @param messages A logical value to indicate whether to output messages and reports (default is TRUE).
 #' @param title A character value indicating a title for the test (default is "Test").
 #' @param fontsize A numeric value to indicate the font size of the output document. Default is 10. Note: Above 12 pt, the LaTeX package "extarticle" is automatically used in lieu of "article".
@@ -33,7 +33,7 @@
 #' @param box A logical value to indicate whether to box the questions and answers, to ensure that they are always presented on the same page. Defaults to TRUE.
 #' @param facilitatemanualadd A logical indicating whether to add LaTeX code to facilitate adding questions and elements manually. If TRUE, creates .tex files where questions and elements can be input manually without changing the main files. Defaults to FALSE.
 #'
-#' @return Writes 3 tex documents (\code{groups.tex}, \code{questions.tex} and \code{elements.tex})) for direct use in \href{http://home.gna.org/auto-qcm/index.en}{Auto-Multiple-Choice}.
+#' @return Writes 3 .tex documents (\code{source.tex}, \code{questions.tex} and \code{elements.tex})) for direct use in Auto-Multiple-Choice.
 #' @export
 #'
 #' @examples
@@ -47,15 +47,14 @@
 #'  incorrectanswer = list("3", "11", "4"),
 #'  # Arguments passed to AMCcreateelements()
 #'  shufflequestions = T,
-#'  sections = T,
+#'  sections = F,
 #'  # Part used for test options
 #'  title = "Exam", #Custom title
-#'  paper = "a4", #change the paper for a4
 #'  fontsize = 11, #change fontsize
 #'  identifier = "ID Number", #change identifier
 #'  twosided = F, #print in one sided
 #'  instructions = T, #show an instructions block to students
-#'  separateanswersheet = T, #use a separate answer sheet
+#'  separateanswersheet = F, #use a separate answer sheet
 #'  answersheettitle = "Respond Here", #Change answer sheet title
 #'  answersheetinstructions = "Fill the boxes" #Answer sheet instructions
 #'   )}
@@ -78,7 +77,7 @@ AMCcreatetest <- function(question,
                           shuffleanswersonce = T,
                           sections = T,
                           title = "Test",
-                          filepath = "groups.tex",
+                          filepath = "source.tex",
                           messages = T,
                           fontsize = 10,
                           instructions = T,

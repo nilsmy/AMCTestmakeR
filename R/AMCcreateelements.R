@@ -82,7 +82,7 @@ AMCcreateelements <- function(element = "general", shufflequestions = TRUE, sect
             "%%%| Instructions |%%%\n",
             "%%%%%%%%%%%%%%%%%%%%%%\n",
             "%-Make sure that the created file is the main AMC project folder.",
-            "\n-Point to the written file in the main .tex file (usually \"groups.tex\"), using \"\\input{",
+            "\n-Point to the written file in the main .tex file (usually \"source.tex\"), using \"\\input{",
             paste(basename(filepath)), "}\". \n",
             "-%Note : Ultimately, the questions should be defined first before compiling (use the AMCcreatequestions() function for this).")}
     write(uniqueelements, filepath, append = append)
